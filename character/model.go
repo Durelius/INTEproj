@@ -5,29 +5,34 @@ import (
 	"fmt"
 )
 
-type Character struct {
+type BaseCharacter struct {
 	id     string
 	health int
 	name   string
 }
+type Character interface {
+	GetID() string
+	GetHealth() int
+	GetName() string
+}
 
 const id_length = 16
 
-func New(name string) (*Character, error) {
+func New(name string) (Character, error) {
 	if len(name) == 0 {
 		return nil, fmt.Errorf("No name supplied")
 	}
 
-	return &Character{id: random.String(id_length), health: 100, name: name}, nil
+	return &BaseCharacter{id: random.String(id_length), health: 100, name: name}, nil
 }
 
-func (c *Character) GetID() string {
+func (c *BaseCharacter) GetID() string {
 	return c.id
 }
 
-func (c *Character) GetHealth() int {
+func (c *BaseCharacter) GetHealth() int {
 	return c.health
 }
-func (c *Character) GetName() string {
+func (c *BaseCharacter) GetName() string {
 	return c.name
 }
