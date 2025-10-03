@@ -16,14 +16,12 @@ type Character interface {
 	GetName() string
 }
 
-const id_length = 16
-
 func New(name string) (Character, error) {
 	if len(name) == 0 {
 		return nil, fmt.Errorf("No name supplied")
 	}
 
-	return &BaseCharacter{id: random.String(id_length), health: 100, name: name}, nil
+	return &BaseCharacter{id: random.String(), health: 100, name: name}, nil
 }
 
 func (c *BaseCharacter) GetID() string {
