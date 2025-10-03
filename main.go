@@ -1,16 +1,17 @@
 package main
 
 import (
-	"INTE/projekt/character"
+	"INTE/projekt/player"
 	"log"
 )
 
 func main() {
-	char, err := character.New("josh")
+	player, err := player.New(player.CLASS_MAGE, "josh")
 	if err != nil {
 		log.Fatal(err)
 	}
-	id := char.GetID()
+
+	id := player.GetID()
 	log.Println(id)
 
 }

@@ -12,18 +12,23 @@ type BasePlayer struct {
 type Player interface {
 	GetClass() Class
 	GetMaxWeight() int
+	character.Character
 }
 type Class string
 
 const (
-	class_rouge        Class = "ROUGE"
-	class_paladin      Class = "PALADIN"
-	class_mage         Class = "MAGE"
+	CLASS_ROUGE        Class = "ROUGE"
+	CLASS_PALADIN      Class = "PALADIN"
+	CLASS_MAGE         Class = "MAGE"
 	default_max_weight int   = 50
 )
 
-func New(class Class) (Player, error) {
-	return &BasePlayer{class: class, maxWeight: default_max_weight}, nil
+func New(class Class, name string) (Player, error) {
+	char, err := character.New(name)
+	if err != nil {
+		return nil, err
+	}
+	return &BasePlayer{class: class, maxWeight: default_max_weight, Character: char}, nil
 }
 
 func (p *BasePlayer) GetClass() Class {
