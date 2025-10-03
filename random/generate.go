@@ -7,6 +7,7 @@ import (
 
 const charset = "abcdefghijklmnopqrstuvwxyz" +
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+const baseIDLength = 16
 
 var seededRand *rand.Rand = rand.New(
 	rand.NewSource(time.Now().UnixNano()))
@@ -19,6 +20,6 @@ func stringWithCharset(length int, charset string) string {
 	return string(b)
 }
 
-func String(length int) string {
-	return stringWithCharset(length, charset)
+func String() string {
+	return stringWithCharset(baseIDLength, charset)
 }
