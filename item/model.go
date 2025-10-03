@@ -11,12 +11,16 @@ type BaseItem struct {
 	name     string
 	itemType ItemType
 }
+type Item interface {
+	GetID() string
+	GetWeight() int
+}
 type ItemType string
 
 const (
-	Stick  ItemType = "Stick"
-	Food   ItemType = "Food"
-	Potion ItemType = "Potion"
+	WEAPON     ItemType = "WEAPON"
+	CONSUMABLE ItemType = "CONSUMABLE"
+	WEARABLE   ItemType = "WEARABLE"
 )
 
 func New(name string, weight int, itemType ItemType) (*BaseItem, error) {
@@ -34,6 +38,6 @@ func (c *BaseItem) GetID() string {
 	return c.id
 }
 
-func (c *BaseItem) getWeight() int {
+func (c *BaseItem) GetWeight() int {
 	return c.weight
 }
