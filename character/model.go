@@ -1,6 +1,7 @@
 package character
 
 import (
+	"INTE/projekt/bag"
 	"INTE/projekt/item"
 	"INTE/projekt/random"
 	"fmt"
@@ -10,31 +11,27 @@ type BaseCharacter struct {
 	id       string
 	health   int
 	name     string
-	equipped map[WearPosition]item.Item
+	equipped map[item.WearPosition]item.Item
+	bag      *bag.Bag
 }
 type Character interface {
 	GetID() string
 	GetHealth() int
 	GetName() string
-	SetItem(WearPosition, item.Item)
-	GetItem(WearPosition) item.Item
+	SetEquippedItem(item.WearPosition, item.Item)
+	GetItem(item.WearPosition) item.Item
 	IsFightable() (Fightable, bool)
+	SetHealth(int)
+	IsAlive() bool
+	GetBag() bag.Bag
+	AddItemToBag(item.Item)
 }
 type Fightable interface {
-	Attack(rec Fightable) error
+	Attack(rec Character) (int, error)
 	GetDamage() int
+	ReceiveDamage(int) int
 	Character
 }
-type WearPosition string
-
-const (
-	WEAR_POSITION_HEAD       WearPosition = "HEAD"
-	WEAR_POSITION_UPPER_BODY WearPosition = "UPPER"
-	WEAR_POSITION_LOWER_BODY WearPosition = "LOWER"
-	WEAR_POSITION_FOOT       WearPosition = "FOOT"
-	WEAR_POSITION_LEFT_ARM   WearPosition = "LEFT"
-	WEAR_POSITION_RIGHT_ARM  WearPosition = "RIGHT"
-)
 
 func New(name string) (Character, error) {
 	if len(name) == 0 {
@@ -56,22 +53,34 @@ func (c *BaseCharacter) GetHealth() int {
 func (c *BaseCharacter) GetName() string {
 	return c.name
 }
+func (c *BaseCharacter) SetHealth(health int) {
+	c.health = health
+}
 func (c *BaseCharacter) IsFightable() (Fightable, bool) {
 	return nil, false
 }
+func (c *BaseCharacter) IsAlive() bool {
+	return c.health > 0
+}
 func (c *BaseCharacter) initializeItems() {
-	c.equipped = make(map[WearPosition]item.Item)
-	c.equipped[WEAR_POSITION_HEAD] = item.NOTHING
-	c.equipped[WEAR_POSITION_UPPER_BODY] = item.NOTHING
-	c.equipped[WEAR_POSITION_LOWER_BODY] = item.NOTHING
-	c.equipped[WEAR_POSITION_FOOT] = item.NOTHING
-	c.equipped[WEAR_POSITION_LEFT_ARM] = item.NOTHING
-	c.equipped[WEAR_POSITION_RIGHT_ARM] = item.NOTHING
+	c.bag = bag.New()
+	c.equipped = make(map[item.WearPosition]item.Item)
+	c.equipped[item.WEAR_POSITION_HEAD] = item.NOTHING
+	c.equipped[item.WEAR_POSITION_UPPER_BODY] = item.NOTHING
+	c.equipped[item.WEAR_POSITION_LOWER_BODY] = item.NOTHING
+	c.equipped[item.WEAR_POSITION_FOOT] = item.NOTHING
+	c.equipped[item.WEAR_POSITION_WEAPON] = item.NOTHING
 }
 
-func (c *BaseCharacter) SetItem(wp WearPosition, item item.Item) {
+func (c *BaseCharacter) SetEquippedItem(wp item.WearPosition, item item.Item) {
 	c.equipped[wp] = item
 }
-func (c *BaseCharacter) GetItem(wp WearPosition) item.Item {
+func (c *BaseCharacter) GetItem(wp item.WearPosition) item.Item {
 	return c.equipped[wp]
+}
+func (c *BaseCharacter) GetBag() bag.Bag {
+	return *c.bag
+}
+func (c *BaseCharacter) AddItemToBag(item item.Item) {
+	c.bag.AddItem(item)
 }

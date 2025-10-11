@@ -4,7 +4,6 @@ import (
 	"INTE/projekt/character"
 	"INTE/projekt/item"
 	"fmt"
-	"log"
 )
 
 type BasePlayer struct {
@@ -17,6 +16,8 @@ type Player interface {
 	GetMaxWeight() int
 	character.Character
 	character.Fightable
+	PickupItem(item.Item) error
+	GetTotalWeight() int
 }
 type Class string
 
@@ -57,29 +58,41 @@ func (p *BasePlayer) GetMaxWeight() int {
 }
 func (p *BasePlayer) GetDamage() int {
 	damage := 0
-	left := p.GetItem(character.WEAR_POSITION_LEFT_ARM)
-	right := p.GetItem(character.WEAR_POSITION_RIGHT_ARM)
-	if !left.IsNothing() {
-		weapon := left.(item.Weapon)
+	curItem := p.GetItem(item.WEAR_POSITION_WEAPON)
+	if len(curItem.GetID()) > 0 {
+		weapon := curItem.(*item.Weapon)
 		damage += weapon.GetDamage()
 	}
-	if !right.IsNothing() {
-		weapon := right.(item.Weapon)
-		damage += weapon.GetDamage()
-	}
+
 	return damage
 }
-func (p *BasePlayer) Attack(rec character.Fightable) error {
+func (p *BasePlayer) ReceiveDamage(damage int) int {
+	p.SetHealth(p.GetHealth() - damage)
+
+	return p.GetHealth()
+}
+func (p *BasePlayer) Attack(rec character.Character) (int, error) {
 	pFightable, ok := p.IsFightable()
 	if !ok {
-		return fmt.Errorf("Attacker can't fight")
+		return 0, fmt.Errorf("Attacker can't fight")
 	}
 	eFightable, ok := rec.IsFightable()
 	if !ok {
-		return fmt.Errorf("Receiver can't fight")
+		return 0, fmt.Errorf("Receiver can't fight")
 	}
-	log.Println(pFightable.GetDamage())
-	log.Println(eFightable.GetHealth())
+
+	return eFightable.ReceiveDamage(pFightable.GetDamage()), nil
+}
+
+func (p *BasePlayer) PickupItem(item item.Item) error {
+	if p.GetTotalWeight()+item.GetWeight() > p.maxWeight {
+		return fmt.Errorf("Overburdened")
+	}
+	p.Character.AddItemToBag(item)
 
 	return nil
+}
+func (p *BasePlayer) GetTotalWeight() int {
+	bag := p.GetBag()
+	return bag.GetTotalWeight()
 }

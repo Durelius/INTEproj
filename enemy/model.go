@@ -2,6 +2,7 @@ package enemy
 
 import (
 	"INTE/projekt/character"
+	"fmt"
 )
 
 type BaseEnemy struct {
@@ -34,12 +35,26 @@ func New(class Class, name string) (Enemy, error) {
 func (e *BaseEnemy) GetClass() Class {
 	return e.class
 }
-func (p *BaseEnemy) GetDamage() int {
+func (e *BaseEnemy) GetDamage() int {
 	return 100
 }
-func (p *BaseEnemy) IsFightable() (fightable character.Fightable, ok bool) {
-	return p, true
+func (e *BaseEnemy) IsFightable() (fightable character.Fightable, ok bool) {
+	return e, true
 }
-func (e *BaseEnemy) Attack(rec character.Fightable) error {
-	return nil
+func (e *BaseEnemy) Attack(rec character.Character) (int, error) {
+	eFightable, ok := e.IsFightable()
+	if !ok {
+		return 0, fmt.Errorf("Attacker can't fight")
+	}
+	pFightable, ok := rec.IsFightable()
+	if !ok {
+		return 0, fmt.Errorf("Receiver can't fight")
+	}
+
+	return pFightable.ReceiveDamage(eFightable.GetDamage()), nil
+}
+func (e *BaseEnemy) ReceiveDamage(damage int) int {
+	e.SetHealth(e.GetHealth() - damage)
+
+	return e.GetHealth()
 }

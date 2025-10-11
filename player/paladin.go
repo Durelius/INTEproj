@@ -1,7 +1,6 @@
 package player
 
 import (
-	"INTE/projekt/character"
 	"INTE/projekt/item"
 )
 
@@ -16,6 +15,6 @@ const (
 
 func newPaladin(player Player) Player {
 	paladin := &Paladin{holiness: base_holiness, Player: player}
-	paladin.SetItem(character.WEAR_POSITION_LEFT_ARM, item.New(item.IRON_SWORD))
+	paladin.SetEquippedItem(item.WEAR_POSITION_WEAPON, item.New(&item.IRON_SWORD))
 	return paladin
 }

@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	player, err := player.New(player.CLASS_MAGE, "josh")
+	player, err := player.New(player.CLASS_PALADIN, "josh")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -17,10 +17,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if fightable, ok := player.IsFightable(); ok {
-		if enemyFightable, ok := enemy.IsFightable(); ok {
-			fightable.Attack(enemyFightable)
-		}
+	newHP, err := player.Attack(enemy)
+	if err != nil {
+		log.Fatal(err)
 	}
+	log.Print(newHP)
 
 }
