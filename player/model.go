@@ -25,7 +25,7 @@ const (
 	CLASS_ROGUE        Class = "ROGUE"
 	CLASS_PALADIN      Class = "PALADIN"
 	CLASS_MAGE         Class = "MAGE"
-	default_max_weight int   = 50
+	default_max_weight int   = 500
 )
 
 func New(class Class, name string) (Player, error) {
@@ -95,4 +95,7 @@ func (p *BasePlayer) PickupItem(item item.Item) error {
 func (p *BasePlayer) GetTotalWeight() int {
 	bag := p.GetBag()
 	return bag.GetTotalWeight()
+}
+func (p *BasePlayer) GetType() string {
+	return "PLAYER"
 }

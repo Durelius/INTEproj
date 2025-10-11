@@ -9,3 +9,9 @@ var (
 	LEATHER_TUNIC = UpperBody{defense: 15, Item: &BaseItem{weight: 10, name: "leather tunic"}}
 	ADIDAS_PANTS  = LowerBody{defense: 13, Item: &BaseItem{weight: 10, name: "Three stripes"}}
 )
+
+var (
+	ITEM_LIST = []Item{
+		&IRON_SWORD, &STICK, &IRON_HELMET, &STICK, &IRON_HELMET, &CHAIN_MAIL, &LEATHER_TUNIC, &ADIDAS_PANTS,
+	}
+)

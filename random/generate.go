@@ -23,3 +23,6 @@ func stringWithCharset(length int, charset string) string {
 func String() string {
 	return stringWithCharset(baseIDLength, charset)
 }
+func Int(min, max int) int {
+	return rand.Intn(max-min+1) + min
+}

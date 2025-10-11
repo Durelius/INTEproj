@@ -14,6 +14,7 @@ type Enemy interface {
 	GetClass() Class
 	character.Character
 	character.Fightable
+	GetType() string
 }
 
 type Class string
@@ -57,4 +58,7 @@ func (e *BaseEnemy) ReceiveDamage(damage int) int {
 	e.SetHealth(e.GetHealth() - damage)
 
 	return e.GetHealth()
+}
+func (e *BaseEnemy) GetType() string {
+	return "ENEMY"
 }

@@ -15,6 +15,7 @@ type Item interface {
 	GetWeight() int
 	getBase() *BaseItem
 	GetWearPosition() WearPosition
+	GetType() string
 }
 type WearPosition string
 
@@ -57,4 +58,7 @@ func (c *BaseItem) getBase() *BaseItem {
 }
 func (c *BaseItem) GetWearPosition() WearPosition {
 	return WearPosition("")
+}
+func (c *BaseItem) GetType() string {
+	return string(c.itemType)
 }
