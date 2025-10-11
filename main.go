@@ -91,7 +91,20 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			break
 		}
 		// Update location with new coordinates!
-		m.room.SetPlayerLocation(room.NewLocation(locX, locY))
+		poi := m.room.LocationPOI(locX, locY)
+		if poi != nil {
+			switch poi.GetType() {
+			case "ENEMY":
+				m.msg = "You encountered an enemy! Prepare to fight!"
+				// TODO: Add fight logic here
+			case "LOOT":
+				m.msg = "You found some loot!"
+				// TODO: Add loot logic here
+			default:
+				m.msg = "You found something interesting."
+			}
+		}
+		m.room.SetPlayerLocation(locX, locY)
 	}
 	return m, nil
 }
@@ -114,9 +127,7 @@ func (m model) View() string {
 			}
 		}
 		s += "\n"
-		if y > 20 { // Only show a small part for performance
-			break
-		}
+
 	}
 	return s
 }

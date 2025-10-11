@@ -68,8 +68,11 @@ func (r *Room) GetName() string {
 func (r *Room) GetPlayerLocation() Location {
 	return r.playerLocation
 }
-func (r *Room) SetPlayerLocation(loc Location) {
-	r.playerLocation = loc
+func (r *Room) LocationPOI(x, y int) PointOfInterest {
+	return r.poi[NewLocation(x, y)]
+}
+func (r *Room) SetPlayerLocation(x, y int) {
+	r.playerLocation = NewLocation(x, y)
 }
 func (room *Room) createRandomLocations(pois []PointOfInterest) error {
 	for _, poi := range pois {
