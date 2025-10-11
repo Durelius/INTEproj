@@ -12,6 +12,7 @@ type BaseEnemy struct {
 type Enemy interface {
 	GetClass() Class
 	character.Character
+	character.Fightable
 }
 
 type Class string
@@ -33,6 +34,12 @@ func New(class Class, name string) (Enemy, error) {
 func (e *BaseEnemy) GetClass() Class {
 	return e.class
 }
-func (e *BaseEnemy) Fight(rec character.Fightable) {
-
+func (p *BaseEnemy) GetDamage() int {
+	return 100
+}
+func (p *BaseEnemy) IsFightable() (fightable character.Fightable, ok bool) {
+	return p, true
+}
+func (e *BaseEnemy) Attack(rec character.Fightable) error {
+	return nil
 }

@@ -2,6 +2,9 @@ package player
 
 import (
 	"INTE/projekt/character"
+	"INTE/projekt/item"
+	"fmt"
+	"log"
 )
 
 type BasePlayer struct {
@@ -13,6 +16,7 @@ type Player interface {
 	GetClass() Class
 	GetMaxWeight() int
 	character.Character
+	character.Fightable
 }
 type Class string
 
@@ -31,29 +35,51 @@ func New(class Class, name string) (Player, error) {
 	player := &BasePlayer{class: class, maxWeight: default_max_weight, Character: char}
 	switch class {
 	case CLASS_PALADIN:
-		p := newPaladin()
-		p.Player = player
-		return p, nil
+		return newPaladin(player), nil
 	case CLASS_ROGUE:
-		p := newRogue()
-		p.Player = player
-		return p, nil
+		return newRogue(player), nil
 	case CLASS_MAGE:
-		p := newMage()
-		p.Player = player
-		return p, nil
+		return newMage(player), nil
 	}
 
-	return &BasePlayer{class: class, maxWeight: default_max_weight, Character: char}, nil
+	return nil, fmt.Errorf("No class provided")
 }
 
 func (p *BasePlayer) GetClass() Class {
 	return p.class
 }
+func (p *BasePlayer) IsFightable() (fightable character.Fightable, ok bool) {
+	return p, true
+}
 
 func (p *BasePlayer) GetMaxWeight() int {
 	return p.maxWeight
 }
-func (p *BasePlayer) Fight(rec character.Fightable) {
+func (p *BasePlayer) GetDamage() int {
+	damage := 0
+	left := p.GetItem(character.WEAR_POSITION_LEFT_ARM)
+	right := p.GetItem(character.WEAR_POSITION_RIGHT_ARM)
+	if !left.IsNothing() {
+		weapon := left.(item.Weapon)
+		damage += weapon.GetDamage()
+	}
+	if !right.IsNothing() {
+		weapon := right.(item.Weapon)
+		damage += weapon.GetDamage()
+	}
+	return damage
+}
+func (p *BasePlayer) Attack(rec character.Fightable) error {
+	pFightable, ok := p.IsFightable()
+	if !ok {
+		return fmt.Errorf("Attacker can't fight")
+	}
+	eFightable, ok := rec.IsFightable()
+	if !ok {
+		return fmt.Errorf("Receiver can't fight")
+	}
+	log.Println(pFightable.GetDamage())
+	log.Println(eFightable.GetHealth())
 
+	return nil
 }

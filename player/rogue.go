@@ -9,6 +9,6 @@ const (
 	baseStealth = 100
 )
 
-func newRogue() *Rogue {
-	return &Rogue{stealth: baseStealth}
+func newRogue(player Player) Player {
+	return &Rogue{stealth: baseStealth, Player: player}
 }

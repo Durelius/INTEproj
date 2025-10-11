@@ -9,6 +9,6 @@ const (
 	base_mana = 100
 )
 
-func newMage() *Mage {
-	return &Mage{mana: base_mana}
+func newMage(player Player) Player {
+	return &Mage{mana: base_mana, Player: player}
 }
