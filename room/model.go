@@ -10,12 +10,12 @@ import (
 
 func newRandomRoom(name string, entry Location, height, width int) *Room {
 	room := &Room{name: name, entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest)}
-	itemAmount := 5
+	itemAmount := 50
 	enemyAmount := 5
 	pois := []PointOfInterest{}
 	for i := 0; i < itemAmount; i++ {
-		index := rand.Intn(len(item.ITEM_LIST))
-		pois = append(pois, item.ITEM_LIST[index])
+		index := rand.Intn(len(item.ITEM_LIST_DROPPABLE))
+		pois = append(pois, &Loot{items: []item.Item{item.ITEM_LIST_DROPPABLE[index], item.ITEM_LIST_DROPPABLE[index]}})
 	}
 	for i := 0; i < enemyAmount; i++ {
 		index := rand.Intn(len(enemy.ENEMY_LIST))
@@ -44,6 +44,9 @@ type Loot struct {
 func (l *Loot) GetType() string {
 	return "LOOT"
 }
+func (l *Loot) GetItems() []item.Item {
+	return l.items
+}
 
 type Location struct {
 	x int
@@ -68,9 +71,15 @@ func (r *Room) GetName() string {
 func (r *Room) GetPlayerLocation() Location {
 	return r.playerLocation
 }
-func (r *Room) LocationPOI(x, y int) PointOfInterest {
-	return r.poi[NewLocation(x, y)]
+
+// fetches a point of interest and removes it from the room map
+func (r *Room) UsePOI(x, y int) PointOfInterest {
+	loc := NewLocation(x, y)
+	poi := r.poi[loc]
+	delete(r.poi, loc)
+	return poi
 }
+
 func (r *Room) SetPlayerLocation(x, y int) {
 	r.playerLocation = NewLocation(x, y)
 }

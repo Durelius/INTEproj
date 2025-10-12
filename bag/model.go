@@ -33,3 +33,6 @@ func (b *Bag) GetTotalWeight() (weight int) {
 	}
 	return weight
 }
+func (b *Bag) GetItems() []item.Item {
+	return b.items
+}

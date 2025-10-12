@@ -2,6 +2,7 @@ package item
 
 import (
 	"INTE/projekt/random"
+	"fmt"
 )
 
 type BaseItem struct {
@@ -16,6 +17,8 @@ type Item interface {
 	getBase() *BaseItem
 	GetWearPosition() WearPosition
 	GetType() string
+	ToString() string
+	GetName() string
 }
 type WearPosition string
 
@@ -61,4 +64,10 @@ func (c *BaseItem) GetWearPosition() WearPosition {
 }
 func (c *BaseItem) GetType() string {
 	return string(c.itemType)
+}
+func (c *BaseItem) GetName() string {
+	return c.name
+}
+func (c *BaseItem) ToString() string {
+	return fmt.Sprintf("Name: %s, Weight: %d", c.name, c.weight)
 }
