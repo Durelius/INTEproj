@@ -1,11 +1,12 @@
 package room
 
 import (
-	"INTE/projekt/enemy"
-	"INTE/projekt/item"
-	"INTE/projekt/random"
 	"fmt"
 	"math/rand"
+
+	"github.com/Durelius/INTEproj/internal/enemy"
+	"github.com/Durelius/INTEproj/internal/item"
+	"github.com/Durelius/INTEproj/internal/random"
 )
 
 func newRandomRoom(name string, entry Location, height, width int) *Room {

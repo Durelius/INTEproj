@@ -1,7 +1,7 @@
 package player
 
 import (
-	"INTE/projekt/item"
+	"github.com/Durelius/INTEproj/internal/item"
 )
 
 type Paladin struct {

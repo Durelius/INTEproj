@@ -1,10 +1,11 @@
 package character
 
 import (
-	"INTE/projekt/bag"
-	"INTE/projekt/item"
-	"INTE/projekt/random"
 	"fmt"
+
+	"github.com/Durelius/INTEproj/internal/bag"
+	"github.com/Durelius/INTEproj/internal/item"
+	"github.com/Durelius/INTEproj/internal/random"
 )
 
 type BaseCharacter struct {

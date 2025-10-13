@@ -1,8 +1,9 @@
 package bag
 
 import (
-	"INTE/projekt/item"
 	"fmt"
+
+	"github.com/Durelius/INTEproj/internal/item"
 )
 
 type Bag struct {
@@ -27,12 +28,14 @@ func (b *Bag) RemoveItem(item item.Item) error {
 	}
 	return fmt.Errorf("This item didn't exist in bag")
 }
+
 func (b *Bag) GetTotalWeight() (weight int) {
 	for _, item := range b.items {
 		weight += item.GetWeight()
 	}
 	return weight
 }
+
 func (b *Bag) GetItems() []item.Item {
 	return b.items
 }

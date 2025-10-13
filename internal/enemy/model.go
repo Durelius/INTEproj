@@ -1,8 +1,9 @@
 package enemy
 
 import (
-	"INTE/projekt/character"
 	"fmt"
+
+	"github.com/Durelius/INTEproj/internal/character"
 )
 
 type BaseEnemy struct {

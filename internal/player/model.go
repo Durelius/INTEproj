@@ -1,9 +1,10 @@
 package player
 
 import (
-	"INTE/projekt/character"
-	"INTE/projekt/item"
 	"fmt"
+
+	"github.com/Durelius/INTEproj/internal/character"
+	"github.com/Durelius/INTEproj/internal/item"
 )
 
 type BasePlayer struct {
