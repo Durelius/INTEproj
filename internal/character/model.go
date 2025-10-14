@@ -3,7 +3,7 @@ package character
 import (
 	"fmt"
 
-	"github.com/Durelius/INTEproj/internal/bag"
+	"github.com/Durelius/INTEproj/internal/inventory"
 	"github.com/Durelius/INTEproj/internal/item"
 	"github.com/Durelius/INTEproj/internal/random"
 )
@@ -13,20 +13,19 @@ type BaseCharacter struct {
 	health   int
 	name     string
 	equipped map[item.WearPosition]item.Item
-	bag      *bag.Bag
+	inv 	*inventory.Inventory
 }
+
 type Character interface {
 	GetID() string
 	GetHealth() int
 	GetName() string
 	SetEquippedItem(item.WearPosition, item.Item)
-	GetItem(item.WearPosition) item.Item
 	IsFightable() (Fightable, bool)
 	SetHealth(int)
 	IsAlive() bool
-	GetBag() bag.Bag
-	AddItemToBag(item.Item)
 }
+
 type Fightable interface {
 	Attack(rec Character) (int, error)
 	GetDamage() int
@@ -64,7 +63,7 @@ func (c *BaseCharacter) IsAlive() bool {
 	return c.health > 0
 }
 func (c *BaseCharacter) initializeItems() {
-	c.bag = bag.New()
+	c.inv = inventory.New()
 	c.equipped = make(map[item.WearPosition]item.Item)
 	c.equipped[item.WEAR_POSITION_HEAD] = item.NOTHING
 	c.equipped[item.WEAR_POSITION_UPPER_BODY] = item.NOTHING
@@ -79,9 +78,9 @@ func (c *BaseCharacter) SetEquippedItem(wp item.WearPosition, item item.Item) {
 func (c *BaseCharacter) GetItem(wp item.WearPosition) item.Item {
 	return c.equipped[wp]
 }
-func (c *BaseCharacter) GetBag() bag.Bag {
-	return *c.bag
+func (c *BaseCharacter) GetInventory() *inventory.Inventory {
+	return c.inv
 }
-func (c *BaseCharacter) AddItemToBag(item item.Item) {
-	c.bag.AddItem(item)
+func (c *BaseCharacter) AddItemToInventory(item item.Item) {
+	c.inv.AddItem(item)
 }

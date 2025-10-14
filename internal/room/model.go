@@ -9,6 +9,15 @@ import (
 	"github.com/Durelius/INTEproj/internal/random"
 )
 
+type Room struct {
+	name           string
+	entry          Location
+	height         int
+	width          int
+	playerLocation Location
+	poi            map[Location]PointOfInterest
+}
+
 func newRandomRoom(name string, entry Location, height, width int) *Room {
 	room := &Room{name: name, entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest)}
 	itemAmount := 50
@@ -27,14 +36,6 @@ func newRandomRoom(name string, entry Location, height, width int) *Room {
 	return room
 }
 
-type Room struct {
-	name           string
-	entry          Location
-	height         int
-	width          int
-	playerLocation Location
-	poi            map[Location]PointOfInterest
-}
 type PointOfInterest interface {
 	GetType() string
 }
@@ -84,6 +85,7 @@ func (r *Room) UsePOI(x, y int) PointOfInterest {
 func (r *Room) SetPlayerLocation(x, y int) {
 	r.playerLocation = NewLocation(x, y)
 }
+
 func (room *Room) createRandomLocations(pois []PointOfInterest) error {
 	for _, poi := range pois {
 		attempts := 0
