@@ -12,6 +12,8 @@ import (
 
 
 func main() {
+	// Create default initial gamestate. This should be replaced with a proper character creation,
+	// as well as the option to load a previously saved game.
 	gamestate := gs.NewDefault()
 
 	cli := cli.New(gamestate)
