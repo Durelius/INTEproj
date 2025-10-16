@@ -1,8 +1,9 @@
 package item
 
 import (
-	"INTE/projekt/random"
 	"fmt"
+
+	"github.com/Durelius/INTEproj/internal/random"
 )
 
 type BaseItem struct {

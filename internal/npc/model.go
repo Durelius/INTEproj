@@ -1,7 +1,7 @@
 package npc
 
 import (
-	"INTE/projekt/character"
+	"github.com/Durelius/INTEproj/internal/character"
 )
 
 type BaseNPC struct {
