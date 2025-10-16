@@ -1,18 +1,14 @@
-package playerclasses
+package class
 
 type Rogue struct {
-	Level      int
-	Experience int
-	BaseDmg    int
-	stealth    int
+	baseDmg int
+	stealth int
 }
 
 func NewRogue() *Rogue {
 	return &Rogue{
-		Level:      1,
-		Experience: 0,
-		BaseDmg:    7,
-		stealth:    100,
+		baseDmg: 7,
+		stealth: 100,
 	}
 }
 
@@ -25,5 +21,10 @@ func (r *Rogue) GetDescription() string {
 }
 
 func (r *Rogue) GetBaseDmg() int {
-	return r.BaseDmg
+	return r.baseDmg
+}
+
+func (r *Rogue) IncreaseStats(level int) {
+	r.baseDmg += level * 2
+	r.stealth += level * 10
 }

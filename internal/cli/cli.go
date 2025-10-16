@@ -82,9 +82,8 @@ func (cli CLI) View() string {
 		}
 	case INVENTORY:
 		out += "Inventory:\n\n"
-		inv := cli.game.Player.GetInventory()
 
-		for i, item := range inv.GetItems() {
+		for i, item := range cli.game.Player.GetItems() {
 			cursor := " " // no cursor
 			if i == cli.cursor {
 				cursor = ">" // cursor
@@ -189,8 +188,7 @@ func (cli *CLI) updateMain(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 }
 
 func (cli *CLI) updateBag(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
-	bag := cli.game.Player.GetInventory()
-	items := bag.GetItems()
+	items := cli.game.Player.GetItems()
 	switch msg.String() {
 	case "b":
 		cli.view = MAIN

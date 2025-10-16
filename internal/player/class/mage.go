@@ -1,18 +1,14 @@
-package playerclasses
+package class
 
 type Mage struct {
-	Level      int
-	Experience int
-	BaseDmg    int
-	Mana       int
+	baseDmg int
+	mana    int
 }
 
 func NewMage() *Mage {
 	return &Mage{
-		Level:      1,
-		Experience: 0,
-		BaseDmg:    5,
-		Mana:       100,
+		baseDmg: 10,
+		mana:    100,
 	}
 }
 
@@ -25,5 +21,10 @@ func (m *Mage) GetDescription() string {
 }
 
 func (m *Mage) GetBaseDmg() int {
-	return m.BaseDmg
+	return m.baseDmg
+}
+
+func (m *Mage) IncreaseStats(level int) {
+	m.baseDmg += level * 2
+	m.mana += level * 10
 }

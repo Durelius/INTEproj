@@ -3,8 +3,8 @@ package character
 import (
 	"fmt"
 
-	"github.com/Durelius/INTEproj/internal/inventory"
 	"github.com/Durelius/INTEproj/internal/item"
+	"github.com/Durelius/INTEproj/internal/player/inventory"
 	"github.com/Durelius/INTEproj/internal/random"
 )
 

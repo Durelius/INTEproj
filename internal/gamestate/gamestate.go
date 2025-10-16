@@ -2,7 +2,7 @@ package gamestate
 
 import (
 	"github.com/Durelius/INTEproj/internal/player"
-	class "github.com/Durelius/INTEproj/internal/playerclasses"
+	class "github.com/Durelius/INTEproj/internal/player/class"
 	"github.com/Durelius/INTEproj/internal/room"
 )
 
