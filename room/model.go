@@ -14,14 +14,8 @@ func newRandomRoom(name string, entry Location, height, width int) *Room {
 	enemyAmount := 5
 	pois := []PointOfInterest{}
 	for i := 0; i < itemAmount; i++ {
-		itemsInChest := random.Int(1, 5)
-		loot := &Loot{items: []item.Item{}}
-		for i := 0; i < itemsInChest; i++ {
-			index := random.Int(0, len(item.ITEM_LIST_DROPPABLE)-1)
-			loot.items = append(loot.items, item.ITEM_LIST_DROPPABLE[index])
-		}
-		pois = append(pois, loot)
-
+		index := rand.Intn(len(item.ITEM_LIST_DROPPABLE))
+		pois = append(pois, &Loot{items: []item.Item{item.ITEM_LIST_DROPPABLE[index], item.ITEM_LIST_DROPPABLE[index]}})
 	}
 	for i := 0; i < enemyAmount; i++ {
 		index := rand.Intn(len(enemy.ENEMY_LIST))
@@ -39,7 +33,6 @@ type Room struct {
 	width          int
 	playerLocation Location
 	poi            map[Location]PointOfInterest
-	seed           int
 }
 type PointOfInterest interface {
 	GetType() string
