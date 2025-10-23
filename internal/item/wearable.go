@@ -8,9 +8,6 @@ type Head struct {
 func (w *Head) GetDefense() int {
 	return w.defense
 }
-func (w *Head) GetWearPosition() WearPosition {
-	return WEAR_POSITION_HEAD
-}
 
 type UpperBody struct {
 	Item
@@ -19,9 +16,6 @@ type UpperBody struct {
 
 func (w *UpperBody) GetDefense() int {
 	return w.defense
-}
-func (w *UpperBody) GetWearPosition() WearPosition {
-	return WEAR_POSITION_UPPER_BODY
 }
 
 type LowerBody struct {
@@ -32,9 +26,6 @@ type LowerBody struct {
 func (w *LowerBody) GetDefense() int {
 	return w.defense
 }
-func (w *LowerBody) GetWearPosition() WearPosition {
-	return WEAR_POSITION_LOWER_BODY
-}
 
 type Foot struct {
 	Item
@@ -43,7 +34,4 @@ type Foot struct {
 
 func (w *Foot) GetDefense() int {
 	return w.defense
-}
-func (w *Foot) GetWearPosition() WearPosition {
-	return WEAR_POSITION_FOOT
 }

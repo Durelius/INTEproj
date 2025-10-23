@@ -8,6 +8,3 @@ type Weapon struct {
 func (w *Weapon) GetDamage() int {
 	return w.damage
 }
-func (w *Weapon) GetWearPosition() WearPosition {
-	return WEAR_POSITION_WEAPON
-}
