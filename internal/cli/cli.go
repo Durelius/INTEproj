@@ -2,8 +2,9 @@ package cli
 
 import (
 	"fmt"
+	"log"
 
-	"github.com/Durelius/INTEproj/assets/ascii"
+	"github.com/Durelius/INTEproj/internal/assets/ascii"
 	gs "github.com/Durelius/INTEproj/internal/gamestate"
 	"github.com/Durelius/INTEproj/internal/room"
 	tea "github.com/charmbracelet/bubbletea"
@@ -22,36 +23,36 @@ const (
 // The CLI struct is the main model for the command line interface.
 // It listens for user input and updates the gamestate, as well as the current view.
 type CLI struct {
-	game *gs.GameState
-	view  view
-	msg string
-	cursor	int			// Cursor position in the current view
-	checkedIndex int	// Index of the currently checked item in lists
-	currentPOI room.PointOfInterest
+	game         *gs.GameState
+	view         view
+	msg          string
+	cursor       int // Cursor position in the current view
+	checkedIndex int // Index of the currently checked item in lists
+	currentPOI   room.PointOfInterest
 }
 
 func New(game *gs.GameState) CLI {
-    return CLI{game: game}
+	return CLI{game: game}
 }
 
-func (cli CLI) Init() tea.Cmd { 
-	return nil 
+func (cli CLI) Init() tea.Cmd {
+	return nil
 }
 
 func (cli *CLI) generateMapView() string {
 	out := "\nMap:\n"
 	loc := cli.game.Room.GetPlayerLocation()
 	for y := 0; y < cli.game.Room.GetHeight(); y++ {
-			for x := 0; x < cli.game.Room.GetWidth(); x++ {
-				locX, locY := loc.Get()
-				if x == locX && y == locY {
-					out += "@"
-				} else {
-					out += "."
-				}
+		for x := 0; x < cli.game.Room.GetWidth(); x++ {
+			locX, locY := loc.Get()
+			if x == locX && y == locY {
+				out += "@"
+			} else {
+				out += "."
 			}
-			out += "\n"
 		}
+		out += "\n"
+	}
 
 	return out
 }
@@ -108,7 +109,7 @@ func (cli CLI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 		if msg.String() == "ctrl+c" || msg.String() == "q" {
 			return cli, tea.Quit
 		}
-		
+
 		switch cli.view {
 		case INVENTORY:
 			cli.msg = "Press space to toggle items, X to drop and ENTER to consume"
@@ -135,8 +136,8 @@ func (cli *CLI) getHeaderInfo() string {
 	x, y := loc.Get()
 
 	s := fmt.Sprintf("Room: %s (%dx%d)\n", room.GetName(), room.GetWidth(), room.GetHeight())
-	s += fmt.Sprintf("Player: %s (%s) HP:%d/%d\n", player.GetName(), player.GetClass(), player.GetCurrentHealth(), player.GetMaxHealth())
-	s += fmt.Sprintf("Location: (%d,%d)\n", x,y)
+	s += fmt.Sprintf("Player: %s (%v) HP:%d/%d\n", player.GetName(), player.GetClass(), player.GetCurrentHealth(), player.GetMaxHealth())
+	s += fmt.Sprintf("Location: (%d,%d)\n", x, y)
 	s += cli.msg + "\n"
 	return s
 }
@@ -171,7 +172,7 @@ func (cli *CLI) updateMain(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 
 	// Check if there's a point of interest at the new location
 	poi := cli.game.Room.UsePOI(x, y)
-	if poi != nil {			// New location has a point of interest
+	if poi != nil { // New location has a point of interest
 		cli.currentPOI = poi
 		switch poi.GetType() {
 		case "ENEMY":
@@ -183,7 +184,7 @@ func (cli *CLI) updateMain(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 		default:
 		}
 	}
-	cli.game.Room.SetPlayerLocation(x, y)	// Update player location in the room
+	cli.game.Room.SetPlayerLocation(x, y) // Update player location in the room
 	return cli, nil
 }
 
@@ -276,5 +277,6 @@ func (cli *CLI) updateLootList(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
 }
 
 func (cli *CLI) updateBattle(msg tea.KeyMsg) (tea.Model, tea.Cmd) {
+	log.Println(msg)
 	return cli, nil
 }
