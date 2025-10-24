@@ -34,11 +34,11 @@ type cliState interface {
 	update(*CLI, tea.KeyMsg)
 }
 
-func New(game *gs.GameState) CLI {
-	return CLI{game: game, view: &mainState{}, checkedIndex: INTEGER_MAX}
+func New(game *gs.GameState) *CLI {
+	return &CLI{game: game, view: &mainState{}, checkedIndex: INTEGER_MAX}
 }
 
-func (cli CLI) Init() tea.Cmd {
+func (cli *CLI) Init() tea.Cmd {
 	return nil
 }
 
@@ -64,22 +64,24 @@ func (cli *CLI) generateMapView() string {
 	return out
 }
 
-func (cli CLI) View() (out string) {
-	out = cli.getHeaderInfo()
-	out += cli.view.view(&cli)
+func (cli *CLI) View() (out string) {
+	out = "\033[2J\033[H" // Clear screen and move cursor to top-left
+
+	out += cli.getHeaderInfo()
+	out += cli.view.view(cli)
 
 	return
 }
 
 // Update reads a message (user input) and updates the view accordingly.
-func (cli CLI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+func (cli *CLI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
 		if msg.String() == "ctrl+c" || msg.String() == "q" {
 			return cli, tea.Quit
 		}
 
-		cli.view.update(&cli, msg)
+		cli.view.update(cli, msg)
 		return cli, nil
 	}
 	return cli, nil

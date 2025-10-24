@@ -9,13 +9,13 @@ import (
 )
 
 type lootState struct {
-	stage stage
+	stage lootStage
 }
 
-type stage int
+type lootStage int
 
 const (
-	chest stage = iota
+	chest lootStage = iota
 	list
 )
 
@@ -32,7 +32,7 @@ func (ls *lootState) update(cli *CLI, msg tea.KeyMsg) {
 func (ls *lootState) view(cli *CLI) (out string) {
 	switch ls.stage {
 	case chest:
-		out = ls.viewChest()
+		out = ls.viewChest(cli)
 	case list:
 		out = ls.viewList(cli)
 	}
@@ -75,20 +75,25 @@ func (is *lootState) updateList(cli *CLI, msg tea.KeyMsg) {
 
 }
 func (ls *lootState) updateChest(cli *CLI, msg tea.KeyMsg) {
+
 	switch msg.String() {
 	case "e":
 		cli.msg = ""
 		ls.stage = list
 	case "s":
+		cli.msg = ""
 		cli.view = &mainState{}
 	}
 }
-func (ls *lootState) viewChest() (out string) {
+func (ls *lootState) viewChest(cli *CLI) (out string) {
+
 	out = ascii.Chest()
 	return
 }
 
 func (ls *lootState) viewList(cli *CLI) (out string) {
+	cli.msg = ""
+
 	loot := cli.currentPOI.(*room.Loot)
 	out = "Select item from (space to toggle, enter to confirm):\n\n"
 	for i, item := range loot.GetItems() {
