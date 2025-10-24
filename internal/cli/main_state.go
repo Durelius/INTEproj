@@ -43,6 +43,8 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 
 	// Check if there's a point of interest at the new location
 	poi := cli.game.Room.UsePOI(x, y)
+	cli.msg = ""
+
 	if poi != nil { // New location has a point of interest
 		cli.currentPOI = poi
 		switch poi.GetType() {
@@ -54,7 +56,6 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 			cli.msg = "Press E to open the chest, or S to skip!"
 			cli.view = &lootState{stage: chest}
 			return
-
 		case "EXIT":
 			exit := poi.(*room.Exit)
 			if exit.IsLocked() {
@@ -62,6 +63,7 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 			}
 
 		default:
+
 		}
 	}
 	cli.game.Room.SetPlayerLocation(x, y) // Update player location in the room

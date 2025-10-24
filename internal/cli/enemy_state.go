@@ -43,7 +43,7 @@ func (es *enemyState) updateEncounter(cli *CLI, msg tea.KeyMsg) {
 	switch msg.String() {
 	case "r":
 		cli.msg = "You ran away"
-		// cli.view = &mainState{}
+		cli.view = &mainState{}
 	case "f":
 		es.stage = fight
 	}

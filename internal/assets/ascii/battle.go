@@ -6,7 +6,7 @@ import "strings"
 func Battle(playerHP, playerMaxHP, enemyHP, enemyMaxHP int) string {
 	out := `
 ───────────────────────────────
-|                         (◕ ◕) |
+|                        (◕ ◕)  |
 |                         /▌\   |
 |                        /  \   |
 |                               |
