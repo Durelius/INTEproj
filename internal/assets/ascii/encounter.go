@@ -2,8 +2,8 @@ package ascii
 
 import "strings"
 
-// Battle returns an ASCII battle screen with proportional HP bars
-func Battle(playerHP, playerMaxHP, enemyHP, enemyMaxHP int) string {
+// Encounter returns an ASCII battle screen with proportional HP bars
+func Encounter(playerHP, playerMaxHP, enemyHP, enemyMaxHP int) string {
 	out := `
 ───────────────────────────────
 |                        (◕ ◕)  |

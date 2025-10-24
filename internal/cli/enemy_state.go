@@ -2,6 +2,7 @@ package cli
 
 import (
 	"github.com/Durelius/INTEproj/internal/assets/ascii"
+	"github.com/Durelius/INTEproj/internal/random"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
@@ -23,7 +24,7 @@ func (es *enemyState) view(cli *CLI) (out string) {
 		out = es.viewEncounter(cli)
 	case fight:
 
-		out = es.viewFight()
+		out = es.viewFight(cli)
 	}
 	return
 
@@ -42,8 +43,13 @@ func (es *enemyState) update(cli *CLI, msg tea.KeyMsg) {
 func (es *enemyState) updateEncounter(cli *CLI, msg tea.KeyMsg) {
 	switch msg.String() {
 	case "r":
-		cli.msg = "You ran away"
-		cli.view = &mainState{}
+		gamba := random.Int(0, 100)
+		if gamba > 75 {
+			cli.msg = "You ran away"
+			cli.view = &mainState{}
+		} else {
+			es.stage = fight
+		}
 	case "f":
 		es.stage = fight
 	}
@@ -58,10 +64,10 @@ func (es *enemyState) updateFight(cli *CLI, msg tea.KeyMsg) {
 	}
 }
 func (es *enemyState) viewEncounter(cli *CLI) (out string) {
-	return ascii.Battle(cli.game.Player.GetCurrentHealth(), cli.game.Player.GetMaxHealth(), 100, 100)
+	return ascii.Encounter(cli.game.Player.GetCurrentHealth(), cli.game.Player.GetMaxHealth(), 100, 100)
 
 }
-func (es *enemyState) viewFight() string {
+func (es *enemyState) viewFight(cli *CLI) string {
 
-	return "Press R to run away"
+	return ascii.Encounter(cli.game.Player.GetCurrentHealth(), cli.game.Player.GetMaxHealth(), 100, 100)
 }

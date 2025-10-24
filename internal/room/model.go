@@ -22,8 +22,8 @@ type Room struct {
 
 func newRandomRoom(name string, entry Location, height, width int) *Room {
 	room := &Room{name: name, entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest)}
-	itemAmount := 50
-	enemyAmount := 50
+	itemAmount := 3
+	enemyAmount := 5
 	pois := []PointOfInterest{}
 	for i := 0; i < itemAmount; i++ {
 		index := rand.Intn(len(item.ITEM_LIST_DROPPABLE))
