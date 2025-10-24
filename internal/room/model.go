@@ -103,6 +103,15 @@ func (r *Room) GetPOI() map[Location]PointOfInterest {
 	return r.poi
 }
 
+func (r *Room) hasEnemies() bool {
+	for _, poi := range r.poi {
+		if poi.GetType() == "ENEMY" {
+			return true
+		}
+	}
+	return false
+}
+
 // fetches a point of interest and removes it from the room map
 func (r *Room) UsePOI(x, y int) PointOfInterest {
 	loc := NewLocation(x, y)
