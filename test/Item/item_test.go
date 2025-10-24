@@ -1,6 +1,4 @@
-
-...
-package item
+package itemtest
 
 import (
 	"testing"
@@ -9,7 +7,7 @@ import (
 )
 
 // TODO TestCreateAllItemTypes kontrollerar att varje item-typ blir korrekt skapad
-func TestCreateAllItemTypes(t testing.T) {
+func TestCreateAllItemTypes(t *testing.T) {
 	// tests := []struct {
 	// 	name     string
 	// 	itemType item.ItemType

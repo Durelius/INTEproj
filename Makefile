@@ -4,4 +4,7 @@ run:
 	go run ./cmd/app/main.go
 
 test: 
-	go test ./test/player
+	@echo "Running tests..."
+	go test ./test/... -v
+
+all: test run
