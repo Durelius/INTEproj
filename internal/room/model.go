@@ -12,11 +12,12 @@ import (
 type Room struct {
 	name           string
 	entry          Location
-	exit           Location
 	height         int
 	width          int
 	playerLocation Location
 	poi            map[Location]PointOfInterest
+	prevRoom       *Room
+	nextRoom       *Room
 }
 
 func newRandomRoom(name string, entry Location, height, width int) *Room {
@@ -32,6 +33,7 @@ func newRandomRoom(name string, entry Location, height, width int) *Room {
 		index := rand.Intn(len(enemy.ENEMY_LIST))
 		pois = append(pois, enemy.ENEMY_LIST[index])
 	}
+	pois = append(pois, &Exit{isLocked: true})
 	room.createRandomLocations(pois)
 
 	return room
@@ -50,6 +52,22 @@ func (l *Loot) GetType() string {
 
 func (l *Loot) GetItems() []item.Item {
 	return l.items
+}
+
+type Exit struct {
+	isLocked bool
+}
+
+func (*Exit) GetType() string {
+	return "EXIT"
+}
+
+func (e *Exit) IsLocked() bool {
+	return e.isLocked
+}
+
+func (e *Exit) SetIsLocked() {
+	e.isLocked = false
 }
 
 type Location struct {
@@ -89,6 +107,9 @@ func (r *Room) GetPOI() map[Location]PointOfInterest {
 func (r *Room) UsePOI(x, y int) PointOfInterest {
 	loc := NewLocation(x, y)
 	poi := r.poi[loc]
+	if poi != nil && poi.GetType() == "EXIT" {
+		return poi
+	}
 	delete(r.poi, loc)
 	return poi
 }

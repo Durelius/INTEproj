@@ -1,6 +1,9 @@
 package cli
 
-import tea "github.com/charmbracelet/bubbletea"
+import (
+	"github.com/Durelius/INTEproj/internal/room"
+	tea "github.com/charmbracelet/bubbletea"
+)
 
 type mainState struct{}
 
@@ -50,6 +53,12 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 		case "LOOT":
 			cli.msg = "Press E to open the chest, or S to skip!"
 			cli.view = &lootState{stage: chest}
+
+		case "EXIT":
+			exit := poi.(*room.Exit)
+			if exit.IsLocked() {
+				cli.msg = "The door is locked until all enemies are killed"
+			}
 
 		default:
 		}
