@@ -17,7 +17,7 @@ const (
 	LOOT
 	LOOT_LIST
 )
-const INTEGER_MAX int = int(^uint(0) >> 1) //unsigned int with inverse bits with 1 bit shift to get max signed int
+const INTEGER_MAX int = int(^uint(0) >> 1) // unsigned int with inverse bits with 1 bit shift to get max signed int
 
 // The CLI struct is the main model for the command line interface.
 // It listens for user input and updates the gamestate, as well as the current view.
@@ -45,11 +45,15 @@ func (cli CLI) Init() tea.Cmd {
 func (cli *CLI) generateMapView() string {
 	out := "\nMap:\n"
 	loc := cli.game.Room.GetPlayerLocation()
+	locX, locY := loc.Get()
+	poi := cli.game.Room.GetPOI()
+
 	for y := 0; y < cli.game.Room.GetHeight(); y++ {
 		for x := 0; x < cli.game.Room.GetWidth(); x++ {
-			locX, locY := loc.Get()
 			if x == locX && y == locY {
 				out += "@"
+			} else if _, ok := poi[room.NewLocation(x, y)]; ok {
+				out += "?"
 			} else {
 				out += "."
 			}
@@ -77,7 +81,6 @@ func (cli CLI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 		cli.view.update(&cli, msg)
 		return cli, nil
-
 	}
 	return cli, nil
 }

@@ -12,6 +12,7 @@ import (
 type Room struct {
 	name           string
 	entry          Location
+	exit           Location
 	height         int
 	width          int
 	playerLocation Location
@@ -46,6 +47,7 @@ type Loot struct {
 func (l *Loot) GetType() string {
 	return "LOOT"
 }
+
 func (l *Loot) GetItems() []item.Item {
 	return l.items
 }
@@ -58,20 +60,29 @@ type Location struct {
 func (l *Location) Get() (x int, y int) {
 	return l.x, l.y
 }
+
 func NewLocation(x int, y int) Location {
 	return Location{x: x, y: y}
 }
+
 func (r *Room) GetHeight() int {
 	return r.height
 }
+
 func (r *Room) GetWidth() int {
 	return r.width
 }
+
 func (r *Room) GetName() string {
 	return r.name
 }
+
 func (r *Room) GetPlayerLocation() Location {
 	return r.playerLocation
+}
+
+func (r *Room) GetPOI() map[Location]PointOfInterest {
+	return r.poi
 }
 
 // fetches a point of interest and removes it from the room map
