@@ -46,14 +46,25 @@ func (cli *CLI) generateMapView() string {
 	out := "\nMap:\n"
 	loc := cli.game.Room.GetPlayerLocation()
 	locX, locY := loc.Get()
-	poi := cli.game.Room.GetPOI()
+	poiMap := cli.game.Room.GetPOI()
 
 	for y := 0; y < cli.game.Room.GetHeight(); y++ {
 		for x := 0; x < cli.game.Room.GetWidth(); x++ {
+			curLoc := room.NewLocation(x, y)
 			if x == locX && y == locY {
 				out += "@"
-			} else if _, ok := poi[room.NewLocation(x, y)]; ok {
-				out += "?"
+			} else if poi, ok := poiMap[curLoc]; ok {
+				switch cli.game.Room.GetPOI()[curLoc].GetType() {
+				case "LOOT", "ENEMY":
+					out += "?"
+				case "EXIT":
+					exit := poi.(*room.Exit)
+					if exit.IsLocked() {
+						out += "\033[31m#\033[0m"
+					} else {
+						out += "\033[32m#\033[0m"
+					}
+				}
 			} else {
 				out += "."
 			}
