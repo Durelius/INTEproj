@@ -1,6 +1,7 @@
 package cli
 
 import (
+	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/room"
 	tea "github.com/charmbracelet/bubbletea"
 )
@@ -49,8 +50,9 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 		cli.currentPOI = poi
 		switch poi.GetType() {
 		case "ENEMY":
-			cli.msg = "Prepare to fight! Press R to attempt to run away, or F to accept your destiny"
-			cli.view = &enemyState{stage: encounter}
+			// Spawn random enemy
+			// enemy := enemy.ENEMY_LIST[rand.Intn(len(enemy.ENEMY_LIST)) ]
+			cli.view = &enemyState{stage: encounter, enemy: enemy.NewSkeleton()}
 			return
 		case "LOOT":
 			cli.msg = "Press E to open the chest, or S to skip!"

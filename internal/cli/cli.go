@@ -8,15 +8,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-type view int
 
-const (
-	MAIN view = iota
-	BATTLE
-	INVENTORY
-	LOOT
-	LOOT_LIST
-)
 const INTEGER_MAX int = int(^uint(0) >> 1) // unsigned int with inverse bits with 1 bit shift to get max signed int
 
 // The CLI struct is the main model for the command line interface.
@@ -29,6 +21,7 @@ type CLI struct {
 	currentPOI   room.PointOfInterest
 	view         cliState
 }
+
 type cliState interface {
 	view(*CLI) string
 	update(*CLI, tea.KeyMsg)
@@ -102,11 +95,12 @@ func (cli *CLI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 func (cli *CLI) getHeaderInfo() string {
 	player := cli.game.Player
 	room := cli.game.Room
+
 	loc := room.GetPlayerLocation()
 	x, y := loc.Get()
 
 	s := fmt.Sprintf("Room: %s (%dx%d)\n", room.GetName(), room.GetWidth(), room.GetHeight())
-	s += fmt.Sprintf("Player: %s (%v) HP:%d/%d\n", player.GetName(), player.GetClass(), player.GetCurrentHealth(), player.GetMaxHealth())
+	s += fmt.Sprintf("Player: %s, LVL:%d %v, HP:%d/%d\n", player.GetName(), player.GetLevel(), player.GetClass().Name(), player.GetCurrentHealth(), player.GetMaxHealth())
 	s += fmt.Sprintf("Location: (%d,%d)\n", x, y)
 	s += cli.msg + "\n"
 	return s

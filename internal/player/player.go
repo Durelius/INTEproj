@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/Durelius/INTEproj/internal/character"
 	"github.com/Durelius/INTEproj/internal/item"
 	class "github.com/Durelius/INTEproj/internal/player/class"
 	"github.com/Durelius/INTEproj/internal/player/gear"
@@ -21,6 +20,7 @@ type Player struct {
 	currentHealth int
 	level      int
 	experience int
+	dead	  bool
 }
 
 func New(name string, class class.Class) *Player {
@@ -45,8 +45,8 @@ func (p *Player) GetName() string {
 	return p.name
 }
 
-func (p *Player) GetClass() *class.Class {
-	return &p.class
+func (p *Player) GetClass() class.Class {
+	return p.class
 }
 
 func (p *Player) GetLevel() int {
@@ -73,6 +73,10 @@ func (p *Player) GetMaxHealth() int {
 	return p.maxHealth
 }
 
+func (p *Player) IsDead() bool {
+	return p.dead
+}
+
 // Returns the total weight of all items in inventory and gear slots
 func (p *Player) GetTotalWeight() int {
 	invWeight := p.inventory.GetTotalWeight()
@@ -83,6 +87,7 @@ func (p *Player) GetTotalWeight() int {
 // GetDamage returns the total damage of the player including weapon damage
 func (p *Player) GetDamage() int {
 	damage := p.class.GetBaseDmg()
+
 	w := p.gear.Weapon
 	if w != nil {
 		weapon := w.(*item.Weapon)
@@ -100,18 +105,14 @@ func (p *Player) GetDamage() int {
 // Reduce current health
 func (p *Player) ReceiveDamage(damage int) int {
 	p.currentHealth = p.currentHealth - damage
-	return p.currentHealth
-}
 
-func (p *Player) Attack(rec character.Character) (int, error) {
-	eFightable, ok := rec.IsFightable()
-	if !ok {
-		return 0, fmt.Errorf("Receiver can't fight")
+	if p.currentHealth <= 0 {
+		p.currentHealth = 0
+		p.dead = true
 	}
 
-	return eFightable.ReceiveDamage(p.GetDamage()), nil
+	return p.currentHealth
 }
-
 
 // --------------------------------------------
 // Experience and Leveling methods
