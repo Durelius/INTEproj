@@ -20,10 +20,10 @@ type Room struct {
 	nextRoom       *Room
 }
 
-func newRandomRoom(name string, entry Location, height, width int) *Room {
-	room := &Room{name: name, entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest)}
-	itemAmount := 3
-	enemyAmount := 5
+func newRandomRoom(name string, entry Location, height, width int, prevRoom *Room, nextRoom *Room) *Room {
+	room := &Room{name: name, entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest), prevRoom: prevRoom, nextRoom: nextRoom}
+	itemAmount := 5
+	enemyAmount := 1
 	pois := []PointOfInterest{}
 	for i := 0; i < itemAmount; i++ {
 		index := rand.Intn(len(item.ITEM_LIST_DROPPABLE))
@@ -63,7 +63,7 @@ func (*Exit) GetType() string {
 }
 
 func (e *Exit) IsLocked(room *Room) bool {
-	if room.hasEnemies() {
+	if room.HasEnemies() {
 		return e.isLocked
 	}
 	e.SetIsLocked()
@@ -107,7 +107,7 @@ func (r *Room) GetPOI() map[Location]PointOfInterest {
 	return r.poi
 }
 
-func (r *Room) hasEnemies() bool {
+func (r *Room) HasEnemies() bool {
 	for _, poi := range r.poi {
 		if poi.GetType() == "ENEMY" {
 			return true
