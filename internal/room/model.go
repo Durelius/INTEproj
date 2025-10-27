@@ -62,7 +62,11 @@ func (*Exit) GetType() string {
 	return "EXIT"
 }
 
-func (e *Exit) IsLocked() bool {
+func (e *Exit) IsLocked(room *Room) bool {
+	if room.hasEnemies() {
+		return e.isLocked
+	}
+	e.SetIsLocked()
 	return e.isLocked
 }
 

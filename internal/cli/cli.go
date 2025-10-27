@@ -59,7 +59,7 @@ func (cli *CLI) generateMapView() string {
 					out += "?"
 				case "EXIT":
 					exit := poi.(*room.Exit)
-					if exit.IsLocked() {
+					if exit.IsLocked(cli.game.Room) {
 						out += "\033[31m#\033[0m"
 					} else {
 						out += "\033[32m#\033[0m"

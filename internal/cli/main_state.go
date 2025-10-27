@@ -58,7 +58,7 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 			return
 		case "EXIT":
 			exit := poi.(*room.Exit)
-			if exit.IsLocked() {
+			if exit.IsLocked(cli.game.Room) {
 				cli.msg = "The door is locked until all enemies are killed"
 			}
 
