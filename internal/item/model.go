@@ -7,6 +7,41 @@ import (
 	"github.com/Durelius/INTEproj/internal/random"
 )
 
+// ------------------------------------------------ Seed -----------------------------------------------------
+var globalRand *rand.Rand
+
+func SetSeed(seed int64) {
+	globalRand = rand.New(rand.NewSource(seed))
+}
+
+//------------------------------------------- Setters for shit -----------------------------------------------
+
+func (c *BaseItem) GetID() string {
+	return c.id
+}
+func (c *BaseItem) GetWeight() int {
+	return c.weight
+}
+func (c *BaseItem) getBase() *BaseItem {
+	return c
+}
+func (c *BaseItem) GetType() ItemType {
+	return c.itemType
+}
+func (c *BaseItem) GetRarity() Rarity {
+	return c.rarity
+}
+func (c *BaseItem) GetName() string {
+	return c.name
+}
+func (c *BaseItem) ToString() string {
+	return fmt.Sprintf("Name: %s, Weight: %d", c.name, c.weight)
+}
+
+// -------------------------------------------- Variables (ish) ------------------------------------------------------
+
+type WearPosition string
+type ItemType string
 type BaseItem struct {
 	id       string
 	weight   int
@@ -23,6 +58,17 @@ type Item interface {
 	GetName() string
 	GetRarity() Rarity
 }
+
+const (
+	WEAR_POSITION_HEAD       WearPosition = "HEAD"
+	WEAR_POSITION_UPPER_BODY WearPosition = "UPPER"
+	WEAR_POSITION_LOWER_BODY WearPosition = "LOWER"
+	WEAR_POSITION_FOOT       WearPosition = "FOOT"
+	WEAR_POSITION_WEAPON     WearPosition = "WEAPON"
+)
+
+// ----------------------- RARITIES --------------------------
+
 type Rarity int
 
 const (
@@ -39,39 +85,17 @@ var rarityPools = map[Rarity][]Item{
 	Legendary: LEGENDARY_ITEMS,
 }
 
-const (
-	WEAR_POSITION_HEAD       WearPosition = "HEAD"
-	WEAR_POSITION_UPPER_BODY WearPosition = "UPPER"
-	WEAR_POSITION_LOWER_BODY WearPosition = "LOWER"
-	WEAR_POSITION_FOOT       WearPosition = "FOOT"
-	WEAR_POSITION_WEAPON     WearPosition = "WEAPON"
-)
+// -------------------------------------------- Functions -------------------------------------------------
 
-// TODO fix below lines
-type WearPosition string
-
-type ItemType string
-
-// func New(name string, weight int, itemType ItemType) (*BaseItem, error) {
-// 	if len(name) == 0 {
-// 		return nil, fmt.Errorf("No name supplied")
-// 	}
-// 	if weight < 0 {
-// 		return nil, fmt.Errorf("Weight cannot be negative")
-// 	}
-
-//		return &BaseItem{id: random.String(), itemType: itemType, name: name}, nil
-//	}
-
-//TODO make tests for testing add() that takes string, compares to lists and creates.
-
+// make new item, idk if this is rly needed. But trqst the prqccess
 func New(item Item) Item {
 	item.getBase().id = random.String()
 
 	return item
 }
 
-// Get a random item of the chosen rarity. Maybe rewrite to take a non-defined VAR so same one can be done for all properties of items.
+// Get a random item of the chosen rarity.
+// Later todo, make it more dynamic for VAR
 func GetRandomItemByRarity(r Rarity) Item {
 	itemPool := rarityPools[r]
 	return itemPool[random.Int(0, len(itemPool)-1)]
@@ -90,28 +114,4 @@ func GetRandomItem() Item {
 		r = Legendary
 	}
 	return GetRandomItemByRarity(r)
-}
-
-func (c *BaseItem) GetID() string {
-	return c.id
-}
-
-func (c *BaseItem) GetWeight() int {
-	return c.weight
-}
-
-func (c *BaseItem) getBase() *BaseItem {
-	return c
-}
-func (c *BaseItem) GetType() ItemType {
-	return c.itemType
-}
-func (c *BaseItem) GetRarity() Rarity {
-	return c.rarity
-}
-func (c *BaseItem) GetName() string {
-	return c.name
-}
-func (c *BaseItem) ToString() string {
-	return fmt.Sprintf("Name: %s, Weight: %d", c.name, c.weight)
 }
