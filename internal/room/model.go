@@ -20,7 +20,7 @@ type Room struct {
 	nextRoom       *Room
 }
 
-func newRandomRoom(name string, entry Location, height, width int, prevRoom *Room, nextRoom *Room) *Room {
+func NewRandomRoom(name string, entry Location, height, width int, prevRoom *Room, nextRoom *Room) *Room {
 	room := &Room{name: name, entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest), prevRoom: prevRoom, nextRoom: nextRoom}
 	itemAmount := 5
 	enemyAmount := 1
