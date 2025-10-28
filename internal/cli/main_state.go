@@ -50,9 +50,7 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 		cli.currentPOI = poi
 		switch poi.GetType() {
 		case "ENEMY":
-			// Spawn random enemy
-			// enemy := enemy.ENEMY_LIST[rand.Intn(len(enemy.ENEMY_LIST)) ]
-			cli.view = &enemyState{stage: encounter, enemy: enemy.NewSkeleton()}
+			cli.view = &battleState{stage: encounter, enemy: enemy.NewRandomEnemy()}
 			return
 		case "LOOT":
 			cli.msg = "Press E to open the chest, or S to skip!"

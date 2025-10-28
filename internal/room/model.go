@@ -33,8 +33,7 @@ func NewRandomRoom(entry Location, height, width int) *Room {
 		// This actually has no effect, the CLI will spawn a random enemy when player steps on a poi of type enemy.
 		// Since POI is an interface and not a map storing locations to items / monsters,
 		// CLI can not access the type of the monster through POI.
-		index := rand.Intn(len(enemy.ENEMY_LIST))
-		pois = append(pois, enemy.ENEMY_LIST[index])
+		pois = append(pois, enemy.NewRandomEnemy())
 	}
 
 	pois = append(pois, &Exit{isLocked: true})

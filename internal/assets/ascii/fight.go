@@ -4,39 +4,59 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Durelius/INTEproj/internal/battle"
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/player"
 )
 
 // Fight returns an ASCII battle screen with proportional HP bars
-func Fight(p *player.Player, e enemy.Enemy) string {
+func Fight(b *battle.Battle) string {
+	enemy := b.Enemy
+	player := b.Player
 
-	enemyHealth := generateEnemyHealthBar(e)
-	playerHealth := generatePlayerHealthBar(p)
-	
+	enemyHealth := generateEnemyHealthBar(enemy)
+	playerHealth := generatePlayerHealthBar(player)
+	attackMessage := generateAttackString(player, enemy, b.PlayerTurn())
+
 	out := fmt.Sprintf(
-		`	%s
-	───────────────────────────────
-	|                        (◕ ◕)  |
-	|                         /▌\   |
-	|                        /  \   |
-	|                               |
-	|                               |
-	|                               |
-	|                               |
-	|                               |
-	|   (\_/)                       |
-	|   (o_o)                       |
-	|   /| |\                       |
-	|  / | | \                      |
-	───────────────────────────────
-	%s
-	`, enemyHealth, playerHealth)
+		`	
+%s
+───────────────────────────────
+|                        (◕ ◕)  |
+|                         /▌\   |
+|                        /  \   |
+|                               |
+|                               |
+|                               |
+|                               |
+|                               |
+|   (\_/)                       |
+|   (o_o)                       |
+|   /| |\                       |
+|  / | | \                      |
+───────────────────────────────
+%s
 
+%s
+Press "a" to progress fight.
+`, enemyHealth, playerHealth, attackMessage)
 
 	return out
 }
 
+func generateAttackString(p *player.Player, e enemy.Enemy, playerTurn bool) string {
+	bothAreMaxHealth := p.GetCurrentHealth() == p.GetMaxHealth() && e.GetCurrentHealth() == e.GetMaxHealth()
+
+	if bothAreMaxHealth {
+		return	""
+	}
+
+	if !playerTurn {
+		return fmt.Sprintf("You attack %s, dealing %d damage.", e.GetEnemyType(), p.GetDamage())
+	} else {
+		return fmt.Sprintf("%s attacks you for %d damage!", e.GetEnemyType(), e.GetDamage())
+	}
+}
 
 func generateEnemyHealthBar(e enemy.Enemy) string {
 
