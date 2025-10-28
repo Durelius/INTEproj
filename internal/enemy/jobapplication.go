@@ -1,8 +1,6 @@
 package enemy
 
 import (
-	"math/rand"
-
 	"github.com/Durelius/INTEproj/internal/item"
 )
 
@@ -10,7 +8,7 @@ type JobApplication struct {
 	health    int
 	maxHealth int
 	damage    int
-	xp int
+	xp        int
 }
 
 func NewJobApplication() *JobApplication {
@@ -18,11 +16,11 @@ func NewJobApplication() *JobApplication {
 		health:    500,
 		maxHealth: 500,
 		damage:    25,
-		xp: 1000,
+		xp:        1000,
 	}
 }
 
-// This is needed to make the enemy interface implement POI 
+// This is needed to make the enemy interface implement POI
 func (j *JobApplication) GetType() string {
 	return "ENEMY"
 }
@@ -43,7 +41,7 @@ func (j *JobApplication) GetDamage() int {
 	return j.damage
 }
 
-func (j *JobApplication) GetXPDrop() int{
+func (j *JobApplication) GetXPDrop() int {
 	return j.xp
 }
 
@@ -59,15 +57,6 @@ func (j *JobApplication) TakeDamage(damage int) {
 }
 
 // TODO: Implement actual drop table logic, for now job application always drops a legendary or rare weapon
-func (j *JobApplication) DropLoot() *item.Weapon {
-	n := rand.Intn(3)
-
-	switch n {
-	case 0:
-		return &item.LEGENDARY_SWORD
-	case 1:
-		return &item.RARE_SWORD
-	default:
-		return &item.LEGENDARY_BOW
-	}
+func (j *JobApplication) DropLoot() item.Item {
+	return item.GetRandomItem()
 }

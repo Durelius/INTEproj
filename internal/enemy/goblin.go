@@ -1,28 +1,26 @@
 package enemy
 
 import (
-	"math/rand"
-
 	"github.com/Durelius/INTEproj/internal/item"
 )
 
 type Goblin struct {
-	health int
+	health    int
 	maxHealth int
-	damage int
-	xp int
+	damage    int
+	xp        int
 }
 
 func NewGoblin() *Goblin {
 	return &Goblin{
-		health: 50,
+		health:    50,
 		maxHealth: 50,
-		damage: 4,
-		xp: 60,
+		damage:    4,
+		xp:        60,
 	}
 }
 
-// This is needed to make the enemy interface implement POI 
+// This is needed to make the enemy interface implement POI
 func (g *Goblin) GetType() string {
 	return "ENEMY"
 }
@@ -43,7 +41,7 @@ func (g *Goblin) GetDamage() int {
 	return g.damage
 }
 
-func (g *Goblin) GetXPDrop() int{
+func (g *Goblin) GetXPDrop() int {
 	return g.xp
 }
 
@@ -60,12 +58,14 @@ func (g *Goblin) TakeDamage(damage int) {
 }
 
 // TODO: Implement actual drop table logic, for now goblins always drop either a stick or a legendary sword
-func (s *Goblin) DropLoot() *item.Weapon {
-	n := rand.Intn(100)
+func (s *Goblin) DropLoot() item.Item {
+	return item.GetRandomItem()
 
-	if n == 0 {
-		return &item.LEGENDARY_SWORD
-	} else {
-		return &item.STICK
-	}
+	// n := rand.Intn(100)
+
+	// if n == 0 {
+	// 	return &item.LEGENDARY_SWORD
+	// } else {
+	// 	return &item.STICK
+	// }
 }
