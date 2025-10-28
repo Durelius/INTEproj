@@ -21,6 +21,7 @@ var (
 	LEGENDARY_BOW = Weapon{damage: 50, Item: &BaseItem{weight: 40, name: "Legendary Bow", rarity: Legendary}}
 )
 
+// Depricated, används inte. Använd *_ITEMS listorna
 var (
 	ITEM_LIST_DROPPABLE = []Item{
 		&IRON_SWORD, &STICK, &IRON_HELMET, &STICK, &IRON_HELMET, &CHAIN_MAIL, &LEATHER_TUNIC, &ADIDAS_PANTS,

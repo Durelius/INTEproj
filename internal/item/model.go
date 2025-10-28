@@ -98,7 +98,7 @@ func New(item Item) Item {
 // Later todo, make it more dynamic for VAR
 func GetRandomItemByRarity(r Rarity) Item {
 	itemPool := rarityPools[r]
-	return itemPool[random.Int(0, len(itemPool)-1)]
+	return itemPool[globalRand.Intn(len(itemPool))]
 }
 func GetRandomItem() Item {
 	selected := rand.Int63n(100) + 1
