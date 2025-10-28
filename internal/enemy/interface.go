@@ -5,7 +5,7 @@ import (
 )
 
 type Enemy interface {
-	GetType() string	 // This is needed to make the enemy interface implement POI 
+	GetType() string // This is needed to make the enemy interface implement POI
 	GetEnemyType() string
 	GetCurrentHealth() int
 	GetMaxHealth() int
@@ -13,6 +13,5 @@ type Enemy interface {
 	GetXPDrop() int
 	IsDead() bool
 	TakeDamage(damage int)
-	DropLoot() *item.Weapon	// This should be item.Item, but weapons do not implement item.Item interface
+	DropLoot() item.Item // This should be item.Item, but weapons do not implement item.Item interface
 }
-

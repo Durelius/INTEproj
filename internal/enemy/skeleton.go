@@ -1,28 +1,26 @@
 package enemy
 
 import (
-	"math/rand"
-
 	"github.com/Durelius/INTEproj/internal/item"
 )
 
 type Skeleton struct {
 	maxHealth int
-	health int
-	damage int
-	xp int
+	health    int
+	damage    int
+	xp        int
 }
 
 func NewSkeleton() *Skeleton {
 	return &Skeleton{
 		maxHealth: 25,
-		health: 25,
-		damage: 10,
-		xp: 75,
+		health:    25,
+		damage:    10,
+		xp:        75,
 	}
 }
 
-// This is needed to make the enemy interface implement POI 
+// This is needed to make the enemy interface implement POI
 func (s *Skeleton) GetType() string {
 	return "ENEMY"
 }
@@ -43,7 +41,7 @@ func (s *Skeleton) GetDamage() int {
 	return s.damage
 }
 
-func (s *Skeleton) GetXPDrop() int{
+func (s *Skeleton) GetXPDrop() int {
 	return s.xp
 }
 
@@ -60,12 +58,6 @@ func (s *Skeleton) TakeDamage(damage int) {
 }
 
 // TODO: Implement actual drop table logic, for now skeletons always drop either a stick on an iron sword
-func (s *Skeleton) DropLoot() *item.Weapon {
-	n := rand.Intn(10)
-
-	if n < 3 {
-		return &item.IRON_SWORD
-	} else {
-		return &item.STICK
-	}
+func (s *Skeleton) DropLoot() item.Item {
+	return item.GetRandomItem()
 }

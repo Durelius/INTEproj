@@ -32,22 +32,22 @@ func TestCreateAllItemTypes(t *testing.T) {
 func TestCreateAllRarities(t *testing.T) {
 	tests := []struct {
 		name   string
-		weapon *item.Weapon
 		rarity item.Rarity
 	}{
-		{"Common Sword", &item.COMMON_SWORD, item.Common},
-		{"Rare Sword", &item.RARE_SWORD, item.Rare},
-		{"Epic Sword", &item.EPIC_SWORD, item.Epic},
-		{"Legendary Sword", &item.LEGENDARY_SWORD, item.Legendary},
+		{"Common Sword", item.Common},
+		{"Rare Sword", item.Rare},
+		{"Epic Sword", item.Epic},
+		{"Legendary Sword", item.Legendary},
 	}
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if tt.weapon.Item == nil {
+			got := item.FindItemByName(tt.name)
+			if got == nil {
 				t.Errorf("%s has nil BaseItem", tt.name)
 			}
-			if tt.weapon.Item.GetRarity() != tt.rarity {
-				t.Errorf("%s has wrong rarity: got %v, want %v", tt.name, tt.weapon.Item.GetRarity(), tt.rarity)
+			if got.GetRarity() != tt.rarity {
+				t.Errorf("%s has wrong rarity: got %v, want %v", tt.name, got.GetRarity(), tt.rarity)
 			}
 		})
 	}
@@ -69,6 +69,11 @@ func TestGetRandomItemByRarity(t *testing.T) {
 }
 
 // Testar random delningen mellan alla olika rareities. Kör testet individuellt för logging
+// Ger aldrig rätt eller fel, men ger en lista som visar division av drop rates
+// Common 50 %
+// Rare 40 %
+// Epic 8 %
+// Legendary 2%
 func TestGetRandomItemsWith(t *testing.T) {
 	length := 1000
 	items := []item.Item{}

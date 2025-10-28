@@ -20,7 +20,7 @@ func (inv *Inventory) AddItem(item item.Item) {
 
 func (inv *Inventory) RemoveItem(item item.Item) error {
 	for i, x := range inv.items {
-		if x.GetID() == item.GetID() {
+		if x.GetName() == item.GetName() {
 			inv.items = append(inv.items[:i], inv.items[i+1:]...)
 			return nil
 		}
