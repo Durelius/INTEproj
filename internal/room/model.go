@@ -26,8 +26,7 @@ func NewRandomRoom(entry Location, height, width int) *Room {
 	enemyAmount := 1
 	pois := []PointOfInterest{}
 	for i := 0; i < itemAmount; i++ {
-		index := rand.Intn(len(item.ITEM_LIST_DROPPABLE))
-		pois = append(pois, &Loot{items: []item.Item{item.ITEM_LIST_DROPPABLE[index], item.ITEM_LIST_DROPPABLE[index]}})
+		pois = append(pois, &Loot{items: []item.Item{item.GetRandomItem(), item.GetRandomItem()}})
 	}
 	for i := 0; i < enemyAmount; i++ {
 		// This actually has no effect, the CLI will spawn a random enemy when player steps on a poi of type enemy.

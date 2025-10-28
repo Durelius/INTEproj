@@ -1,37 +1,32 @@
 package item
 
-type Head struct {
-	Item
-	defense int
+import "fmt"
+
+type Wearable struct {
+	defense  int
+	slot     WearPosition
+	weight   int
+	name     string
+	itemType ItemType
+	rarity   Rarity
 }
 
-func (w *Head) GetDefense() int {
+func (w *Wearable) GetDefense() int {
 	return w.defense
 }
 
-type UpperBody struct {
-	Item
-	defense int
+func (w *Wearable) GetWeight() int {
+	return w.weight
 }
-
-func (w *UpperBody) GetDefense() int {
-	return w.defense
+func (w *Wearable) GetType() ItemType {
+	return w.itemType
 }
-
-type LowerBody struct {
-	Item
-	defense int
+func (w *Wearable) GetRarity() Rarity {
+	return w.rarity
 }
-
-func (w *LowerBody) GetDefense() int {
-	return w.defense
+func (w *Wearable) GetName() string {
+	return w.name
 }
-
-type Foot struct {
-	Item
-	defense int
-}
-
-func (w *Foot) GetDefense() int {
-	return w.defense
+func (w *Wearable) ToString() string {
+	return fmt.Sprintf("Name: %s, Weight: %d", w.name, w.weight)
 }
