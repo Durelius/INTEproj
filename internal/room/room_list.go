@@ -1,3 +1,20 @@
 package room
 
-var STARTING_AREA = NewRandomRoom("Starting area", Location{0, 0}, 25, 50, nil, nil)
+type RoomList struct {
+	head *Room
+	tail *Room
+}
+
+var Rooms = &RoomList{}
+
+func (rl *RoomList) Add(r *Room) {
+	if rl.head == nil {
+		rl.head = r
+		rl.tail = r
+		return
+	}
+
+	rl.tail.next = r // link old tail forward
+	r.prev = rl.tail // link new room back
+	rl.tail = r      // update tail
+}
