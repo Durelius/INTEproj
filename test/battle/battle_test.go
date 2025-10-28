@@ -38,7 +38,7 @@ func TestPlayerWin(t *testing.T) {
 		t.Errorf("Expected player health to be %d, got %d", expectedPlayerHealth, actualPlayerHealth)
 	}
 
-	for !b.IsOver() {
+	for !b.IsOver(){
 		b.ProgressFight()
 	}
 
@@ -48,6 +48,11 @@ func TestPlayerWin(t *testing.T) {
 	if p.IsDead() {
 		t.Errorf("Expected player to be alive, but is dead")
 	}
+
+	if b.GetStatus() != battle.Victory {
+		t.Errorf("Expected status to be victory, got: %d", b.GetStatus())
+	}
+
 }
 
 func TestPlayerMultipleCombatPlayerLoss(t *testing.T) {
