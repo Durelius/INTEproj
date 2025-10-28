@@ -37,6 +37,7 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 			x++
 		}
 	case "b":
+		cli.msg = "Inventory & Gear"
 		cli.view = &inventoryState{}
 
 		return

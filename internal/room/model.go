@@ -2,7 +2,6 @@ package room
 
 import (
 	"fmt"
-	"math/rand"
 
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/item"

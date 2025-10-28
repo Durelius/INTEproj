@@ -33,6 +33,7 @@ const (
 	WEAR_POSITION_FOOT
 )
 
+
 // ----------------------- RARITIES --------------------------
 
 type Rarity int

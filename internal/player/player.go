@@ -73,6 +73,10 @@ func (p *Player) GetMaxHealth() int {
 	return p.maxHealth
 }
 
+func (p *Player) GetGear() *gear.Gear {
+	return p.gear
+}
+
 func (p *Player) IsDead() bool {
 	return p.dead
 }
@@ -82,6 +86,14 @@ func (p *Player) GetTotalWeight() int {
 	invWeight := p.inventory.GetTotalWeight()
 
 	return invWeight + p.gear.GetTotalWeight()
+}
+
+func (p *Player) GetInventoryWeight() int {
+	return p.inventory.GetTotalWeight()
+}
+
+func (p *Player) GetEquippedWeight() int {
+	return p.gear.GetTotalWeight()
 }
 
 // GetDamage returns the total damage of the player including weapon damage
