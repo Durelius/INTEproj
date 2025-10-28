@@ -8,7 +8,6 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-
 const INTEGER_MAX int = int(^uint(0) >> 1) // unsigned int with inverse bits with 1 bit shift to get max signed int
 
 // The CLI struct is the main model for the command line interface.
@@ -99,7 +98,7 @@ func (cli *CLI) getHeaderInfo() string {
 	loc := room.GetPlayerLocation()
 	x, y := loc.Get()
 
-	s := fmt.Sprintf("Room: %s (%dx%d)\n", room.GetName(), room.GetWidth(), room.GetHeight())
+	s := fmt.Sprintf("Room: %s (%dx%d)\n", room.GetWidth(), room.GetHeight())
 	s += fmt.Sprintf("Player: %s, LVL:%d %v, HP:%d/%d\n", player.GetName(), player.GetLevel(), player.GetClass().Name(), player.GetCurrentHealth(), player.GetMaxHealth())
 	s += fmt.Sprintf("Location: (%d,%d)\n", x, y)
 	s += cli.msg + "\n"
