@@ -13,7 +13,7 @@ type BaseCharacter struct {
 	health   int
 	name     string
 	equipped map[item.WearPosition]item.Item
-	inv 	*inventory.Inventory
+	inv      *inventory.Inventory
 }
 
 type Character interface {
@@ -65,11 +65,6 @@ func (c *BaseCharacter) IsAlive() bool {
 func (c *BaseCharacter) initializeItems() {
 	c.inv = inventory.New()
 	c.equipped = make(map[item.WearPosition]item.Item)
-	c.equipped[item.WEAR_POSITION_HEAD] = item.NOTHING
-	c.equipped[item.WEAR_POSITION_UPPER_BODY] = item.NOTHING
-	c.equipped[item.WEAR_POSITION_LOWER_BODY] = item.NOTHING
-	c.equipped[item.WEAR_POSITION_FOOT] = item.NOTHING
-	c.equipped[item.WEAR_POSITION_WEAPON] = item.NOTHING
 }
 
 func (c *BaseCharacter) SetEquippedItem(wp item.WearPosition, item item.Item) {
