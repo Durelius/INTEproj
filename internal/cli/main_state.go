@@ -1,6 +1,8 @@
 package cli
 
 import (
+	"fmt"
+
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/room"
 	tea "github.com/charmbracelet/bubbletea"
@@ -9,8 +11,18 @@ import (
 type mainState struct{}
 
 func (ms *mainState) view(cli *CLI) (out string) {
-	out = "Press B to open bag\n"
+	
+	out = cli.getHeaderInfo()
+	
+	out += "Press B to open bag\n"
 	out += cli.generateMapView()
+
+	room := cli.game.Room
+	playerLocation := room.GetPlayerLocation()
+	x, y := playerLocation.Get()
+
+	out += fmt.Sprintf("Room: Size=(%dx%d)\n", room.GetWidth(), room.GetHeight())
+	out += fmt.Sprintf("Location: Level=(%d) Pos=(%d,%d)\n\n", room.GetLevel(), x, y)
 	return
 }
 
@@ -37,7 +49,6 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 			x++
 		}
 	case "b":
-		cli.msg = "Inventory & Gear"
 		cli.view = &inventoryState{}
 
 		return
@@ -54,7 +65,6 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 			cli.view = &battleState{stage: encounter, enemy: enemy.NewRandomEnemy()}
 			return
 		case "LOOT":
-			cli.msg = "Press E to open the chest, or S to skip!"
 			cli.view = &lootState{stage: chest}
 			return
 		case "EXIT":

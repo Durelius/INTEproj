@@ -16,7 +16,7 @@ func NewSkeleton() *Skeleton {
 		maxHealth: 25,
 		health:    25,
 		damage:    10,
-		xp:        75,
+		xp:        60,
 	}
 }
 
@@ -57,7 +57,6 @@ func (s *Skeleton) TakeDamage(damage int) {
 	}
 }
 
-// TODO: Implement actual drop table logic, for now skeletons always drop either a stick on an iron sword
 func (s *Skeleton) DropLoot() item.Item {
 	return item.GetRandomItem()
 }

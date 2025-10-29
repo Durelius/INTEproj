@@ -16,7 +16,7 @@ func NewGoblin() *Goblin {
 		health:    50,
 		maxHealth: 50,
 		damage:    4,
-		xp:        60,
+		xp:        50,
 	}
 }
 
@@ -57,15 +57,6 @@ func (g *Goblin) TakeDamage(damage int) {
 	}
 }
 
-// TODO: Implement actual drop table logic, for now goblins always drop either a stick or a legendary sword
 func (s *Goblin) DropLoot() item.Item {
 	return item.GetRandomItem()
-
-	// n := rand.Intn(100)
-
-	// if n == 0 {
-	// 	return &item.LEGENDARY_SWORD
-	// } else {
-	// 	return &item.STICK
-	// }
 }

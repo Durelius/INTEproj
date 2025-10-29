@@ -56,6 +56,7 @@ func(b *Battle) ProgressFight() {
 
 	if b.Enemy.GetCurrentHealth() == 0 {
 		b.status = Victory
+		b.Player.IncreaseExperience(b.Enemy.GetXPDrop())
 	}
 	if b.Player.GetCurrentHealth() == 0 {
 		b.status = Defeat

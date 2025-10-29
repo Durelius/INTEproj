@@ -2,7 +2,7 @@ package ascii
 
 func Chest() string {
 	return `
-                                                  
+      Press E to open the chest, or S to skip!                               
           .------------------------------.         
         .-"                              "-.       
       .'    .-------------------------.    '.      

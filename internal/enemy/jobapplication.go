@@ -56,7 +56,6 @@ func (j *JobApplication) TakeDamage(damage int) {
 	}
 }
 
-// TODO: Implement actual drop table logic, for now job application always drops a legendary or rare weapon
 func (j *JobApplication) DropLoot() item.Item {
 	return item.GetRandomItem()
 }

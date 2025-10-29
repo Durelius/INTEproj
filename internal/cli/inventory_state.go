@@ -12,11 +12,13 @@ type inventoryState struct{}
 func (is *inventoryState) view(cli *CLI) (out string) {
 	p := cli.game.Player
 
-	out = fmt.Sprintf("\nInventory (Weight: %d):\nUse arrows to navigate, X to drop, E to equip, and B to exit inventory.\n", p.GetInventoryWeight())
+	out = "Inventory & Gear Setup\nPress B to return.\n\n"
+
+	out += fmt.Sprintf("Inventory (Weight: %d) - (Use arrows to navigate, X to drop, E to equip)\n", p.GetInventoryWeight())
 
 	inventoryItems := p.GetItems()
 	if len(inventoryItems) == 0 {
-		out += "\tInventory is empty.\n"
+		out += "\t  Inventory is empty.\n"
 	}
 
 	for i, item := range inventoryItems {
@@ -28,7 +30,7 @@ func (is *inventoryState) view(cli *CLI) (out string) {
 		out += fmt.Sprintf("\t%s %s\n", cursor, item.ToString())
 	}
 
-	out += fmt.Sprintf("\nEquipped (Weight: %d):\nUse arrows to navigate and E to unequip an item.\n", p.GetEquippedWeight())
+	out += fmt.Sprintf("\nEquipped (Weight: %d) - (Use arrows to navigate and E to unequip.)\n", p.GetEquippedWeight())
 
 	gear := p.GetGear()
 	equippedItems := []item.Item{gear.Head, gear.Upperbody, gear.Legs, gear.Feet, gear.Weapon}
