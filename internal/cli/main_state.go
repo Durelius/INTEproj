@@ -61,8 +61,9 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 			if exit.IsLocked(cli.game.Room) {
 				cli.msg = "The door is locked until all enemies are killed"
 			} else {
-				cli.game.UpdateRoom(room.NewRandomRoom(room.NewLocation(0, 0), 25, 50))
+				cli.game.UpdateRoom()
 				cli.view = &mainState{}
+				return
 			}
 
 		default:
