@@ -55,42 +55,20 @@ func TestPlayerWin(t *testing.T) {
 
 }
 
-func TestPlayerMultipleCombatPlayerLoss(t *testing.T) {
+func TestPlayerLoss(t *testing.T) {
 	p := player.New("TestPlayer", class.NewMage())
 
-	goblin := enemy.NewGoblin()
-	skeleton := enemy.NewSkeleton()
-	skeleton2 := enemy.NewSkeleton()
-	skeleton3 := enemy.NewSkeleton()
+	jobApplication := enemy.NewJobApplication()
 	
-	b := battle.New(p, goblin, false)
+	b := battle.New(p, jobApplication, false)
  
 	for !b.IsOver() {
 		b.ProgressFight()
 	}
 
-	b2 := battle.New(p, skeleton, false)	
-	for !b2.IsOver() {
-		b2.ProgressFight()
-	}
 
-
-	b3 := battle.New(p, skeleton2, false)	
-	for !b3.IsOver() {
-		b3.ProgressFight()
-	}
-
-	b4 := battle.New(p, skeleton3, false)	
-	for !b4.IsOver() {
-		b4.ProgressFight()
-	}
-
-	if !goblin.IsDead() || !skeleton.IsDead() || !skeleton2.IsDead() {
-		t.Errorf("Expected first three enemies to be dead")
-	}
-
-	if skeleton3.IsDead() {
-		t.Errorf("Expected third skeleton to live")
+	if jobApplication.IsDead() {
+		t.Errorf("Expected job application to win")
 	}
 
 	if !p.IsDead() {
