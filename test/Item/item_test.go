@@ -86,7 +86,7 @@ func TestGetRandomItemsWith(t *testing.T) {
 		counts[it.GetRarity()]++
 	}
 
-	for rarity, count := range counts {
+	/*for rarity, count := range counts {
 		t.Logf("%v: %d", rarity, count)
-	}
+	}*/
 }

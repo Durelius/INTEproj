@@ -26,5 +26,17 @@ func (w *Weapon) GetName() string {
 	return w.name
 }
 func (w *Weapon) ToString() string {
-	return fmt.Sprintf("Name: %s, Weight: %d", w.name, w.weight)
+	color := "\033[0m" // default (reset)
+
+	if w.rarity == Common {
+		color = "\033[32m" // green
+	} else if w.rarity == Rare {
+		color = "\033[34m" // blue
+	} else if w.rarity == Epic {
+		color = "\033[35m" // purple (magenta)
+	} else if w.rarity == Legendary {
+		color = "\033[31m" // red
+	}
+
+	return fmt.Sprintf("Name: %s%s\033[0m, Weight: %d", color, w.name, w.weight)
 }

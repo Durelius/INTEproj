@@ -13,7 +13,6 @@ func (rl *RoomList) Add(r *Room) {
 		rl.tail = r
 		return
 	}
-
 	rl.tail.next = r // link old tail forward
 	r.prev = rl.tail // link new room back
 	rl.tail = r      // update tail
