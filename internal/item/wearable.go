@@ -27,6 +27,11 @@ func (w *Wearable) GetRarity() Rarity {
 func (w *Wearable) GetName() string {
 	return w.name
 }
+
+func (w *Wearable) GetSlot() WearPosition {
+	return w.slot
+}
+
 func (w *Wearable) ToString() string {
 	return fmt.Sprintf("Name: %s, Weight: %d", w.name, w.weight)
 }

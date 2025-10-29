@@ -16,7 +16,6 @@ type CLI struct {
 	game         *gs.GameState
 	msg          string
 	cursor       int // Cursor position in the current view
-	checkedIndex int // Index of the currently checked item in lists
 	currentPOI   room.PointOfInterest
 	view         cliState
 }
@@ -27,7 +26,7 @@ type cliState interface {
 }
 
 func New(game *gs.GameState) *CLI {
-	return &CLI{game: game, view: &mainState{}, checkedIndex: INTEGER_MAX}
+	return &CLI{game: game, view: &mainState{}}
 }
 
 func (cli *CLI) Init() tea.Cmd {
