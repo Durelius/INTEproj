@@ -7,8 +7,10 @@ import (
 	"github.com/Durelius/INTEproj/internal/item"
 )
 
+var levelCounter int
+
 type Room struct {
-	// name           string
+	level          int
 	entry          Location
 	height         int
 	width          int
@@ -19,14 +21,16 @@ type Room struct {
 }
 
 func NewRandomRoom(entry Location, height, width int) *Room {
-	room := &Room{entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest)}
+	room := &Room{level: levelCounter, entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest)}
 	itemAmount := 5
 	enemyAmount := 1
 	pois := []PointOfInterest{}
-	for i := 0; i < itemAmount; i++ {
+
+	for range itemAmount {
 		pois = append(pois, &Loot{items: []item.Item{item.GetRandomItem(), item.GetRandomItem()}})
 	}
-	for i := 0; i < enemyAmount; i++ {
+
+	for range enemyAmount {
 		// This actually has no effect, the CLI will spawn a random enemy when player steps on a poi of type enemy.
 		// Since POI is an interface and not a map storing locations to items / monsters,
 		// CLI can not access the type of the monster through POI.
@@ -35,17 +39,19 @@ func NewRandomRoom(entry Location, height, width int) *Room {
 
 	pois = append(pois, &Exit{isLocked: true})
 
-	room.createRandomLocations(pois)
+	room.createRandomLocations(pois, height, width)
 
 	Rooms.Add(room)
+
+	levelCounter++
 
 	return room
 }
 
-func (r *Room) createRandomLocations(pois []PointOfInterest) {
+func (r *Room) createRandomLocations(pois []PointOfInterest, height, width int) {
 	for _, poi := range pois {
 		for {
-			loc := NewLocation(rand.Intn(50), rand.Intn(25))
+			loc := NewLocation(rand.Intn(width-2)+1, rand.Intn(height-2)+1)
 			if _, exist := r.poi[loc]; !exist {
 				r.poi[loc] = poi
 				// log.Printf("x: %d, y: %d", loc.x, loc.y)
@@ -101,9 +107,9 @@ func (r *Room) GetWidth() int {
 	return r.width
 }
 
-// func (r *Room) GetName() string {
-// 	return r.name
-// }
+func (r *Room) GetLevel() int {
+	return r.level
+}
 
 func (r *Room) GetPlayerLocation() Location {
 	return r.playerLocation
