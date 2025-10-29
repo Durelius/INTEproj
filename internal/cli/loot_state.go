@@ -51,29 +51,18 @@ func (is *lootState) updateList(cli *CLI, msg tea.KeyMsg) {
 		if cli.cursor < len(loot.GetItems())-1 {
 			cli.cursor++
 		}
-	case " ":
-		if cli.checkedIndex == cli.cursor {
-			cli.checkedIndex = INTEGER_MAX
-		} else {
-			cli.checkedIndex = cli.cursor
-		}
 	case "enter":
-
-		if cli.checkedIndex == INTEGER_MAX {
-			cli.msg = "You got nothing..."
-			cli.view = &mainState{}
-			return
-		}
-		if err := cli.game.Player.PickupItem(loot.GetItems()[cli.checkedIndex]); err != nil {
-			cli.msg = err.Error()
-			return
-		}
-		cli.msg = "You picked up " + loot.GetItems()[cli.checkedIndex].GetName()
+		item := loot.GetItems()[cli.cursor]
+		if err := cli.game.Player.PickupItem(item); err != nil {
+           cli.msg = err.Error()
+           return
+        }
+		cli.msg = "You picked up " + item.GetName()
+		cli.cursor = 0
 		cli.view = &mainState{}
-		cli.checkedIndex = INTEGER_MAX
 	}
-
 }
+
 func (ls *lootState) updateChest(cli *CLI, msg tea.KeyMsg) {
 
 	switch msg.String() {
@@ -95,18 +84,14 @@ func (ls *lootState) viewList(cli *CLI) (out string) {
 	cli.msg = ""
 
 	loot := cli.currentPOI.(*room.Loot)
-	out = "Select item from (space to toggle, enter to confirm):\n\n"
+	out = "Select item with up and down arrows, press enter to confirm:\n\n"
 	for i, item := range loot.GetItems() {
-		cursor := " " // no cursor
+	cursor := "  [ ]" // no cursor
 		if i == cli.cursor {
-			cursor = ">" // cursor
-		}
-		checked := "[ ]"
-		if cli.checkedIndex == i {
-			checked = "[x]"
+			cursor = "> [x]" // cursor
 		}
 
-		out += fmt.Sprintf("%s %s %s\n", cursor, checked, item.ToString())
+		out += fmt.Sprintf("%s %s\n", cursor, item.ToString())
 	}
 	return
 }

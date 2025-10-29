@@ -15,16 +15,10 @@ func (g *Gear) Equip(it item.Item) {
 	// Should also check the level requirements of items and if something is currently equipped in the slot.
 
 	switch it.GetType() {
-	case "HEAD":	
-		g.Head = it
-	case "UPPER":
-		g.Upperbody = it
-	case "LOWER":
-		g.Legs = it
-	case "WEAPON":
-		g.Weapon = it
-	case "FOOT":
-		g.Feet = it
+	case "WEAPON":	
+		// do something
+	case "WEARABLE":
+		// do something
 	}	
 }
 

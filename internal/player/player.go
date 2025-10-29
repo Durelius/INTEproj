@@ -73,6 +73,10 @@ func (p *Player) GetMaxHealth() int {
 	return p.maxHealth
 }
 
+func (p *Player) GetGear() *gear.Gear {
+	return p.gear
+}
+
 func (p *Player) IsDead() bool {
 	return p.dead
 }
@@ -82,6 +86,14 @@ func (p *Player) GetTotalWeight() int {
 	invWeight := p.inventory.GetTotalWeight()
 
 	return invWeight + p.gear.GetTotalWeight()
+}
+
+func (p *Player) GetInventoryWeight() int {
+	return p.inventory.GetTotalWeight()
+}
+
+func (p *Player) GetEquippedWeight() int {
+	return p.gear.GetTotalWeight()
 }
 
 // GetDamage returns the total damage of the player including weapon damage
@@ -144,7 +156,7 @@ func (p *Player) CalculateNextLevelExp() int {
 
 
 // --------------------------------------------
-// Inventory methods
+// Inventory and Gear methods
 // --------------------------------------------
 
 // PickupItem adds an item to the players inventory unless that would increase the total weight above maxWeight
@@ -155,4 +167,113 @@ func (p *Player) PickupItem(item item.Item) error {
 	p.inventory.AddItem(item)
 
 	return nil
+}
+
+func (p *Player) DropItem(item item.Item) {
+	p.inventory.RemoveItem(item)
+}
+
+
+// This method has an insane amount of duplication it is what it is
+func (p *Player) EquipItem(i item.Item) {
+	pGear := p.GetGear()
+
+	// item is a weapon
+	if w, ok := i.(*item.Weapon); ok {
+		if pGear.Weapon == nil {
+			pGear.Weapon = w
+			p.inventory.RemoveItem(w)
+		} else {
+			p.inventory.RemoveItem(w)
+			p.inventory.AddItem(pGear.Weapon)
+			pGear.Weapon = w
+		}
+	}
+	// item is a piece of armor
+	if w, ok := i.(*item.Wearable); ok {
+		switch w.GetSlot() {
+		case item.WEAR_POSITION_HEAD:
+			if pGear.Head == nil {
+				pGear.Head = w
+				p.inventory.RemoveItem(w)
+			} else {
+				p.inventory.RemoveItem(w)
+				p.inventory.AddItem(pGear.Head)
+				pGear.Head = w
+			}
+		case item.WEAR_POSITION_UPPER_BODY:
+			if pGear.Upperbody == nil {
+				pGear.Upperbody = w
+				p.inventory.RemoveItem(w)
+			} else {
+				p.inventory.RemoveItem(w)
+				p.inventory.AddItem(pGear.Upperbody)
+				pGear.Upperbody = w
+			}	
+		case item.WEAR_POSITION_LOWER_BODY:
+			if pGear.Legs == nil {
+				pGear.Legs = w
+				p.inventory.RemoveItem(w)
+			} else {
+				p.inventory.RemoveItem(w)
+				p.inventory.AddItem(pGear.Legs)
+				pGear.Legs = w
+			}
+		case item.WEAR_POSITION_FOOT:
+			if pGear.Feet == nil {
+				pGear.Feet = w
+				p.inventory.RemoveItem(w)
+			} else {
+				p.inventory.RemoveItem(w)
+				p.inventory.AddItem(pGear.Feet)
+				pGear.Feet = w
+			}
+		} 
+	}
+}
+
+func (p *Player) UnequipHead() bool {
+	if p.gear.Head != nil {
+		p.inventory.AddItem(p.gear.Head)
+		p.gear.Head = nil
+		return true
+	}
+	return false
+}
+
+func (p *Player) UnequipUpperBody() bool {
+	if p.gear.Upperbody != nil {
+		p.inventory.AddItem(p.gear.Upperbody)
+		p.gear.Upperbody = nil
+		return true
+	}
+	return false
+}
+
+func (p *Player) UnequipLowerBody() bool {
+	if p.gear.Legs != nil {
+		p.inventory.AddItem(p.gear.Legs)
+		p.gear.Legs = nil
+		return true
+	}
+	return false
+}
+
+func (p *Player) UnequipFeet() bool {
+	if p.gear.Feet != nil {
+		p.inventory.AddItem(p.gear.Feet)
+		p.gear.Feet = nil
+		return true
+	}
+	return false
+}
+
+
+func (p *Player) UnequipWeapon() bool {
+	if p.gear.Weapon != nil {
+		p.inventory.AddItem(p.gear.Weapon)
+		p.gear.Weapon = nil
+		return true
+	}
+	return false
 }

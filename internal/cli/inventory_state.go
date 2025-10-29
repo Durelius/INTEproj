@@ -3,64 +3,113 @@ package cli
 import (
 	"fmt"
 
+	"github.com/Durelius/INTEproj/internal/item"
 	tea "github.com/charmbracelet/bubbletea"
 )
 
 type inventoryState struct{}
 
 func (is *inventoryState) view(cli *CLI) (out string) {
-	cli.msg = "Press space to toggle items, X to drop and ENTER to consume"
+	p := cli.game.Player
 
-	out = "Inventory:\n\n"
+	out = fmt.Sprintf("\nInventory (Weight: %d):\nUse arrows to navigate, X to drop, E to equip, and B to exit inventory.\n", p.GetInventoryWeight())
 
-	for i, item := range cli.game.Player.GetItems() {
-		cursor := " " // no cursor
-		if i == cli.cursor {
-			cursor = ">" // cursor
-		}
-		checked := "[ ]"
-		if cli.checkedIndex == i {
-			checked = "[x]"
-		}
-
-		out += fmt.Sprintf("%s %s %s\n", cursor, checked, item.ToString())
+	inventoryItems := p.GetItems()
+	if len(inventoryItems) == 0 {
+		out += "\tInventory is empty.\n"
 	}
+
+	for i, item := range inventoryItems {
+		cursor := "  [ ]" // no cursor
+		if i == cli.cursor {
+			cursor = "> [x]" // cursor
+		}
+
+		out += fmt.Sprintf("\t%s %s\n", cursor, item.ToString())
+	}
+
+	out += fmt.Sprintf("\nEquipped (Weight: %d):\nUse arrows to navigate and E to unequip an item.\n", p.GetEquippedWeight())
+
+	gear := p.GetGear()
+	equippedItems := []item.Item{gear.Head, gear.Upperbody, gear.Legs, gear.Feet, gear.Weapon}
+	stringSlots := []string{"Head", "Torso", "Legs", "Feet", "Weapon"}
+
+	for i, item := range equippedItems {
+		adjustedIndex := i + len(inventoryItems)
+
+		cursor := "  [ ]" // no cursor
+		if adjustedIndex == cli.cursor {
+			cursor = "> [x]" // cursor
+		}
+
+		if item == nil {
+			// out += fmt.Sprintf("%s\n",stringSlots[i])
+			out += fmt.Sprintf("%s\t%s ______\n", stringSlots[i], cursor)
+		} else {
+			out += fmt.Sprintf("%s\t%s %s\n", stringSlots[i], cursor, item.ToString())
+		}
+	}
+
+	out += fmt.Sprintf("\nTotal Weight: %d/%d", p.GetTotalWeight(), p.GetMaxWeight())
+
 	return
 }
 
 func (is *inventoryState) update(cli *CLI, msg tea.KeyMsg) {
 	items := cli.game.Player.GetItems()
+	equippedItemSlots := 5	// Although they may be empty, there will always be 5 rows, one per equippable item slot
+
 	switch msg.String() {
 	case "b":
 		cli.view = &mainState{}
+		cli.cursor = 0		// When exiting inventory, reset cursor position
 		return
 	case "up":
 		if cli.cursor > 0 {
 			cli.cursor--
 		}
 	case "down":
-		if cli.cursor < len(items)-1 {
+		if cli.cursor < len(items)-1 + equippedItemSlots {
 			cli.cursor++
 		}
-	case " ":
-		if cli.checkedIndex == cli.cursor {
-			cli.checkedIndex = INTEGER_MAX
-		} else {
-			cli.checkedIndex = cli.cursor
+	case "x":
+		if CursorIsInIventory(cli) {
+			cli.game.Player.DropItem(items[cli.cursor])
 		}
-	case "enter":
-		if cli.checkedIndex == INTEGER_MAX {
-			cli.msg = "You got nothing..."
-			cli.view = &mainState{}
-			return
+	case "e":
+		if CursorIsInIventory(cli) {
+			cli.game.Player.EquipItem(items[cli.cursor])
 		}
-		if err := cli.game.Player.PickupItem(items[cli.checkedIndex]); err != nil {
-			cli.msg = err.Error()
-			return
+		if CursorIsInEquipped(cli) {
+			p := cli.game.Player
+			
+			adjustedCursorIndex := cli.cursor - len(items)
+			didUnequipItem := false
+			switch adjustedCursorIndex {
+			case 0:
+				didUnequipItem = p.UnequipHead()
+			case 1: 
+				didUnequipItem = p.UnequipUpperBody()
+			case 2:
+				didUnequipItem = p.UnequipLowerBody()
+			case 3:
+				didUnequipItem = p.UnequipFeet()
+			case 4:
+				didUnequipItem = p.UnequipWeapon()
+			}
+			if didUnequipItem {
+				cli.cursor ++ 	// This is a bit of a work around to the problem where the cursor moves when unequipping an itemm, because of the way that index is counted. 
+			}
 		}
-		cli.msg = "You picked up " + items[cli.checkedIndex].GetName()
-		cli.view = &mainState{}
-		cli.checkedIndex = INTEGER_MAX
 	}
+}
 
+
+
+func CursorIsInIventory(cli *CLI) bool {
+	return cli.cursor < len(cli.game.Player.GetItems())
+}
+
+func CursorIsInEquipped(cli *CLI) bool {
+	return cli.cursor >= len(cli.game.Player.GetItems())
 }

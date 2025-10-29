@@ -27,6 +27,11 @@ func (w *Wearable) GetRarity() Rarity {
 func (w *Wearable) GetName() string {
 	return w.name
 }
+
+func (w *Wearable) GetSlot() WearPosition {
+	return w.slot
+}
+
 func (w *Wearable) ToString() string {
 	color := "\033[0m" // default (reset)
 
