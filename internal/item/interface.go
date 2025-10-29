@@ -71,11 +71,11 @@ func GetRandomItem() Item {
 	selected := globalRand.Intn(100) + 1
 	var r Rarity
 	switch {
-	case selected <= 25:
-		r = Common
 	case selected <= 50:
+		r = Common
+	case selected <= 90:
 		r = Rare
-	case selected <= 75:
+	case selected <= 98:
 		r = Epic
 	case selected <= 100:
 		r = Legendary
