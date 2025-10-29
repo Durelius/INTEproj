@@ -99,7 +99,7 @@ func (cli *CLI) getHeaderInfo() string {
 
 	// s := fmt.Sprintf("Room: Level=%d Size=(%dx%d)\n", room.GetLevel(), room.GetWidth(), room.GetHeight())
 	s := fmt.Sprintf("Room: Size=(%dx%d)\n", room.GetWidth(), room.GetHeight())
-	s += fmt.Sprintf("Player: %s, LVL:%d %v, HP:%d/%d\n", player.GetName(), player.GetLevel(), player.GetClass().Name(), player.GetCurrentHealth(), player.GetMaxHealth())
+	 s += fmt.Sprintf("Player: %s, HP:%d/%d, LVL:%d %v (XP: %d / %d)\n", player.GetName(), player.GetCurrentHealth(), player.GetMaxHealth(),  player.GetLevel(), player.GetClass().Name(), player.GetExperience(), player.CalculateNextLevelExp())
 	s += fmt.Sprintf("Location: Level=(%d) Pos=(%d,%d)\n", room.GetLevel(), x, y)
 	s += cli.msg + "\n"
 	return s
