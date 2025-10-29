@@ -109,6 +109,32 @@ func (p *Player) GetDamage() int {
 	return damage
 }
 
+// Damage reduction is given as a float, 0.25 = 25% damage reduction . 
+func (p *Player) GetDamageReduction() float32 {
+	
+	totalDefense := float32(p.GetTotalDefense())
+
+	// This formula gives armor diminishing returns, 
+	// ie, 200 armor is not twice as good as 100 armor. 
+	// 0 armor = 100% damage taken, 50 armor = 67% damage taken, 400 armor = 20% damage taken
+	return totalDefense / (totalDefense + 100)	
+}
+
+func (p *Player) GetTotalDefense() int {
+	g := p.gear
+	itemSlots := []item.Item{g.Head, g.Upperbody, g.Legs, g.Feet}
+
+	totalDefense := 0
+
+	for _, slot := range itemSlots {
+		if equippedItem, ok := slot.(*item.Wearable); ok {
+			totalDefense += equippedItem.GetDefense()
+		}
+	}
+
+	return totalDefense
+}
+
 
 // --------------------------------------------
 // Combat methods
@@ -116,7 +142,9 @@ func (p *Player) GetDamage() int {
 
 // Reduce current health
 func (p *Player) ReceiveDamage(damage int) int {
-	p.currentHealth = p.currentHealth - damage
+	damageReduction := p.GetDamageReduction()
+
+	p.currentHealth = p.currentHealth - int((float32(damage) * (1 - damageReduction)))
 
 	if p.currentHealth <= 0 {
 		p.currentHealth = 0
@@ -125,6 +153,11 @@ func (p *Player) ReceiveDamage(damage int) int {
 
 	return p.currentHealth
 }
+
+// func (p *Player) CalculateDamageAfterDamageReduction(damage int) {
+// 	damageReduction := p.GetDamageReduction()
+
+// }
 
 // --------------------------------------------
 // Experience and Leveling methods

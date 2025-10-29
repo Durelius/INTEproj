@@ -45,5 +45,5 @@ func (w *Wearable) ToString() string {
 		color = "\033[31m" // red
 	}
 
-	return fmt.Sprintf("Name: %s%s\033[0m, Weight: %d", color, w.name, w.weight)
+	return fmt.Sprintf("Name: %s%s\033[0m, Defense: %d, Weight: %d", color, w.name, w.GetDefense(), w.weight)
 }

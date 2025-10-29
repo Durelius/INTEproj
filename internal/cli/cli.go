@@ -69,7 +69,6 @@ func (cli *CLI) generateMapView() string {
 func (cli *CLI) View() (out string) {
 	out = "\033[2J\033[H" // Clear screen and move cursor to top-left
 
-	out += cli.getHeaderInfo()
 	out += cli.view.view(cli)
 
 	return
@@ -91,16 +90,15 @@ func (cli *CLI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 // Fetches all relevant information which is always displayed at the top of the CLI
 func (cli *CLI) getHeaderInfo() string {
-	player := cli.game.Player
-	room := cli.game.Room
+	p := cli.game.Player
 
-	loc := room.GetPlayerLocation()
-	x, y := loc.Get()
 
-	// s := fmt.Sprintf("Room: Level=%d Size=(%dx%d)\n", room.GetLevel(), room.GetWidth(), room.GetHeight())
-	s := fmt.Sprintf("Room: Size=(%dx%d)\n", room.GetWidth(), room.GetHeight())
-	 s += fmt.Sprintf("Player: %s, HP:%d/%d, LVL:%d %v (XP: %d / %d)\n", player.GetName(), player.GetCurrentHealth(), player.GetMaxHealth(),  player.GetLevel(), player.GetClass().Name(), player.GetExperience(), player.CalculateNextLevelExp())
-	s += fmt.Sprintf("Location: Level=(%d) Pos=(%d,%d)\n", room.GetLevel(), x, y)
+	s := "PLAYER\t\t\tSTATS\n"
+	s += fmt.Sprintf("Name: %s\t\tHP: %d/%d\n", p.GetName(), p.GetCurrentHealth(), p.GetMaxHealth())
+	s += fmt.Sprintf("Class: %s\t\tDMG: %d\n", p.GetClass().Name(), p.GetDamage())
+	s += fmt.Sprintf("Level: %d\t\tDEF: %d (%d%% damage reduction)\n", p.GetLevel(), p.GetTotalDefense(), int(100 * p.GetDamageReduction()))
+	s += fmt.Sprintf("XP: %d/%d\n\n", p.GetExperience(), p.CalculateNextLevelExp())
+
 	s += cli.msg + "\n"
 	return s
 }

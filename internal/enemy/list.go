@@ -16,5 +16,4 @@ var ENEMY_LIST = []func() Enemy{
 
 func NewRandomEnemy() Enemy {
 	return ENEMY_LIST[rand.Intn(len(ENEMY_LIST))]()
-
 }
