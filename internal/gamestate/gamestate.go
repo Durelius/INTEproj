@@ -43,6 +43,6 @@ func NewDefault() *GameState {
 	}
 }
 
-func (g *GameState) UpdateRoom(room *room.Room) {
-	g.Room = room
+func (gs *GameState) UpdateRoom() {
+	gs.Room = room.NewRandomRoom(room.NewLocation(0, 0), 25, 50)
 }
