@@ -35,10 +35,10 @@ func (w *Wearable) ToString() string {
 	} else if w.rarity == Rare {
 		color = "\033[34m" // blue
 	} else if w.rarity == Epic {
-		color = "\033[33m" // yellow/orange
+		color = "\033[35m" // purple (magenta)
 	} else if w.rarity == Legendary {
-		color = "\033[93m" // gold-yellow
+		color = "\033[31m" // red
 	}
 
-	return fmt.Sprintf("%sName: %s, Weight: %d\033[0m", color, w.name, w.weight)
+	return fmt.Sprintf("Name: %s%s\033[0m, Weight: %d", color, w.name, w.weight)
 }
