@@ -38,11 +38,11 @@ func NewDefault() *GameState {
 
 	return &GameState{
 		Player: p,
-		Room:   room.NewRandomRoom(room.NewLocation(0, 0), 25, 50),
+		Room:   room.NewRandomRoom(room.NewLocation(0, 0), 10, 20),
 		Battle: nil,
 	}
 }
 
 func (gs *GameState) UpdateRoom() {
-	gs.Room = room.NewRandomRoom(room.NewLocation(0, 0), 25, 50)
+	gs.Room = room.NewRandomRoom(room.NewLocation(0, 0), 10, 20)
 }

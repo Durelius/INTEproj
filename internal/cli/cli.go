@@ -44,11 +44,11 @@ func (cli *CLI) generateMapView() string {
 		for x := 0; x < cli.game.Room.GetWidth(); x++ {
 			curLoc := room.NewLocation(x, y)
 			if x == locX && y == locY {
-				out += "@"
+				out += "\033[34m@\033[0m" // blue "@"
 			} else if poi, ok := poiMap[curLoc]; ok {
 				switch cli.game.Room.GetPOI()[curLoc].GetType() {
 				case "LOOT", "ENEMY":
-					out += "?"
+					out += "\033[33m?\033[0m"
 				case "EXIT":
 					exit := poi.(*room.Exit)
 					if exit.IsLocked(cli.game.Room) {
@@ -98,9 +98,10 @@ func (cli *CLI) getHeaderInfo() string {
 	loc := room.GetPlayerLocation()
 	x, y := loc.Get()
 
-	s := fmt.Sprintf("Room: %s (%dx%d)\n", room.GetWidth(), room.GetHeight())
+	// s := fmt.Sprintf("Room: Level=%d Size=(%dx%d)\n", room.GetLevel(), room.GetWidth(), room.GetHeight())
+	s := fmt.Sprintf("Room: Size=(%dx%d)\n", room.GetWidth(), room.GetHeight())
 	s += fmt.Sprintf("Player: %s, LVL:%d %v, HP:%d/%d\n", player.GetName(), player.GetLevel(), player.GetClass().Name(), player.GetCurrentHealth(), player.GetMaxHealth())
-	s += fmt.Sprintf("Location: (%d,%d)\n", x, y)
+	s += fmt.Sprintf("Location: Level=(%d) Pos=(%d,%d)\n", room.GetLevel(), x, y)
 	s += cli.msg + "\n"
 	return s
 }
