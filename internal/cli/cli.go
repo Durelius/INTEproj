@@ -27,7 +27,7 @@ type cliState interface {
 }
 
 func New(game *gs.GameState) *CLI {
-	return &CLI{game: game, view: &initialState{}}
+	return &CLI{game: game, view: &initialState{}, checkedIndex: INTEGER_MAX}
 }
 
 func (cli *CLI) Init() tea.Cmd {
