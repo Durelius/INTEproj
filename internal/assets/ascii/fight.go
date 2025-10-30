@@ -54,7 +54,7 @@ func generateAttackString(p *player.Player, e enemy.Enemy, playerTurn bool) stri
 	if !playerTurn {
 		return fmt.Sprintf("You attack %s, dealing %d damage.", e.GetEnemyType(), p.GetDamage())
 	} else {
-		return fmt.Sprintf("%s attacks you for %d damage!", e.GetEnemyType(), e.GetDamage())
+		return fmt.Sprintf("%s attacks you for %d damage!", e.GetEnemyType(), int((float32(e.GetDamage()) * (1 - p.GetDamageReduction()))))
 	}
 }
 
