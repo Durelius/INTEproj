@@ -60,7 +60,7 @@ func (bs *battleState) updateEncounter(cli *CLI, msg tea.KeyMsg) {
 	switch msg.String() {
 	case "r":
 		gamba := random.Int(0, 100)
-		if gamba > 50 {
+		if gamba > 20 {
 			cli.msg = "You ran away"
 			cli.view = &mainState{}
 		} else {

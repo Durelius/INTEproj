@@ -13,10 +13,10 @@ type Hellhound struct {
 
 func NewHellhound() *Hellhound {
 	return &Hellhound{
-		maxHealth: 120, 
-		health:    120,
-		damage:    22,
-		xp:        200, 
+		maxHealth: 300, 
+		health:    300,
+		damage:    15,
+		xp:        250, 
 	}
 }
 

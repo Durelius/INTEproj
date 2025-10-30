@@ -13,9 +13,9 @@ type JobApplication struct {
 
 func NewJobApplication() *JobApplication {
 	return &JobApplication{
-		health:    500,
-		maxHealth: 500,
-		damage:    25,
+		health:    750,
+		maxHealth: 750,
+		damage:    30,
 		xp:        1000,
 	}
 }

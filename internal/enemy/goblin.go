@@ -13,9 +13,9 @@ type Goblin struct {
 
 func NewGoblin() *Goblin {
 	return &Goblin{
-		health:    50,
-		maxHealth: 50,
-		damage:    4,
+		health:    100,
+		maxHealth: 100,
+		damage:    7,
 		xp:        50,
 	}
 }

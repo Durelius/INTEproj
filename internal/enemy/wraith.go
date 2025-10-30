@@ -13,10 +13,10 @@ type Wraith struct {
 
 func NewWraith() *Wraith {
 	return &Wraith{
-		maxHealth: 80, 
-		health:    80,
-		damage:    15,
-		xp:        130,
+		maxHealth: 150, 
+		health:    150,
+		damage:    25,
+		xp:        150,
 	}
 }
 
