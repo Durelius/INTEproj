@@ -13,10 +13,10 @@ type Succubus struct {
 
 func NewSuccubus() *Succubus {
 	return &Succubus{
-		maxHealth: 60,  // tougher than Skeleton (25)
-		health:    60,
-		damage:    14,  // stronger attacks
-		xp:        85, // more rewarding to defeat
+		maxHealth: 280,  // tougher than Skeleton (25)
+		health:    280,
+		damage:    15,  // stronger attacks
+		xp:        150, // more rewarding to defeat
 	}
 }
 

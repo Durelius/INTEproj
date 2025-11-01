@@ -20,8 +20,8 @@ type Room struct {
 
 func NewRandomRoom(entry Location, height, width int) *Room {
 	room := &Room{entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest), next: nil, prev: nil}
-	itemAmount := 5
-	enemyAmount := 1
+	itemAmount := rand.Intn(5) + 1
+	enemyAmount := rand.Intn(3) + 1
 	pois := []PointOfInterest{}
 
 	for range itemAmount {

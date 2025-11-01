@@ -13,9 +13,9 @@ type Skeleton struct {
 
 func NewSkeleton() *Skeleton {
 	return &Skeleton{
-		maxHealth: 25,
-		health:    25,
-		damage:    10,
+		maxHealth: 50,
+		health:    50,
+		damage:    15,
 		xp:        60,
 	}
 }
