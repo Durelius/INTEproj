@@ -1,16 +1,13 @@
 package item
 
 import (
-	"math/rand"
 	"strings"
+	"sync"
+
+	"github.com/Durelius/INTEproj/internal/random"
 )
 
 // ------------------------------------------------ Seed -----------------------------------------------------
-var globalRand = rand.New(rand.NewSource(1)) // default
-
-func SetSeed(seed int64) {
-	globalRand = rand.New(rand.NewSource(seed))
-}
 
 // -------------------------------------------- Variables (ish) ------------------------------------------------------
 
@@ -33,7 +30,6 @@ const (
 	WEAR_POSITION_FOOT
 )
 
-
 // ----------------------- RARITIES --------------------------
 
 type Rarity int
@@ -46,9 +42,13 @@ const (
 )
 
 var rarityIndex = map[Rarity][]Item{}
+var rarityMu sync.RWMutex
 
 // On init så delar den upp rarities i rarityindex. Snabbare sökning eftersom vi ofta kallar den
 func init() {
+	rarityMu.Lock()
+	defer rarityMu.Unlock()
+
 	for _, item := range AllItems {
 		rarityIndex[item.GetRarity()] = append(rarityIndex[item.GetRarity()], item)
 	}
@@ -59,9 +59,12 @@ func init() {
 // Get a random item of the chosen rarity.
 // Later todo, make it more dynamic for VAR
 func GetRandomItemByRarity(r Rarity) Item {
+	rarityMu.RLock()
+	defer rarityMu.RUnlock()
+
 	pool := rarityIndex[r]
 	if len(pool) > 0 {
-		return pool[globalRand.Intn(len(pool))]
+		return pool[random.IntList(len(pool))]
 	} else {
 		return nil
 	}
@@ -69,7 +72,8 @@ func GetRandomItemByRarity(r Rarity) Item {
 }
 
 func GetRandomItem() Item {
-	selected := globalRand.Intn(100) + 1
+
+	selected := random.Int(0, 100)
 	var r Rarity
 	switch {
 	case selected <= 50:

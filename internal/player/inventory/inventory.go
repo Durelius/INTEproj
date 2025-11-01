@@ -10,7 +10,11 @@ type Inventory struct {
 	items []item.Item
 }
 
-func New() *Inventory {
+func New(itemsOpt ...item.Item) *Inventory {
+	if len(itemsOpt) > 0 {
+		return &Inventory{itemsOpt}
+	}
+
 	return &Inventory{items: []item.Item{}}
 }
 

@@ -11,9 +11,17 @@ func NewRogue() *Rogue {
 		stealth: 100,
 	}
 }
+func LoadRogue(baseDmg, stealth int) *Rogue {
+	return &Rogue{
+		baseDmg: baseDmg,
+		stealth: stealth,
+	}
+}
 
-func (r *Rogue) Name() string {
-	return "Rogue"
+const ROGUE_STR ClassName = "Rogue"
+
+func (r *Rogue) Name() ClassName {
+	return ROGUE_STR
 }
 
 func (r *Rogue) GetDescription() string {
@@ -22,6 +30,9 @@ func (r *Rogue) GetDescription() string {
 
 func (r *Rogue) GetBaseDmg() int {
 	return r.baseDmg
+}
+func (r *Rogue) GetEnergy() int {
+	return r.stealth
 }
 
 func (r *Rogue) IncreaseStats(level int) {

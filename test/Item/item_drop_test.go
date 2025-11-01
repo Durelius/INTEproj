@@ -5,11 +5,12 @@ import (
 	"testing"
 
 	"github.com/Durelius/INTEproj/internal/item"
+	"github.com/Durelius/INTEproj/internal/random"
 )
 
 // Hjälpfunktion
 func createItemWithSeed(seed int64) item.Item {
-	item.SetSeed(seed)
+	random.SetSeed(seed)
 	return item.GetRandomItem()
 
 }

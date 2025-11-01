@@ -11,9 +11,9 @@ import (
 type mainState struct{}
 
 func (ms *mainState) view(cli *CLI) (out string) {
-	
+
 	out = cli.getHeaderInfo()
-	
+
 	out += "Press B to open bag\n"
 	out += cli.generateMapView()
 

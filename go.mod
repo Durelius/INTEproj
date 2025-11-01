@@ -2,7 +2,10 @@ module github.com/Durelius/INTEproj
 
 go 1.24.3
 
-require github.com/charmbracelet/bubbletea v1.3.10
+require (
+	github.com/charmbracelet/bubbletea v1.3.10
+	github.com/joho/godotenv v1.5.1
+)
 
 require (
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
