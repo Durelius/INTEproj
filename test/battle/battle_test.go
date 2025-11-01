@@ -9,17 +9,15 @@ import (
 	"github.com/Durelius/INTEproj/internal/player/class"
 )
 
-
 func TestPlayerWin(t *testing.T) {
-	p := player.New("TestPlayer", class.NewMage())
+	p := player.New("TestPlayer", class.MAGE_STR)
 
 	skeleton := enemy.NewSkeleton()
-	
 
-	b := battle.New(p, skeleton, true)	// Player starts first
+	b := battle.New(p, skeleton, true) // Player starts first
 
 	expectedSkeletonHealth := skeleton.GetCurrentHealth() - p.GetDamage()
- 
+
 	b.ProgressFight()
 
 	actualSkeletonHealth := skeleton.GetCurrentHealth()
@@ -38,11 +36,11 @@ func TestPlayerWin(t *testing.T) {
 		t.Errorf("Expected player health to be %d, got %d", expectedPlayerHealth, actualPlayerHealth)
 	}
 
-	for !b.IsOver(){
+	for !b.IsOver() {
 		b.ProgressFight()
 	}
 
-	if !skeleton.IsDead(){
+	if !skeleton.IsDead() {
 		t.Errorf("Expected enemy to be defeated, but has %d health left", skeleton.GetCurrentHealth())
 	}
 	if p.IsDead() {
@@ -56,16 +54,15 @@ func TestPlayerWin(t *testing.T) {
 }
 
 func TestPlayerLoss(t *testing.T) {
-	p := player.New("TestPlayer", class.NewMage())
+	p := player.New("TestPlayer", class.MAGE_STR)
 
 	jobApplication := enemy.NewJobApplication()
-	
+
 	b := battle.New(p, jobApplication, false)
- 
+
 	for !b.IsOver() {
 		b.ProgressFight()
 	}
-
 
 	if jobApplication.IsDead() {
 		t.Errorf("Expected job application to win")

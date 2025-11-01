@@ -7,8 +7,6 @@ import (
 	"github.com/Durelius/INTEproj/internal/item"
 )
 
-var levelCounter int
-
 type Room struct {
 	level          int
 	entry          Location
@@ -21,7 +19,7 @@ type Room struct {
 }
 
 func NewRandomRoom(entry Location, height, width int) *Room {
-	room := &Room{level: levelCounter, entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest)}
+	room := &Room{entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest), next: nil, prev: nil}
 	itemAmount := 5
 	enemyAmount := 1
 	pois := []PointOfInterest{}
@@ -41,10 +39,6 @@ func NewRandomRoom(entry Location, height, width int) *Room {
 
 	room.createRandomLocations(pois, height, width)
 
-	Rooms.Add(room)
-
-	levelCounter++
-
 	return room
 }
 
@@ -59,6 +53,15 @@ func (r *Room) createRandomLocations(pois []PointOfInterest, height, width int) 
 			}
 		}
 	}
+}
+func Load(level, height, width int, entry, playerLocation Location, poi map[Location]PointOfInterest) *Room {
+	return &Room{level: level, height: height, width: width, entry: entry, playerLocation: playerLocation, poi: poi}
+}
+func (r *Room) SetNext(next *Room) {
+	r.next = next
+}
+func (r *Room) SetPrev(prev *Room) {
+	r.prev = prev
 }
 
 // func (room *Room) createRandomLocations(pois []PointOfInterest) error {
@@ -118,6 +121,21 @@ func (r *Room) GetPlayerLocation() Location {
 func (r *Room) GetPOI() map[Location]PointOfInterest {
 	return r.poi
 }
+func (r *Room) GetEntry() Location {
+	return r.entry
+}
+func (r *Room) GetNextRoom() *Room {
+	if r.level == 0 {
+		return nil
+	}
+	return r.next
+}
+func (r *Room) GetPrevRoom() *Room {
+	if r.level == 0 {
+		return nil
+	}
+	return r.prev
+}
 
 func (r *Room) HasEnemies() bool {
 	for _, poi := range r.poi {
@@ -151,6 +169,10 @@ type Loot struct {
 	items []item.Item
 }
 
+func NewLoot() PointOfInterest {
+	return &Loot{items: []item.Item{item.GetRandomItem(), item.GetRandomItem()}}
+}
+
 func (l *Loot) GetType() string {
 	return "LOOT"
 }
@@ -161,6 +183,10 @@ func (l *Loot) GetItems() []item.Item {
 
 type Exit struct {
 	isLocked bool
+}
+
+func NewExit() PointOfInterest {
+	return &Exit{isLocked: true}
 }
 
 func (*Exit) GetType() string {
@@ -186,6 +212,12 @@ type Location struct {
 
 func (l *Location) Get() (x int, y int) {
 	return l.x, l.y
+}
+func (l *Location) GetX() (x int) {
+	return l.x
+}
+func (l *Location) GetY() (y int) {
+	return l.y
 }
 
 func NewLocation(x int, y int) Location {

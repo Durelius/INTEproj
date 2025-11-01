@@ -4,36 +4,72 @@ import (
 	"fmt"
 	"math"
 
+	"github.com/Durelius/INTEproj/internal/character"
 	"github.com/Durelius/INTEproj/internal/item"
 	class "github.com/Durelius/INTEproj/internal/player/class"
 	"github.com/Durelius/INTEproj/internal/player/gear"
 	"github.com/Durelius/INTEproj/internal/player/inventory"
+	"github.com/Durelius/INTEproj/internal/random"
 )
 
 type Player struct {
-	name string
-	class     class.Class
-	inventory *inventory.Inventory
-	gear    *gear.Gear
-	maxWeight int
-	maxHealth int
+	name          string
+	class         class.Class
+	inventory     *inventory.Inventory
+	gear          *gear.Gear
+	maxWeight     int
+	maxHealth     int
 	currentHealth int
-	level      int
-	experience int
-	dead	  bool
+	level         int
+	experience    int
+	dead          bool
+	id            string
 }
 
-func New(name string, class class.Class) *Player {
+func New(name string, classParam class.ClassName) *Player {
+	var playerClass class.Class
+	switch classParam {
+	case class.MAGE_STR:
+		playerClass = class.NewMage()
+	case class.PALADIN_STR:
+		playerClass = class.NewPaladin()
+	case class.ROGUE_STR:
+		playerClass = class.NewRogue()
+	}
 	return &Player{
-		name: name,
-		class: class, 
-		inventory: inventory.New(),
-		gear: &gear.Gear{},
-		maxWeight: 500, 
-		maxHealth: 100,
+		name:          name,
+		class:         playerClass,
+		inventory:     inventory.New(),
+		gear:          &gear.Gear{},
+		maxWeight:     500,
+		maxHealth:     100,
 		currentHealth: 100,
-		level: 1,
-		experience: 0,
+		level:         1,
+		experience:    0,
+		id:            random.String(),
+	}
+}
+func Load(name string, classParam class.ClassName, items []item.Item, gear gear.Gear, id string, maxWeight, maxHealth, currentHealth, level, experience, baseDmg, energy int) *Player {
+	var playerClass class.Class
+	switch classParam {
+	case class.MAGE_STR:
+		playerClass = class.LoadMage(baseDmg, energy)
+	case class.PALADIN_STR:
+		playerClass = class.LoadPaladin(baseDmg, energy)
+	case class.ROGUE_STR:
+		playerClass = class.LoadRogue(baseDmg, energy)
+	}
+	return &Player{
+		name:          name,
+		class:         playerClass,
+		inventory:     inventory.New(items...),
+		gear:          &gear,
+		maxWeight:     maxWeight,
+		maxHealth:     maxHealth,
+		currentHealth: currentHealth,
+		level:         level,
+		experience:    experience,
+		id:            id,
 	}
 }
 
@@ -44,7 +80,13 @@ func New(name string, class class.Class) *Player {
 func (p *Player) GetName() string {
 	return p.name
 }
+func (p *Player) GetID() string {
+	return p.id
+}
 
+func (p *Player) GetClassName() class.ClassName {
+	return p.class.Name()
+}
 func (p *Player) GetClass() class.Class {
 	return p.class
 }
@@ -109,33 +151,6 @@ func (p *Player) GetDamage() int {
 	return damage
 }
 
-// Damage reduction is given as a float, 0.25 = 25% damage reduction . 
-func (p *Player) GetDamageReduction() float32 {
-	
-	totalDefense := float32(p.GetTotalDefense())
-
-	// This formula gives armor diminishing returns, 
-	// ie, 200 armor is not twice as good as 100 armor. 
-	// 0 armor = 100% damage taken, 50 armor = 67% damage taken, 400 armor = 20% damage taken
-	return totalDefense / (totalDefense + 100)	
-}
-
-func (p *Player) GetTotalDefense() int {
-	g := p.gear
-	itemSlots := []item.Item{g.Head, g.Upperbody, g.Legs, g.Feet}
-
-	totalDefense := 0
-
-	for _, slot := range itemSlots {
-		if equippedItem, ok := slot.(*item.Wearable); ok {
-			totalDefense += equippedItem.GetDefense()
-		}
-	}
-
-	return totalDefense
-}
-
-
 // --------------------------------------------
 // Combat methods
 // --------------------------------------------
@@ -152,6 +167,41 @@ func (p *Player) ReceiveDamage(damage int) int {
 	}
 
 	return p.currentHealth
+}
+
+func (p *Player) Attack(rec character.Character) (int, error) {
+	eFightable, ok := rec.IsFightable()
+	if !ok {
+		return 0, fmt.Errorf("Receiver can't fight")
+	}
+
+	return eFightable.ReceiveDamage(p.GetDamage()), nil
+}
+
+// Damage reduction is given as a float, 0.25 = 25% damage reduction .
+func (p *Player) GetDamageReduction() float32 {
+
+	totalDefense := float32(p.GetTotalDefense())
+
+	// This formula gives armor diminishing returns,
+	// ie, 200 armor is not twice as good as 100 armor.
+	// 0 armor = 100% damage taken, 50 armor = 67% damage taken, 400 armor = 20% damage taken
+	return totalDefense / (totalDefense + 100)
+}
+
+func (p *Player) GetTotalDefense() int {
+	g := p.gear
+	itemSlots := []item.Item{g.Head, g.Upperbody, g.Legs, g.Feet}
+
+	totalDefense := 0
+
+	for _, slot := range itemSlots {
+		if equippedItem, ok := slot.(*item.Wearable); ok {
+			totalDefense += equippedItem.GetDefense()
+		}
+	}
+
+	return totalDefense
 }
 
 // func (p *Player) CalculateDamageAfterDamageReduction(damage int) {
@@ -173,20 +223,19 @@ func (p *Player) IncreaseExperience(exp int) {
 }
 
 // Handles all logic for leveling up a player
-func (p *Player) levelUp () {
-	p.level++	// Increase level by 1
-	p.class.IncreaseStats(p.level)	// Increase class stats based on new level
+func (p *Player) levelUp() {
+	p.level++                      // Increase level by 1
+	p.class.IncreaseStats(p.level) // Increase class stats based on new level
 
-	p.maxHealth += 20 // Increase max health
-	p.currentHealth = p.maxHealth 	// Heal to full health on level up
+	p.maxHealth += 20             // Increase max health
+	p.currentHealth = p.maxHealth // Heal to full health on level up
 }
 
 func (p *Player) CalculateNextLevelExp() int {
-	exp := 50 * math.Pow(1.5,float64(p.level))
+	exp := 50 * math.Pow(1.5, float64(p.level))
 
 	return int(math.Round(exp))
 }
-
 
 // --------------------------------------------
 // Inventory and Gear methods
@@ -205,7 +254,6 @@ func (p *Player) PickupItem(item item.Item) error {
 func (p *Player) DropItem(item item.Item) {
 	p.inventory.RemoveItem(item)
 }
-
 
 // This method has an insane amount of duplication it is what it is
 func (p *Player) EquipItem(i item.Item) {
@@ -242,7 +290,7 @@ func (p *Player) EquipItem(i item.Item) {
 				p.inventory.RemoveItem(w)
 				p.inventory.AddItem(pGear.Upperbody)
 				pGear.Upperbody = w
-			}	
+			}
 		case item.WEAR_POSITION_LOWER_BODY:
 			if pGear.Legs == nil {
 				pGear.Legs = w
@@ -261,7 +309,7 @@ func (p *Player) EquipItem(i item.Item) {
 				p.inventory.AddItem(pGear.Feet)
 				pGear.Feet = w
 			}
-		} 
+		}
 	}
 }
 
@@ -300,7 +348,6 @@ func (p *Player) UnequipFeet() bool {
 	}
 	return false
 }
-
 
 func (p *Player) UnequipWeapon() bool {
 	if p.gear.Weapon != nil {

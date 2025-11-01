@@ -1,3 +1,6 @@
 .DS_Store
 tmp
 .air.toml
+.env
+test/gamestate/savefiles/*
+savefiles/*

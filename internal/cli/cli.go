@@ -16,6 +16,7 @@ type CLI struct {
 	game         *gs.GameState
 	msg          string
 	cursor       int // Cursor position in the current view
+	checkedIndex int
 	currentPOI   room.PointOfInterest
 	view         cliState
 }
@@ -26,7 +27,7 @@ type cliState interface {
 }
 
 func New(game *gs.GameState) *CLI {
-	return &CLI{game: game, view: &mainState{}}
+	return &CLI{game: game, view: &initialState{}}
 }
 
 func (cli *CLI) Init() tea.Cmd {
@@ -67,7 +68,6 @@ func (cli *CLI) generateMapView() string {
 }
 
 func (cli *CLI) View() (out string) {
-	out = "\033[2J\033[H" // Clear screen and move cursor to top-left
 
 	out += cli.view.view(cli)
 
@@ -90,15 +90,14 @@ func (cli *CLI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 // Fetches all relevant information which is always displayed at the top of the CLI
 func (cli *CLI) getHeaderInfo() string {
-	p := cli.game.Player
+	player := cli.game.Player
+	room := cli.game.Room
+	loc := room.GetPlayerLocation()
+	x, y := loc.Get()
 
-
-	s := "PLAYER\t\t\tSTATS\n"
-	s += fmt.Sprintf("Name: %s\t\tHP: %d/%d\n", p.GetName(), p.GetCurrentHealth(), p.GetMaxHealth())
-	s += fmt.Sprintf("Class: %s\t\tDMG: %d\n", p.GetClass().Name(), p.GetDamage())
-	s += fmt.Sprintf("Level: %d\t\tDEF: %d (%d%% damage reduction)\n", p.GetLevel(), p.GetTotalDefense(), int(100 * p.GetDamageReduction()))
-	s += fmt.Sprintf("XP: %d/%d\n\n", p.GetExperience(), p.CalculateNextLevelExp())
-
+	s := fmt.Sprintf("Room: %d (%dx%d)\n", room.GetLevel(), room.GetWidth(), room.GetHeight())
+	s += fmt.Sprintf("Player: %s (%v) HP:%d/%d\n", player.GetName(), player.GetClassName(), player.GetCurrentHealth(), player.GetMaxHealth())
+	s += fmt.Sprintf("Location: (%d,%d)\n", x, y)
 	s += cli.msg + "\n"
 	return s
 }

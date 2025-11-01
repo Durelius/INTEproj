@@ -35,13 +35,14 @@ func (w *Wearable) GetSlot() WearPosition {
 func (w *Wearable) ToString() string {
 	color := "\033[0m" // default (reset)
 
-	if w.rarity == Common {
+	switch w.rarity {
+	case Common:
 		color = "\033[32m" // green
-	} else if w.rarity == Rare {
+	case Rare:
 		color = "\033[34m" // blue
-	} else if w.rarity == Epic {
+	case Epic:
 		color = "\033[35m" // purple (magenta)
-	} else if w.rarity == Legendary {
+	case Legendary:
 		color = "\033[31m" // red
 	}
 

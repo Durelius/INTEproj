@@ -10,16 +10,15 @@ type Gear struct {
 	Feet      item.Item
 }
 
-
 func (g *Gear) Equip(it item.Item) {
 	// Should also check the level requirements of items and if something is currently equipped in the slot.
 
 	switch it.GetType() {
-	case "WEAPON":	
+	case "WEAPON":
 		// do something
 	case "WEARABLE":
 		// do something
-	}	
+	}
 }
 
 func (g *Gear) GetTotalWeight() int {
