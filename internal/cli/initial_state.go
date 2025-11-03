@@ -3,10 +3,7 @@ package cli
 import (
 	"fmt"
 	"log"
-<<<<<<< HEAD
 	"strings"
-=======
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
 
 	"github.com/Durelius/INTEproj/internal/gamestate"
 	"github.com/Durelius/INTEproj/internal/player"
@@ -21,31 +18,10 @@ type initialState struct {
 }
 
 const (
-<<<<<<< HEAD
 	NEW_STR = "New"
 )
 
-=======
-	LOAD_STR = "Load"
-	NEW_STR  = "New"
-)
 
-var menuItems = []string{LOAD_STR, NEW_STR}
-
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
-type initialStage int
-
-const (
-	initial initialStage = iota
-<<<<<<< HEAD
-	load
-=======
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
-	new
-	chooseClass
-)
-
-<<<<<<< HEAD
 func (is *initialState) menuItemsDisplay(cli *CLI) []string {
 	menuItems := []string{NEW_STR}
 	savefiles, err := cli.game.GetSaveFiles()
@@ -101,11 +77,7 @@ func (is *initialState) update(cli *CLI, msg tea.KeyMsg) {
 func (is *initialState) viewInitial(cli *CLI) (out string) {
 	cli.msg = "Load a save file or start from scratch"
 
-<<<<<<< HEAD
 	for i, menuItem := range is.menuItemsDisplay(cli) {
-=======
-	for i, menuItem := range menuItems {
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
 		cursor := " " // no cursor
 		if i == cli.cursor {
 			cursor = ">" // cursor
@@ -127,10 +99,7 @@ func (is *initialState) viewNew(cli *CLI) (out string) {
 
 	return
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
 func (is *initialState) viewChooseClass(cli *CLI) (out string) {
 	cli.msg = "Choose character class with arrows and space, enter to choose"
 	for i, class := range class.CLASS_LIST {
@@ -157,11 +126,7 @@ func (is *initialState) updateInitial(cli *CLI, msg tea.KeyMsg) {
 			cli.cursor--
 		}
 	case "down":
-<<<<<<< HEAD
 		if cli.cursor < len(is.menuItems(cli))-1 {
-=======
-		if cli.cursor < len(menuItems)-1 {
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
 			cli.cursor++
 		}
 	case " ":
@@ -175,33 +140,17 @@ func (is *initialState) updateInitial(cli *CLI, msg tea.KeyMsg) {
 			cli.msg = "Nothing ever happens"
 			return
 		}
-<<<<<<< HEAD
 		if is.menuItems(cli)[cli.checkedIndex] == NEW_STR {
-=======
-		if menuItems[cli.checkedIndex] == LOAD_STR {
-			cli.msg = "Load from save files"
-
-		}
-		if menuItems[cli.checkedIndex] == NEW_STR {
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
 			cli.msg = "Choose character name, enter to save"
 			is.stage = new
 			return
 		}
 
-<<<<<<< HEAD
 		gs, err := gamestate.LoadSaveFile(is.menuItems(cli)[cli.checkedIndex])
 		if err != nil {
 			log.Fatalf("Unexpected error: %v", err)
 		}
 		cli.game = gs
-=======
-		//load save file??
-		// if err := cli.game.Player.PickupItem(menuItems[cli.checkedIndex]); err != nil {
-		// 	cli.msg = err.Error()
-		// 	return
-		// }
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
 		cli.view = &mainState{}
 
 		cli.checkedIndex = INTEGER_MAX
@@ -248,11 +197,7 @@ func (is *initialState) updateChooseClass(cli *CLI, msg tea.KeyMsg) {
 			cli.msg = "Nothing ever happens"
 			return
 		}
-<<<<<<< HEAD
 		cli.game = gamestate.New(player.New(is.newPlayerName, class.CLASS_LIST[cli.checkedIndex]), room.NewRandomRoom(room.NewLocation(0, 0), 25, 50))
-=======
-		cli.game = gamestate.New(player.New(is.newPlayerName, class.CLASS_LIST[cli.checkedIndex]), room.STARTING_AREA)
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
 		if err := cli.game.SaveToFile(); err != nil {
 			log.Fatal(err)
 		}
