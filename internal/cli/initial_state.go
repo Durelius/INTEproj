@@ -21,7 +21,6 @@ const (
 	NEW_STR = "New"
 )
 
-
 func (is *initialState) menuItemsDisplay(cli *CLI) []string {
 	menuItems := []string{NEW_STR}
 	savefiles, err := cli.game.GetSaveFiles()
@@ -47,12 +46,6 @@ func (is *initialState) menuItems(cli *CLI) []string {
 func (is *initialState) view(cli *CLI) (out string) {
 	switch is.stage {
 	case initial:
-=======
-func (is *initialState) view(cli *CLI) (out string) {
-	switch is.stage {
-	case initial:
-
->>>>>>> 288184a (almost done with save files, needs to pull and handle merge conflicts)
 		out = is.viewInitial(cli)
 	case new:
 		out = is.viewNew(cli)
