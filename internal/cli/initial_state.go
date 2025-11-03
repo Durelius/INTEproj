@@ -12,10 +12,18 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
+type initialStage int
+
 type initialState struct {
 	stage         initialStage
 	newPlayerName string
 }
+
+const (
+	initial = iota
+	new
+	chooseClass
+)
 
 const (
 	NEW_STR = "New"
