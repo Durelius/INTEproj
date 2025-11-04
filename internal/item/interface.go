@@ -42,7 +42,7 @@ const (
 )
 
 var rarityIndex = map[Rarity][]Item{}
-var rarityMu sync.RWMutex
+var rarityMu sync.RWMutex //Används för att se till att rarityindex alltid initierar korrekt
 
 // On init så delar den upp rarities i rarityindex. Snabbare sökning eftersom vi ofta kallar den
 func init() {
