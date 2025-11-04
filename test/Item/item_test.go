@@ -34,10 +34,10 @@ func TestCreateAllRarities(t *testing.T) {
 		name   string
 		rarity item.Rarity
 	}{
-		{"Common Sword", item.Common},
-		{"Rare Sword", item.Rare},
-		{"Epic Sword", item.Epic},
-		{"Legendary Sword", item.Legendary},
+		{"Rusty Sword", item.Common},
+		{"Elven Longbow", item.Rare},
+		{"Runeblade", item.Epic},
+		{"Eclipse Fang", item.Legendary},
 	}
 
 	for _, tt := range tests {
