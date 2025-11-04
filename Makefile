@@ -8,6 +8,10 @@ test:
 	@echo "Running tests..."
 	go test ./... -v
 
+stan:
+	@echo "Running static analysis..."
+	staticcheck ./...
+
 # Run all tests, and check coverage for all files in ./internal except for the ones in internal/assets.
 # There is no reason to test methods that just return an ascii string.
 test-cover: 	
@@ -22,4 +26,5 @@ test-cover:
 	rm coverage_raw.out | rm coverage.out | rm test.log
 
 
-all: test run
+all: test stan run
+
