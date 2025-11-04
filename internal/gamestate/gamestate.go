@@ -84,7 +84,7 @@ func (gs *GameState) SaveToFile() error {
 		return err
 	}
 	if err := os.WriteFile(filepath.Join("savefiles", save.getFileName()), data, 0644); err != nil {
-		return fmt.Errorf("Error writing to file: %v", err)
+		return fmt.Errorf("error writing to file: %v", err)
 	}
 
 	return nil

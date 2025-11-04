@@ -29,7 +29,7 @@ func (inv *Inventory) RemoveItem(item item.Item) error {
 			return nil
 		}
 	}
-	return fmt.Errorf("This item didn't exist in inventory")
+	return fmt.Errorf("this item didn't exist in inventory")
 }
 
 func (inv *Inventory) GetTotalWeight() (weight int) {
