@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"math"
 
-	"github.com/Durelius/INTEproj/internal/character"
 	"github.com/Durelius/INTEproj/internal/item"
 	class "github.com/Durelius/INTEproj/internal/player/class"
 	"github.com/Durelius/INTEproj/internal/player/gear"
@@ -167,15 +166,6 @@ func (p *Player) ReceiveDamage(damage int) int {
 	}
 
 	return p.currentHealth
-}
-
-func (p *Player) Attack(rec character.Character) (int, error) {
-	eFightable, ok := rec.IsFightable()
-	if !ok {
-		return 0, fmt.Errorf("Receiver can't fight")
-	}
-
-	return eFightable.ReceiveDamage(p.GetDamage()), nil
 }
 
 // Damage reduction is given as a float, 0.25 = 25% damage reduction .

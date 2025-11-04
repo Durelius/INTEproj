@@ -13,47 +13,49 @@ func (is *inventoryState) view(cli *CLI) (out string) {
 	p := cli.game.Player
 
 	out = "Inventory & Gear Setup\nPress B to return.\n\n"
-
-	out += fmt.Sprintf("Inventory (Weight: %d) - (Use arrows to navigate, X to drop, E to equip)\n", p.GetInventoryWeight())
+	out += fmt.Sprintf("Inventory (Weight: %d) - (Use arrows to navigate, X to drop, E to equip)\n",
+		p.GetInventoryWeight())
 
 	inventoryItems := p.GetItems()
 	if len(inventoryItems) == 0 {
-		out += "\t  Inventory is empty.\n"
+		out += "    Inventory is empty.\n" // 4 spaces instead of tab
 	}
 
+	// Inventory items
 	for i, item := range inventoryItems {
 		cursor := "  [ ]" // no cursor
 		if i == cli.cursor {
 			cursor = "> [x]" // cursor
 		}
-
-		out += fmt.Sprintf("\t%s %s\n", cursor, item.ToString())
+		// %-4s reserves 4 characters for cursor, left-aligned
+		out += fmt.Sprintf("    %-4s %s\n", cursor, item.ToString())
 	}
 
-	out += fmt.Sprintf("\nEquipped (Weight: %d) - (Use arrows to navigate and E to unequip.)\n", p.GetEquippedWeight())
+	out += fmt.Sprintf("\nEquipped (Weight: %d) - (Use arrows to navigate and E to unequip.)\n",
+		p.GetEquippedWeight())
 
 	gear := p.GetGear()
 	equippedItems := []item.Item{gear.Head, gear.Upperbody, gear.Legs, gear.Feet, gear.Weapon}
 	stringSlots := []string{"Head", "Torso", "Legs", "Feet", "Weapon"}
 
-	for i, item := range equippedItems {
+	// Equipped items
+	for i, itm := range equippedItems {
 		adjustedIndex := i + len(inventoryItems)
 
-		cursor := "  [ ]" // no cursor
+		cursor := "  [ ]"
 		if adjustedIndex == cli.cursor {
-			cursor = "> [x]" // cursor
+			cursor = "> [x]"
 		}
 
-		if item == nil {
-			// out += fmt.Sprintf("%s\n",stringSlots[i])
-			out += fmt.Sprintf("%s\t%s ______\n", stringSlots[i], cursor)
+		if itm == nil {
+			// %-8s reserves 8 chars for slot name; %-5s reserves 5 for cursor
+			out += fmt.Sprintf("%-8s %-5s ______\n", stringSlots[i], cursor)
 		} else {
-			out += fmt.Sprintf("%s\t%s %s\n", stringSlots[i], cursor, item.ToString())
+			out += fmt.Sprintf("%-8s %-5s %s\n", stringSlots[i], cursor, itm.ToString())
 		}
 	}
 
 	out += fmt.Sprintf("\nTotal Weight: %d/%d", p.GetTotalWeight(), p.GetMaxWeight())
-
 	return
 }
 
@@ -63,6 +65,7 @@ func (is *inventoryState) update(cli *CLI, msg tea.KeyMsg) {
 
 	switch msg.String() {
 	case "b":
+		cli.msg = ""
 		cli.view = &mainState{}
 		cli.cursor = 0		// When exiting inventory, reset cursor position
 		return

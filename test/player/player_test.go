@@ -63,6 +63,10 @@ func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
 	}
 }
 
+// func TestEquipItems(t *testing.T) {
+// 	item.
+// }
+
 // Utility function to aid testing
 // Calculates the total XP required to reach a certain level, from level 1
 func CalculateXpToLevel(level int) int {
