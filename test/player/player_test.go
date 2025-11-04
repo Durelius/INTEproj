@@ -4,6 +4,7 @@ import (
 	"math"
 	"testing"
 
+	"github.com/Durelius/INTEproj/internal/item"
 	"github.com/Durelius/INTEproj/internal/player"
 	"github.com/Durelius/INTEproj/internal/player/class"
 )
@@ -63,9 +64,58 @@ func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
 	}
 }
 
-// func TestEquipItems(t *testing.T) {
-// 	item.
-// }
+func TestEquipItems(t *testing.T) {
+	p := player.New("TestPlayer", class.PALADIN_STR)
+
+	baseDmg := p.GetDamage()
+
+	if baseDmg != 5 {
+		t.Errorf("Expected lvl 1 Paladin to have %d dmg, got %d", 5, p.GetDamage())
+	}
+	
+	if p.GetTotalDefense() != 0 {
+		t.Errorf("Expected player with no items to have 0 defence, got %d", p.GetTotalDefense())
+	}
+
+	helm := item.FindItemByName("Crown of Eternity")
+	p.EquipItem(helm)
+
+	if p.GetTotalDefense() != 65 {
+		t.Errorf("Expected player with crown of eternity to have 65 defence, got %d", p.GetTotalDefense())
+	}
+
+	helm2 := item.FindItemByName("Helm of Embersteel")
+	p.EquipItem(helm2)
+
+	if p.GetTotalDefense() != 42 {
+		t.Errorf("Expected player with helm of embersteel to have 42 defence, got %d", p.GetTotalDefense())
+	}
+
+	weapon := item.FindItemByName("Bloodforged Sword")
+	p.EquipItem(weapon)
+
+	if p.GetDamage() != baseDmg + 43 {
+		t.Errorf("Expected player with bloodforged Sword to have 43 dmg, got %d", p.GetDamage())
+	}
+
+	// Damage reduction is calculated as defence / defence + 100
+	def := float32(p.GetTotalDefense())
+	expectedDamageReduction := def / (def + 100)
+
+
+	if p.GetDamageReduction() != expectedDamageReduction {
+		t.Errorf("Expected %f damage reduction with %f armor, got %f", expectedDamageReduction, def, p.GetDamageReduction())
+	}
+
+	p.ReceiveDamage(50)
+
+	expectedDamageTaken := int((float32(50) * (1 - p.GetDamageReduction())))
+
+	if p.GetCurrentHealth() != p.GetMaxHealth() - expectedDamageTaken {
+		t.Errorf("Expected player to take %d dmg", expectedDamageTaken)
+	}
+}
+
 
 // Utility function to aid testing
 // Calculates the total XP required to reach a certain level, from level 1
