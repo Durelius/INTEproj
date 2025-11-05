@@ -62,7 +62,8 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 		cli.currentPOI = poi
 		switch poi.GetType() {
 		case "ENEMY":
-			cli.view = &battleState{stage: encounter, enemy: enemy.NewRandomEnemy()}
+			enemy := poi.(enemy.Enemy)
+			cli.view = &battleState{stage: encounter, enemy: enemy}
 			return
 		case "LOOT":
 			cli.view = &lootState{stage: chest}

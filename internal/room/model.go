@@ -1,10 +1,9 @@
 package room
 
 import (
-	"math/rand"
-
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/item"
+	"github.com/Durelius/INTEproj/internal/random"
 )
 
 type Room struct {
@@ -18,10 +17,14 @@ type Room struct {
 	next           *Room
 }
 
-func NewRandomRoom(entry Location, height, width int) *Room {
+func NewRandomRoom(entry Location, height, width int, extraPOIs ...int) *Room {
 	room := &Room{entry: entry, height: height, width: width, playerLocation: entry, poi: make(map[Location]PointOfInterest), next: nil, prev: nil}
-	itemAmount := rand.Intn(5) + 1
-	enemyAmount := rand.Intn(3) + 1
+	var extraAmount int
+	if len(extraPOIs) > 0 {
+		extraAmount = extraPOIs[0]
+	}
+	itemAmount := random.IntList(5) + 1 + extraAmount
+	enemyAmount := random.IntList(3) + 1 + extraAmount
 	pois := []PointOfInterest{}
 
 	for range itemAmount {
@@ -29,9 +32,6 @@ func NewRandomRoom(entry Location, height, width int) *Room {
 	}
 
 	for range enemyAmount {
-		// This actually has no effect, the CLI will spawn a random enemy when player steps on a poi of type enemy.
-		// Since POI is an interface and not a map storing locations to items / monsters,
-		// CLI can not access the type of the monster through POI.
 		pois = append(pois, enemy.NewRandomEnemy())
 	}
 
@@ -44,11 +44,14 @@ func NewRandomRoom(entry Location, height, width int) *Room {
 
 func (r *Room) createRandomLocations(pois []PointOfInterest, height, width int) {
 	for _, poi := range pois {
+		counter := 0
 		for {
-			loc := NewLocation(rand.Intn(width-2)+1, rand.Intn(height-2)+1)
+			loc := NewLocation(random.IntList((width-2)+1), random.IntList((height-2)+1))
+			counter++
 			if _, exist := r.poi[loc]; !exist {
 				r.poi[loc] = poi
-				// log.Printf("x: %d, y: %d", loc.x, loc.y)
+				break
+			} else if counter > 100 {
 				break
 			}
 		}
