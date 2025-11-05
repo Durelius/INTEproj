@@ -7,68 +7,48 @@ import (
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/player"
 	"github.com/Durelius/INTEproj/internal/player/class"
+	. "github.com/onsi/gomega"
 )
 
 func TestPlayerWin(t *testing.T) {
+	g := NewWithT(t)
+
 	p := player.New("TestPlayer", class.MAGE_STR)
 
 	skeleton := enemy.NewSkeleton()
-
 	b := battle.New(p, skeleton, true) // Player starts first
-
 	expectedSkeletonHealth := skeleton.GetCurrentHealth() - p.GetDamage()
-
 	b.ProgressFight()
-
 	actualSkeletonHealth := skeleton.GetCurrentHealth()
 
-	if actualSkeletonHealth != expectedSkeletonHealth {
-		t.Errorf("Expected enemy health to be %d, got %d", expectedSkeletonHealth, actualSkeletonHealth)
-	}
+	g.Expect(actualSkeletonHealth).To(Equal(expectedSkeletonHealth))
 
 	expectedPlayerHealth := p.GetCurrentHealth() - skeleton.GetDamage()
-
 	b.ProgressFight() // Enemy's turn
-
 	actualPlayerHealth := p.GetCurrentHealth()
 
-	if actualPlayerHealth != expectedPlayerHealth {
-		t.Errorf("Expected player health to be %d, got %d", expectedPlayerHealth, actualPlayerHealth)
-	}
+	g.Expect(actualPlayerHealth).To(Equal(expectedPlayerHealth))
 
 	for !b.IsOver() {
 		b.ProgressFight()
 	}
 
-	if !skeleton.IsDead() {
-		t.Errorf("Expected enemy to be defeated, but has %d health left", skeleton.GetCurrentHealth())
-	}
-	if p.IsDead() {
-		t.Errorf("Expected player to be alive, but is dead")
-	}
-
-	if b.GetStatus() != battle.Victory {
-		t.Errorf("Expected status to be victory, got: %d", b.GetStatus())
-	}
-
+	g.Expect(skeleton.IsDead()).To(BeTrue())
+	g.Expect(p.IsDead()).To(BeFalse())
+	g.Expect(b.GetStatus()).To(Equal(battle.Victory))
 }
 
 func TestPlayerLoss(t *testing.T) {
+	g := NewWithT(t)
+
 	p := player.New("TestPlayer", class.MAGE_STR)
-
 	jobApplication := enemy.NewJobApplication()
-
 	b := battle.New(p, jobApplication, false)
 
 	for !b.IsOver() {
 		b.ProgressFight()
 	}
 
-	if jobApplication.IsDead() {
-		t.Errorf("Expected job application to win")
-	}
-
-	if !p.IsDead() {
-		t.Errorf("Expected player to be dead, but has %d health left", p.GetCurrentHealth())
-	}
+	g.Expect(jobApplication.IsDead()).To(BeFalse())
+	g.Expect(p.IsDead()).To(BeTrue())
 }
