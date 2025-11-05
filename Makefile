@@ -3,7 +3,6 @@
 run: 
 	go run ./cmd/app/main.go
 
-
 test:
 	@echo "Running tests..."
 	go test ./... -v
@@ -23,7 +22,10 @@ test-cover:
 	@grep -v '/internal/assets/' coverage_raw.out > coverage.out
 	@echo "All tests passed."
 	go tool cover -html=coverage.out
+	go tool cover -func=coverage.out
 	rm coverage_raw.out | rm coverage.out | rm test.log
+
+
 
 build: 
 	go build -o ./bin/game ./cmd/app/main.go
