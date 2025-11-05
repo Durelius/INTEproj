@@ -9,11 +9,10 @@ import (
 // Full Random Item
 func TestRandomItemsCreation(t *testing.T) {
 	for i := 0; i < 10; i++ {
-		var v any
-		v = item.GetRandomItem()
+		v := item.GetRandomItem()
 
-		if _, ok := v.(item.Item); !ok {
-			t.Errorf("expected type item.Item, got %T", v)
+		if v == nil {
+			t.Errorf("expected non-nil Item, got nil")
 		}
 	}
 }
@@ -21,9 +20,8 @@ func TestRandomItemsCreation(t *testing.T) {
 // Check Rarity IOTA works correctly
 func TestCreateOutOfBoundsIota(t *testing.T) {
 	for i := 4; i < 10; i++ {
-		var v any
-		v = item.GetRandomItemByRarity(item.Rarity(i))
-		if _, ok := v.(item.Item); ok {
+		v := item.GetRandomItemByRarity(item.Rarity(i))
+		if v != nil {
 			t.Errorf("expected nil, got %T", v)
 		}
 	}
