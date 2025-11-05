@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-	"math/rand"
 	"os"
 	"path/filepath"
 	"time"
@@ -13,6 +12,7 @@ import (
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/player"
 	class "github.com/Durelius/INTEproj/internal/player/class"
+	"github.com/Durelius/INTEproj/internal/random"
 	"github.com/Durelius/INTEproj/internal/room"
 )
 
@@ -41,6 +41,9 @@ func TimerSave(gs *GameState) {
 	go func() {
 		for {
 			time.Sleep(5 * time.Second)
+			if gs == nil || gs.Room == nil {
+				continue
+			}
 			err := gs.SaveToFile()
 			if err != nil {
 				log.Fatal(err)
@@ -50,7 +53,7 @@ func TimerSave(gs *GameState) {
 }
 
 func (gs *GameState) InitiateBattle(e enemy.Enemy) {
-	playerTurn := rand.Intn(2) == 1
+	playerTurn := random.IntList(2) == 1
 	gs.Battle = battle.New(gs.Player, e, playerTurn)
 }
 func (gs *GameState) UpdateRoom() {
