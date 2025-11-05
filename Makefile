@@ -25,6 +25,8 @@ test-cover:
 	go tool cover -html=coverage.out
 	rm coverage_raw.out | rm coverage.out | rm test.log
 
+build: 
+	go build -o ./bin/game ./cmd/app/main.go
 
 all: test stan run
 
