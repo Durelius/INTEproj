@@ -13,6 +13,7 @@ var AllItems = []Item{
 	&Weapon{damage: 35, weight: 38, name: "Epic Bow", rarity: Epic},
 	&Weapon{damage: 50, weight: 40, name: "Legendary Bow", rarity: Legendary},
 
+	//All items below were AI generated
 	// Common weapons
 	&Weapon{name: "Rusty Sword", damage: 10, rarity: Common, weight: 30},
 	&Weapon{name: "Wooden Club", damage: 8, rarity: Common, weight: 25},
