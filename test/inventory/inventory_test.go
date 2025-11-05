@@ -5,12 +5,11 @@ import (
 
 	"github.com/Durelius/INTEproj/internal/item"
 	"github.com/Durelius/INTEproj/internal/player/inventory"
-	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 )
 
 func TestNewEmptyInventory(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	inv := inventory.New()
 
@@ -25,7 +24,7 @@ func TestNewEmptyInventory(t *testing.T) {
 
 
 func TestInventoryWithItems(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	sword := item.FindItemByName("Crimson Edge")
 	inv := inventory.New(sword)

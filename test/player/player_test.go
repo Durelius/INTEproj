@@ -7,13 +7,12 @@ import (
 	"github.com/Durelius/INTEproj/internal/item"
 	"github.com/Durelius/INTEproj/internal/player"
 	"github.com/Durelius/INTEproj/internal/player/class"
-	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 )
 
 // Tests that a player levels up correctly and that their damage increases as expected
 func TestIncreaseXpAndLevelUp(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	p := player.New("TestPlayer", class.MAGE_STR)
 	requiredXpToLevel2 := p.CalculateNextLevelExp()
@@ -33,7 +32,7 @@ func TestIncreaseXpAndLevelUp(t *testing.T) {
 }
 
 func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	p := player.New("TestPlayer", class.ROGUE_STR)
 	xpToLevel7 := CalculateXpToLevel(7)
@@ -46,7 +45,7 @@ func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
 }
 
 func TestEquipItems(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 	
 	p := player.New("TestPlayer", class.PALADIN_STR)
 

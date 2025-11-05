@@ -7,12 +7,11 @@ import (
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/player"
 	"github.com/Durelius/INTEproj/internal/player/class"
-	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 )
 
 func TestPlayerWin(t *testing.T) {
-	g := gomega.NewGomegaWithT(t)
+	g := NewWithT(t)
 
 	p := player.New("TestPlayer", class.MAGE_STR)
 
@@ -40,7 +39,7 @@ func TestPlayerWin(t *testing.T) {
 }
 
 func TestPlayerLoss(t *testing.T) {
-	g := gomega.NewWithT(t)
+	g := NewWithT(t)
 
 	p := player.New("TestPlayer", class.MAGE_STR)
 	jobApplication := enemy.NewJobApplication()
