@@ -7,113 +7,79 @@ import (
 	"github.com/Durelius/INTEproj/internal/item"
 	"github.com/Durelius/INTEproj/internal/player"
 	"github.com/Durelius/INTEproj/internal/player/class"
+	"github.com/onsi/gomega"
+	. "github.com/onsi/gomega"
 )
 
 // Tests that a player levels up correctly and that their damage increases as expected
 func TestIncreaseXpAndLevelUp(t *testing.T) {
+	g := gomega.NewWithT(t)
+
 	p := player.New("TestPlayer", class.MAGE_STR)
-
 	requiredXpToLevel2 := p.CalculateNextLevelExp()
-
 	p.IncreaseExperience(50)
-	if p.GetLevel() != 1 {
-		t.Errorf("Expected level 1, got %d", p.GetLevel())
-	}
-	if p.GetExperience() != 50 {
-		t.Errorf("Expected 50 xp, got %d", p.GetExperience())
-	}
-	if p.GetDamage() != 10 {
-		t.Errorf("Expected 10 dmg for lvl 1 mage, got %d", p.GetDamage())
-	}
+
+	g.Expect(p.GetLevel()).To(Equal(1))
+	g.Expect(p.GetExperience()).To(Equal(50))
+	g.Expect(p.GetDamage()).To(Equal(10))
 
 	p.IncreaseExperience(100)
-
-	if p.GetLevel() != 2 {
-		t.Errorf("Expected level 2, got %d", p.GetLevel())
-	}
-
 	expectedExperience := 150 - requiredXpToLevel2
-	if p.GetExperience() != expectedExperience {
-		t.Errorf("Expected %d xp, got %d", expectedExperience, p.GetExperience())
-	}
 
-	if p.GetDamage() != 14 {
-		t.Errorf("Expected 14 dmg for lvl 2 mage, got %d", p.GetDamage())
-	}
-
-	if p.GetMaxHealth() != 120 {
-		t.Errorf("Expected 120 max health for lvl 2 player, got %d", p.GetMaxHealth())
-	}
+	g.Expect(p.GetLevel()).To(Equal(2))
+	g.Expect(p.GetExperience()).To(Equal(expectedExperience))
+	g.Expect(p.GetDamage()).To(Equal(14))
+	g.Expect(p.GetMaxHealth()).To(Equal(120))
 }
 
 func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
-	p := player.New("TestPlayer", class.ROGUE_STR)
+	g := gomega.NewWithT(t)
 
+	p := player.New("TestPlayer", class.ROGUE_STR)
 	xpToLevel7 := CalculateXpToLevel(7)
 	additionalXp := 57
-
 	p.IncreaseExperience(xpToLevel7 + additionalXp)
-	if p.GetLevel() != 7 {
-		t.Errorf("Expected level 7, got %d", p.GetLevel())
-	}
-	if p.GetExperience() != additionalXp {
-		t.Errorf("Expected %d xp, got %d", additionalXp, p.GetExperience())
-	}
-	if p.GetDamage() != 61 {
-		t.Errorf("Expected 61 dmg for lvl 7 rogue, got %d", p.GetDamage())
-	}
+	
+	g.Expect(p.GetLevel()).To(Equal(7))
+	g.Expect(p.GetExperience()).To(Equal(additionalXp))
+	g.Expect(p.GetDamage()).To(Equal(61))
 }
 
 func TestEquipItems(t *testing.T) {
+	g := gomega.NewWithT(t)
+	
 	p := player.New("TestPlayer", class.PALADIN_STR)
 
 	baseDmg := p.GetDamage()
 
-	if baseDmg != 5 {
-		t.Errorf("Expected lvl 1 Paladin to have %d dmg, got %d", 5, p.GetDamage())
-	}
-	
-	if p.GetTotalDefense() != 0 {
-		t.Errorf("Expected player with no items to have 0 defence, got %d", p.GetTotalDefense())
-	}
+	g.Expect(baseDmg).To(Equal(5))
+	g.Expect(p.GetTotalDefense()).To(Equal(0))
 
 	helm := item.FindItemByName("Crown of Eternity")
 	p.EquipItem(helm)
 
-	if p.GetTotalDefense() != 65 {
-		t.Errorf("Expected player with crown of eternity to have 65 defence, got %d", p.GetTotalDefense())
-	}
+	g.Expect(p.GetTotalDefense()).To(Equal(65))
 
 	helm2 := item.FindItemByName("Helm of Embersteel")
 	p.EquipItem(helm2)
 
-	if p.GetTotalDefense() != 42 {
-		t.Errorf("Expected player with helm of embersteel to have 42 defence, got %d", p.GetTotalDefense())
-	}
+	g.Expect(p.GetTotalDefense()).To(Equal(42))
 
 	weapon := item.FindItemByName("Bloodforged Sword")
 	p.EquipItem(weapon)
 
-	if p.GetDamage() != baseDmg + 43 {
-		t.Errorf("Expected player with bloodforged Sword to have 43 dmg, got %d", p.GetDamage())
-	}
+	g.Expect(p.GetDamage()).To(Equal(baseDmg + 43))
 
 	// Damage reduction is calculated as defence / defence + 100
 	def := float32(p.GetTotalDefense())
 	expectedDamageReduction := def / (def + 100)
 
-
-	if p.GetDamageReduction() != expectedDamageReduction {
-		t.Errorf("Expected %f damage reduction with %f armor, got %f", expectedDamageReduction, def, p.GetDamageReduction())
-	}
+	g.Expect(p.GetDamageReduction()).To(Equal(expectedDamageReduction))
 
 	p.ReceiveDamage(50)
-
 	expectedDamageTaken := int((float32(50) * (1 - p.GetDamageReduction())))
 
-	if p.GetCurrentHealth() != p.GetMaxHealth() - expectedDamageTaken {
-		t.Errorf("Expected player to take %d dmg", expectedDamageTaken)
-	}
+	g.Expect(p.GetCurrentHealth()).To(Equal(p.GetMaxHealth() - expectedDamageTaken))
 }
 
 
