@@ -4,17 +4,19 @@ import (
 	"testing"
 
 	"github.com/Durelius/INTEproj/internal/item"
+	"github.com/onsi/gomega"
 )
 
-// Testar random delningen mellan alla olika rareities. Kör testet individuellt för logging
-// Ger aldrig rätt eller fel, men ger en lista som visar division av drop rates
+// Testar random delningen mellan alla olika rareities.
 // Common 50 %
 // Rare 40 %
 // Epic 8 %
 // Legendary 2%
 func TestGetRandomItemsWith(t *testing.T) {
-	length := 1000
-	items := []item.Item{}
+	g := gomega.NewWithT(t)
+	const length = 1000
+	items := make([]item.Item, 0, length)
+
 	for i := 0; i < length; i++ {
 		items = append(items, item.GetRandomItem())
 	}
@@ -24,7 +26,16 @@ func TestGetRandomItemsWith(t *testing.T) {
 		counts[it.GetRarity()]++
 	}
 
-	/*for rarity, count := range counts {
-	    t.Logf("%v: %d", rarity, count)
-	}*/
+	// Expected proportions
+	g.Expect(counts[item.Common]).To(gomega.BeNumerically(">=", 460))
+	g.Expect(counts[item.Common]).To(gomega.BeNumerically("<=", 540))
+
+	g.Expect(counts[item.Rare]).To(gomega.BeNumerically(">=", 360))
+	g.Expect(counts[item.Rare]).To(gomega.BeNumerically("<=", 440))
+
+	g.Expect(counts[item.Epic]).To(gomega.BeNumerically(">=", 60))
+	g.Expect(counts[item.Epic]).To(gomega.BeNumerically("<=", 90))
+
+	g.Expect(counts[item.Legendary]).To(gomega.BeNumerically(">=", 5))
+	g.Expect(counts[item.Legendary]).To(gomega.BeNumerically("<=", 35))
 }
