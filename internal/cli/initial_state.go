@@ -41,6 +41,7 @@ func (is *initialState) menuItemsDisplay(cli *CLI) []string {
 	}
 	return menuItems
 }
+
 func (is *initialState) menuItems(cli *CLI) []string {
 	menuItems := []string{NEW_STR}
 	savefiles, err := cli.game.GetSaveFiles()
@@ -61,7 +62,6 @@ func (is *initialState) view(cli *CLI) (out string) {
 		out = is.viewChooseClass(cli)
 	}
 	return
-
 }
 
 func (is *initialState) update(cli *CLI, msg tea.KeyMsg) {
@@ -73,8 +73,8 @@ func (is *initialState) update(cli *CLI, msg tea.KeyMsg) {
 	case chooseClass:
 		is.updateChooseClass(cli, msg)
 	}
-
 }
+
 func (is *initialState) viewInitial(cli *CLI) (out string) {
 	cli.msg = "Load a save file or start from scratch"
 
@@ -156,8 +156,8 @@ func (is *initialState) updateInitial(cli *CLI, msg tea.KeyMsg) {
 
 		cli.checkedIndex = INTEGER_MAX
 	}
-
 }
+
 func (is *initialState) updateNew(cli *CLI, msg tea.KeyMsg) {
 	nameLen := len(is.newPlayerName)
 	if nameLen > 0 {
@@ -175,8 +175,8 @@ func (is *initialState) updateNew(cli *CLI, msg tea.KeyMsg) {
 		return
 	}
 	is.newPlayerName += msg.String()
-
 }
+
 func (is *initialState) updateChooseClass(cli *CLI, msg tea.KeyMsg) {
 	switch msg.String() {
 	case "up":
@@ -198,7 +198,7 @@ func (is *initialState) updateChooseClass(cli *CLI, msg tea.KeyMsg) {
 			cli.msg = "Nothing ever happens"
 			return
 		}
-		cli.game = gamestate.New(player.New(is.newPlayerName, class.CLASS_LIST[cli.checkedIndex]), room.NewRandomRoom(room.NewLocation(0, 0), 25, 50))
+		cli.game = gamestate.New(player.New(is.newPlayerName, class.CLASS_LIST[cli.checkedIndex]), room.NewRandomRoom())
 		if err := cli.game.SaveToFile(); err != nil {
 			log.Fatal(err)
 		}
@@ -206,5 +206,4 @@ func (is *initialState) updateChooseClass(cli *CLI, msg tea.KeyMsg) {
 
 		cli.checkedIndex = INTEGER_MAX
 	}
-
 }

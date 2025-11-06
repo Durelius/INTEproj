@@ -56,8 +56,9 @@ func (gs *GameState) InitiateBattle(e enemy.Enemy) {
 	playerTurn := random.IntList(2) == 1
 	gs.Battle = battle.New(gs.Player, e, playerTurn)
 }
+
 func (gs *GameState) UpdateRoom() {
-	gs.Room = room.NewRandomRoom(room.NewLocation(0, 0), 10, 20)
+	gs.Room = room.NewRandomRoom()
 	gs.RoomList.Add(gs.Room)
 }
 
@@ -65,7 +66,7 @@ func (gs *GameState) UpdateRoom() {
 // This helps us get a base Game going, where player is hard coded to Josh.
 func NewDefault() *GameState {
 	p := player.New("Josh", class.ROGUE_STR)
-	r := room.NewRandomRoom(room.NewLocation(0, 0), 25, 50)
+	r := room.NewRandomRoom()
 	rl := room.NewRoomList(r)
 	gs := GameState{
 		Player:   p,
@@ -75,11 +76,12 @@ func NewDefault() *GameState {
 	}
 	go TimerSave(&gs)
 	return &gs
-
 }
+
 func (gs *GameState) GetFileName() string {
 	return gs.Player.GetName() + "_" + gs.Player.GetID() + ".json"
 }
+
 func (gs *GameState) SaveToFile() error {
 	save := gs.ConvertToSaveType()
 	data, err := save.ConvertToBytes()
@@ -91,8 +93,8 @@ func (gs *GameState) SaveToFile() error {
 	}
 
 	return nil
-
 }
+
 func (gs *GameState) GetSaveFiles() ([]string, error) {
 	savefileNames := []string{}
 	data, err := os.ReadDir(filepath.Join("savefiles"))
@@ -103,8 +105,8 @@ func (gs *GameState) GetSaveFiles() ([]string, error) {
 		savefileNames = append(savefileNames, file.Name())
 	}
 	return savefileNames, nil
-
 }
+
 func LoadSaveFile(filename string) (*GameState, error) {
 	data, err := os.ReadFile(filepath.Join("savefiles", filename))
 	if err != nil {
@@ -117,5 +119,4 @@ func LoadSaveFile(filename string) (*GameState, error) {
 	}
 	gs := save.ConvertSaveToGameState()
 	return gs, nil
-
 }

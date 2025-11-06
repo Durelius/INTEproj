@@ -11,6 +11,7 @@ func NewRoomList(r *Room) *RoomList {
 	rl.Add(r)
 	return &rl
 }
+
 func LoadRoomList(r *Room, levelCounter int) *RoomList {
 	rl := RoomList{levelCounter: levelCounter}
 	if r.next != nil {
@@ -34,12 +35,15 @@ func (rl *RoomList) Add(r *Room) {
 	r.prev = rl.tail // link new room back
 	rl.tail = r      // update tail
 }
+
 func (rl *RoomList) GetHead() *Room {
 	return rl.head
 }
+
 func (rl *RoomList) GetTail() *Room {
 	return rl.tail
 }
+
 func (rl *RoomList) GetLevelCounter() int {
 	return rl.levelCounter
 }
