@@ -75,8 +75,8 @@ func NewDefault() *GameState {
 	}
 	go TimerSave(&gs)
 	return &gs
-
 }
+
 func (gs *GameState) GetFileName() string {
 	return gs.Player.GetName() + "_" + gs.Player.GetID() + ".json"
 }

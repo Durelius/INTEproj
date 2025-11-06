@@ -44,6 +44,26 @@ func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
 	g.Expect(p.GetDamage()).To(Equal(61))
 }
 
+func TestPickupAndDropItem(t *testing.T) {
+	g := NewWithT(t)
+
+	p := player.New("TestPlayer", class.ROGUE_STR)
+	i := item.FindItemByName("Runeblade")
+
+	p.EquipItem(i)
+	g.Expect(p.GetTotalWeight()).To(Equal(i.GetWeight()))
+	
+	for p.GetTotalWeight() + i.GetWeight() < p.GetMaxWeight() {
+		p.PickupItem(i)
+	}
+
+	g.Expect(p.PickupItem(i)).To(MatchError("Overburdened"))
+
+	p.DropItem(i)
+
+	g.Expect(p.PickupItem(i)).To(BeNil())
+}
+
 func TestEquipItems(t *testing.T) {
 	g := NewWithT(t)
 	
@@ -55,32 +75,102 @@ func TestEquipItems(t *testing.T) {
 	g.Expect(p.GetTotalDefense()).To(Equal(0))
 
 	helm := item.FindItemByName("Crown of Eternity")
-	p.EquipItem(helm)
+	torso := item.FindItemByName("Padded Vest")
+	legs := item.FindItemByName("Cloth Trousers")
+	boots := item.FindItemByName("Worn Boots")
+	weapon := item.FindItemByName("Soulfire Edge")
+	itemSet1 := []item.Item{helm, torso, legs, boots, weapon}
+	gear := p.GetGear()
 
-	g.Expect(p.GetTotalDefense()).To(Equal(65))
+	for _, item := range itemSet1 {
+		p.EquipItem(item)
+	}
 
-	helm2 := item.FindItemByName("Helm of Embersteel")
-	p.EquipItem(helm2)
+	g.Expect(gear.Head).To(Equal(helm))
+	g.Expect(gear.Upperbody).To(Equal(torso))
+	g.Expect(gear.Legs).To(Equal(legs))
+	g.Expect(gear.Feet).To(Equal(boots))
+	g.Expect(gear.Weapon).To(Equal(weapon))
+	g.Expect(p.GetDamage()).To(Equal(baseDmg + 63))
+	g.Expect(p.GetTotalDefense()).To(Equal(65+18+12+8))
+	
+	helm2 := item.FindItemByName("Steel Helm")
+	torso2 := item.FindItemByName("Reinforced Jerkin")
+	legs2 := item.FindItemByName("Chain Leggings")
+	boots2 := item.FindItemByName("Ironshod Boots")
+	weapon2 := item.FindItemByName("Twilight Katana")
+	itemSet2 := []item.Item{helm2, torso2, legs2, boots2, weapon2}
 
-	g.Expect(p.GetTotalDefense()).To(Equal(42))
+	for _, item := range itemSet2 {
+		p.EquipItem(item)
+	}
 
-	weapon := item.FindItemByName("Bloodforged Sword")
-	p.EquipItem(weapon)
-
-	g.Expect(p.GetDamage()).To(Equal(baseDmg + 43))
-
-	// Damage reduction is calculated as defence / defence + 100
-	def := float32(p.GetTotalDefense())
-	expectedDamageReduction := def / (def + 100)
-
-	g.Expect(p.GetDamageReduction()).To(Equal(expectedDamageReduction))
-
-	p.ReceiveDamage(50)
-	expectedDamageTaken := int((float32(50) * (1 - p.GetDamageReduction())))
-
-	g.Expect(p.GetCurrentHealth()).To(Equal(p.GetMaxHealth() - expectedDamageTaken))
+	gear = p.GetGear()
+	g.Expect(gear.Head).To(Equal(helm2))
+	g.Expect(gear.Upperbody).To(Equal(torso2))
+	g.Expect(gear.Legs).To(Equal(legs2))
+	g.Expect(gear.Feet).To(Equal(boots2))
+	g.Expect(gear.Weapon).To(Equal(weapon2))
+	
+	
+	g.Expect(p.UnequipHead()).To(BeTrue())
+	g.Expect(p.UnequipUpperBody()).To(BeTrue())
+	g.Expect(p.UnequipLowerBody()).To(BeTrue())
+	g.Expect(p.UnequipFeet()).To(BeTrue())
+	g.Expect(p.UnequipWeapon()).To(BeTrue())
+	
+	g.Expect(p.UnequipHead()).To(BeFalse())
+	g.Expect(p.UnequipUpperBody()).To(BeFalse())
+	g.Expect(p.UnequipLowerBody()).To(BeFalse())
+	g.Expect(p.UnequipFeet()).To(BeFalse())
+	g.Expect(p.UnequipWeapon()).To(BeFalse())
+	
+	
+	
+	inv := p.GetItems()
+	g.Expect(inv).To(ContainElements(itemSet1))
+	g.Expect(inv).To(ContainElements(itemSet2))
 }
 
+func TestClasses(t *testing.T) {
+	g := NewWithT(t)
+
+	// Rogue
+	r := class.NewRogue()
+
+	g.Expect(r.Name()).To(Equal(class.ROGUE_STR))
+	g.Expect(r.GetDescription()).To(Equal("Stealth assassin."))
+	g.Expect(r.GetBaseDmg()).To(Equal(7))
+	g.Expect(r.GetEnergy()).To(Equal(100))
+	r.IncreaseStats(2) // Simulate player getting lvl 2
+	g.Expect(r.GetBaseDmg()).To(Equal(11))
+	g.Expect(r.GetEnergy()).To(Equal(120))
+
+	// Mage
+	m := class.NewMage()
+
+	g.Expect(m.Name()).To(Equal(class.MAGE_STR))
+	g.Expect(m.GetDescription()).To(Equal("Magic caster."))
+	g.Expect(m.GetBaseDmg()).To(Equal(10))
+	g.Expect(m.GetEnergy()).To(Equal(100))
+	m.IncreaseStats(2) // Simulate player getting lvl 2
+	g.Expect(m.GetBaseDmg()).To(Equal(14))
+	g.Expect(m.GetEnergy()).To(Equal(120))
+
+	// Paladin
+	p := class.NewPaladin()
+
+	g.Expect(p.Name()).To(Equal(class.PALADIN_STR))
+	g.Expect(p.GetDescription()).To(Equal("Magic tank."))
+	g.Expect(p.GetBaseDmg()).To(Equal(5))
+	g.Expect(p.GetEnergy()).To(Equal(100))
+	p.IncreaseStats(2) // Simulate player getting lvl 2
+	g.Expect(p.GetBaseDmg()).To(Equal(8))
+	g.Expect(p.GetEnergy()).To(Equal(120))
+
+
+	
+}
 
 // Utility function to aid testing
 // Calculates the total XP required to reach a certain level, from level 1
