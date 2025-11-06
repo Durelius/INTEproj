@@ -17,6 +17,7 @@ func TestPlayerWin(t *testing.T) {
 
 	skeleton := enemy.NewSkeleton()
 	b := battle.New(p, skeleton, true) // Player starts first
+	g.Expect(b.PlayerTurn()).To(BeTrue())
 	expectedSkeletonHealth := skeleton.GetCurrentHealth() - p.GetDamage()
 	b.ProgressFight()
 	actualSkeletonHealth := skeleton.GetCurrentHealth()
@@ -32,6 +33,8 @@ func TestPlayerWin(t *testing.T) {
 	for !b.IsOver() {
 		b.ProgressFight()
 	}
+
+	b.ProgressFight()
 
 	g.Expect(skeleton.IsDead()).To(BeTrue())
 	g.Expect(p.IsDead()).To(BeFalse())
