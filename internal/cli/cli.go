@@ -51,7 +51,7 @@ func (cli *CLI) generateMapView() string {
 					out += "\033[33m?\033[0m"
 				case "EXIT":
 					exit := poi.(*room.Exit)
-					if exit.IsLocked(cli.game.Room) {
+					if exit.GetLockedStatus(cli.game.Room) {
 						out += "\033[31m#\033[0m"
 					} else {
 						out += "\033[32m#\033[0m"
@@ -68,7 +68,6 @@ func (cli *CLI) generateMapView() string {
 }
 
 func (cli *CLI) View() (out string) {
-
 	out += cli.view.view(cli)
 
 	return

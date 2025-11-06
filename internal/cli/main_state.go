@@ -11,7 +11,6 @@ import (
 type mainState struct{}
 
 func (ms *mainState) view(cli *CLI) (out string) {
-
 	out = cli.getHeaderInfo()
 
 	out += "Press B to open bag\n"
@@ -70,7 +69,7 @@ func (ms *mainState) update(cli *CLI, msg tea.KeyMsg) {
 			return
 		case "EXIT":
 			exit := poi.(*room.Exit)
-			if exit.IsLocked(cli.game.Room) {
+			if exit.GetLockedStatus(cli.game.Room) {
 				cli.msg = "The door is locked until all enemies are killed"
 			} else {
 				cli.game.UpdateRoom()
