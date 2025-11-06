@@ -38,7 +38,7 @@ func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
 	xpToLevel7 := CalculateXpToLevel(7)
 	additionalXp := 57
 	p.IncreaseExperience(xpToLevel7 + additionalXp)
-	
+
 	g.Expect(p.GetLevel()).To(Equal(7))
 	g.Expect(p.GetExperience()).To(Equal(additionalXp))
 	g.Expect(p.GetDamage()).To(Equal(61))
@@ -48,12 +48,12 @@ func TestPickupAndDropItem(t *testing.T) {
 	g := NewWithT(t)
 
 	p := player.New("TestPlayer", class.ROGUE_STR)
-	i := item.FindItemByName("Runeblade")
+	i := item.GetItemByName("Runeblade")
 
 	p.EquipItem(i)
 	g.Expect(p.GetTotalWeight()).To(Equal(i.GetWeight()))
-	
-	for p.GetTotalWeight() + i.GetWeight() < p.GetMaxWeight() {
+
+	for p.GetTotalWeight()+i.GetWeight() < p.GetMaxWeight() {
 		p.PickupItem(i)
 	}
 
@@ -66,7 +66,7 @@ func TestPickupAndDropItem(t *testing.T) {
 
 func TestEquipItems(t *testing.T) {
 	g := NewWithT(t)
-	
+
 	p := player.New("TestPlayer", class.PALADIN_STR)
 
 	baseDmg := p.GetDamage()
@@ -74,11 +74,11 @@ func TestEquipItems(t *testing.T) {
 	g.Expect(baseDmg).To(Equal(5))
 	g.Expect(p.GetTotalDefense()).To(Equal(0))
 
-	helm := item.FindItemByName("Crown of Eternity")
-	torso := item.FindItemByName("Padded Vest")
-	legs := item.FindItemByName("Cloth Trousers")
-	boots := item.FindItemByName("Worn Boots")
-	weapon := item.FindItemByName("Soulfire Edge")
+	helm := item.GetItemByName("Crown of Eternity")
+	torso := item.GetItemByName("Padded Vest")
+	legs := item.GetItemByName("Cloth Trousers")
+	boots := item.GetItemByName("Worn Boots")
+	weapon := item.GetItemByName("Soulfire Edge")
 	itemSet1 := []item.Item{helm, torso, legs, boots, weapon}
 	gear := p.GetGear()
 
@@ -92,13 +92,13 @@ func TestEquipItems(t *testing.T) {
 	g.Expect(gear.Feet).To(Equal(boots))
 	g.Expect(gear.Weapon).To(Equal(weapon))
 	g.Expect(p.GetDamage()).To(Equal(baseDmg + 63))
-	g.Expect(p.GetTotalDefense()).To(Equal(65+18+12+8))
-	
-	helm2 := item.FindItemByName("Steel Helm")
-	torso2 := item.FindItemByName("Reinforced Jerkin")
-	legs2 := item.FindItemByName("Chain Leggings")
-	boots2 := item.FindItemByName("Ironshod Boots")
-	weapon2 := item.FindItemByName("Twilight Katana")
+	g.Expect(p.GetTotalDefense()).To(Equal(65 + 18 + 12 + 8))
+
+	helm2 := item.GetItemByName("Steel Helm")
+	torso2 := item.GetItemByName("Reinforced Jerkin")
+	legs2 := item.GetItemByName("Chain Leggings")
+	boots2 := item.GetItemByName("Ironshod Boots")
+	weapon2 := item.GetItemByName("Twilight Katana")
 	itemSet2 := []item.Item{helm2, torso2, legs2, boots2, weapon2}
 
 	for _, item := range itemSet2 {
@@ -111,22 +111,19 @@ func TestEquipItems(t *testing.T) {
 	g.Expect(gear.Legs).To(Equal(legs2))
 	g.Expect(gear.Feet).To(Equal(boots2))
 	g.Expect(gear.Weapon).To(Equal(weapon2))
-	
-	
+
 	g.Expect(p.UnequipHead()).To(BeTrue())
 	g.Expect(p.UnequipUpperBody()).To(BeTrue())
 	g.Expect(p.UnequipLowerBody()).To(BeTrue())
 	g.Expect(p.UnequipFeet()).To(BeTrue())
 	g.Expect(p.UnequipWeapon()).To(BeTrue())
-	
+
 	g.Expect(p.UnequipHead()).To(BeFalse())
 	g.Expect(p.UnequipUpperBody()).To(BeFalse())
 	g.Expect(p.UnequipLowerBody()).To(BeFalse())
 	g.Expect(p.UnequipFeet()).To(BeFalse())
 	g.Expect(p.UnequipWeapon()).To(BeFalse())
-	
-	
-	
+
 	inv := p.GetItems()
 	g.Expect(inv).To(ContainElements(itemSet1))
 	g.Expect(inv).To(ContainElements(itemSet2))
@@ -168,8 +165,6 @@ func TestClasses(t *testing.T) {
 	g.Expect(p.GetBaseDmg()).To(Equal(8))
 	g.Expect(p.GetEnergy()).To(Equal(120))
 
-
-	
 }
 
 // Utility function to aid testing

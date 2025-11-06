@@ -88,7 +88,7 @@ func GetRandomItem() Item {
 	return GetRandomItemByRarity(r)
 }
 
-func FindItemByName(name string) Item {
+func GetItemByName(name string) Item {
 	for _, item := range AllItems {
 		if strings.EqualFold(item.GetName(), name) {
 			return item
