@@ -158,13 +158,13 @@ func convertPlayerToSave(p *player.Player) *playerSave {
 func convertSaveToPlayer(save *playerSave) *player.Player {
 	var itemlist []item.Item
 	for _, name := range save.InventoryItemNames {
-		itemlist = append(itemlist, item.FindItemByName(name))
+		itemlist = append(itemlist, item.GetItemByName(name))
 	}
-	gear := gear.Gear{Head: item.FindItemByName(save.GearNames.HeadItemName),
-		Upperbody: item.FindItemByName(save.GearNames.UpperbodyItemName),
-		Legs:      item.FindItemByName(save.GearNames.LegItemName),
-		Weapon:    item.FindItemByName(save.GearNames.WeaponItemName),
-		Feet:      item.FindItemByName(save.GearNames.FeetItemName),
+	gear := gear.Gear{Head: item.GetItemByName(save.GearNames.HeadItemName),
+		Upperbody: item.GetItemByName(save.GearNames.UpperbodyItemName),
+		Legs:      item.GetItemByName(save.GearNames.LegItemName),
+		Weapon:    item.GetItemByName(save.GearNames.WeaponItemName),
+		Feet:      item.GetItemByName(save.GearNames.FeetItemName),
 	}
 	p := player.Load(save.Name, save.Class.ClassName, itemlist, gear, save.ID, save.MaxWeight, save.MaxHealth, save.CurrentHealth, save.Level, save.Experience, save.Class.BaseDmg, save.Class.Energy)
 	return p
