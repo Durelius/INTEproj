@@ -38,7 +38,7 @@ func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
 	xpToLevel7 := CalculateXpToLevel(7)
 	additionalXp := 57
 	p.IncreaseExperience(xpToLevel7 + additionalXp)
-	
+
 	g.Expect(p.GetLevel()).To(Equal(7))
 	g.Expect(p.GetExperience()).To(Equal(additionalXp))
 	g.Expect(p.GetDamage()).To(Equal(61))
@@ -46,7 +46,7 @@ func TestLevelUpMultipleTimesOnOneXpDrop(t *testing.T) {
 
 func TestEquipItems(t *testing.T) {
 	g := NewWithT(t)
-	
+
 	p := player.New("TestPlayer", class.PALADIN_STR)
 
 	baseDmg := p.GetDamage()
@@ -54,17 +54,17 @@ func TestEquipItems(t *testing.T) {
 	g.Expect(baseDmg).To(Equal(5))
 	g.Expect(p.GetTotalDefense()).To(Equal(0))
 
-	helm := item.FindItemByName("Crown of Eternity")
+	helm := item.GetItemByName("Crown of Eternity")
 	p.EquipItem(helm)
 
 	g.Expect(p.GetTotalDefense()).To(Equal(65))
 
-	helm2 := item.FindItemByName("Helm of Embersteel")
+	helm2 := item.GetItemByName("Helm of Embersteel")
 	p.EquipItem(helm2)
 
 	g.Expect(p.GetTotalDefense()).To(Equal(42))
 
-	weapon := item.FindItemByName("Bloodforged Sword")
+	weapon := item.GetItemByName("Bloodforged Sword")
 	p.EquipItem(weapon)
 
 	g.Expect(p.GetDamage()).To(Equal(baseDmg + 43))
@@ -80,7 +80,6 @@ func TestEquipItems(t *testing.T) {
 
 	g.Expect(p.GetCurrentHealth()).To(Equal(p.GetMaxHealth() - expectedDamageTaken))
 }
-
 
 // Utility function to aid testing
 // Calculates the total XP required to reach a certain level, from level 1

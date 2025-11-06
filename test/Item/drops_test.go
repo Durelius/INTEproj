@@ -14,7 +14,7 @@ func TestGetItemsByName(t *testing.T) {
 	count := len(str)
 
 	for i := 0; i < count; i++ {
-		item := item.FindItemByName(str[i])
+		item := item.GetItemByName(str[i])
 		g.Expect(str[i]).To(gomega.Equal(item.GetName()))
 		g.Expect(item).NotTo(gomega.BeNil())
 	}
@@ -27,7 +27,7 @@ func TestCreateEmptyItem(t *testing.T) {
 	count := len(str)
 
 	for i := 0; i < count; i++ {
-		item := item.FindItemByName(str[i])
+		item := item.GetItemByName(str[i])
 		g.Expect(item).To(gomega.BeNil())
 	}
 }
@@ -36,6 +36,6 @@ func TestCreateEmptyItem(t *testing.T) {
 func TestCreateNilItem(t *testing.T) {
 	g := gomega.NewGomegaWithT(t)
 	var nilString string
-	item := item.FindItemByName(nilString)
+	item := item.GetItemByName(nilString)
 	g.Expect(item).To(gomega.BeNil())
 }

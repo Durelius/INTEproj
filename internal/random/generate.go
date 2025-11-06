@@ -10,15 +10,18 @@ const baseIDLength = 16
 
 var seed int64 = 0
 
+// NEW: one shared RNG instance
+var rng = rand.New(rand.NewSource(1))
+
 func SetSeed(seedParam int64) {
 	seed = seedParam
+	rng.Seed(seed) // use the shared RNG
 }
 
+// REMOVE creation of fresh RNG each call.
+// Keep function, but return shared rng.
 func new() *rand.Rand {
-	if seed == 0 {
-		return rand.New(rand.NewSource(int64(rand.Int())))
-	}
-	return rand.New(rand.NewSource(seed)) // default
+	return rng
 }
 
 func stringWithCharset(length int, charset string) string {
@@ -34,9 +37,9 @@ func String() string {
 }
 
 func Int(min, max int) int {
-	random := new()
-	return random.Intn(max-min+1) + min
+	return new().Intn(max-min+1) + min
 }
+
 func IntList(max int) int {
 	return new().Intn(max - 1)
 }
