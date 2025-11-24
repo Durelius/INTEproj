@@ -93,7 +93,12 @@ func TestGetLocation(t *testing.T) {
 // TEST: See that room can handle a lot of POIs
 func TestStressRoom(t *testing.T) {
 	g := NewWithT(t)
-	room := room.NewCustomRoom([]room.PointOfInterest{}, 10, 10, 500, 500)
+	room := room.NewCustomRoom(make(map[room.Location]room.PointOfInterest), 10, 10, 250, 250)
+
+	//thisRoomHeight = amount[0]
+	//thisRoomWidth = amount[1]
+	//itemAmount = amount[2]
+	//enemyAmount = amount[3]
 
 	var exit int
 	var loot int
@@ -113,11 +118,11 @@ func TestStressRoom(t *testing.T) {
 	g.Expect(exit).To(Equal(1))
 	g.Expect(enemy).To(SatisfyAll(
 		BeNumerically(">", 0),
-		BeNumerically("<=", 500),
+		BeNumerically("<=", 250),
 	))
 	g.Expect(loot).To(SatisfyAll(
 		BeNumerically(">", 0),
-		BeNumerically("<=", 500),
+		BeNumerically("<=", 250),
 	))
 }
 
