@@ -68,7 +68,7 @@ func NewRandomRoom() *Room {
 
 	return room
 }
-func NewCustomRoom(pois []PointOfInterest, amount ...int) *Room {
+func NewCustomRoom(pois map[Location]PointOfInterest, amount ...int) *Room {
 	itemAmount := standardItemAmount
 	enemyAmount := standardEnemyAmount
 	thisRoomHeight := roomHeight
@@ -90,26 +90,25 @@ func NewCustomRoom(pois []PointOfInterest, amount ...int) *Room {
 		prev:           nil,
 	}
 
-	randomizedItemAmount := rand.Intn(itemAmount) + 1
-	randomizedEnemyMAount := rand.Intn(enemyAmount) + 1
-
 	pointsOfInterest := []PointOfInterest{}
-	if len(pointsOfInterest) == 0 {
-		for range randomizedItemAmount {
+	if len(pois) == 0 {
+		pointsOfInterest = append(pointsOfInterest, &Exit{isLocked: true})
+		for range itemAmount {
 			pointsOfInterest = append(pointsOfInterest, NewLoot())
 		}
 
-		for range randomizedEnemyMAount {
+		for range enemyAmount {
 			pointsOfInterest = append(pointsOfInterest, enemy.NewRandomEnemy())
 		}
-		pointsOfInterest = append(pointsOfInterest, &Exit{isLocked: true})
-	}
 
-	room.assignLocationsToRoom(
-		pointsOfInterest,
-		roomHeight,
-		roomWidth,
-	)
+		room.assignLocationsToRoom(
+			pointsOfInterest,
+			roomHeight,
+			roomWidth,
+		)
+		return room
+	}
+	room.poi = pois
 
 	return room
 }
