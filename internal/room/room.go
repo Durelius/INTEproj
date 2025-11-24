@@ -33,7 +33,42 @@ type Room struct {
 	next           *Room
 }
 
-func NewRandomRoom(amount ...int) *Room {
+func NewRandomRoom() *Room {
+	room := &Room{
+		id:             random.String(),
+		entry:          roomEntryLocation,
+		height:         roomHeight,
+		width:          roomWidth,
+		playerLocation: roomEntryLocation,
+		poi:            make(map[Location]PointOfInterest),
+		next:           nil,
+		prev:           nil,
+	}
+
+	randomizedItemAmount := rand.Intn(standardItemAmount) + 1
+	randomizedEnemyMAount := rand.Intn(standardEnemyAmount) + 1
+
+	pointsOfInterest := []PointOfInterest{}
+
+	for range randomizedItemAmount {
+		pointsOfInterest = append(pointsOfInterest, NewLoot())
+	}
+
+	for range randomizedEnemyMAount {
+		pointsOfInterest = append(pointsOfInterest, enemy.NewRandomEnemy())
+	}
+
+	pointsOfInterest = append(pointsOfInterest, &Exit{isLocked: true})
+
+	room.assignLocationsToRoom(
+		pointsOfInterest,
+		roomHeight,
+		roomWidth,
+	)
+
+	return room
+}
+func NewCustomRoom(pois []PointOfInterest, amount ...int) *Room {
 	itemAmount := standardItemAmount
 	enemyAmount := standardEnemyAmount
 	thisRoomHeight := roomHeight
@@ -59,16 +94,16 @@ func NewRandomRoom(amount ...int) *Room {
 	randomizedEnemyMAount := rand.Intn(enemyAmount) + 1
 
 	pointsOfInterest := []PointOfInterest{}
+	if len(pointsOfInterest) == 0 {
+		for range randomizedItemAmount {
+			pointsOfInterest = append(pointsOfInterest, NewLoot())
+		}
 
-	for range randomizedItemAmount {
-		pointsOfInterest = append(pointsOfInterest, NewLoot())
+		for range randomizedEnemyMAount {
+			pointsOfInterest = append(pointsOfInterest, enemy.NewRandomEnemy())
+		}
+		pointsOfInterest = append(pointsOfInterest, &Exit{isLocked: true})
 	}
-
-	for range randomizedEnemyMAount {
-		pointsOfInterest = append(pointsOfInterest, enemy.NewRandomEnemy())
-	}
-
-	pointsOfInterest = append(pointsOfInterest, &Exit{isLocked: true})
 
 	room.assignLocationsToRoom(
 		pointsOfInterest,

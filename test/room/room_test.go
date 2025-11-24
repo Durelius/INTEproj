@@ -70,7 +70,7 @@ func TestNewRandomRoom(t *testing.T) {
 // TEST: See that room can handle a lot of POIs
 func TestStressRoom(t *testing.T) {
 	g := NewWithT(t)
-	room := room.NewRandomRoom(10, 10, 500, 500)
+	room := room.NewCustomRoom([]room.PointOfInterest{}, 10, 10, 500, 500)
 
 	var exit int
 	var loot int
