@@ -66,6 +66,29 @@ func TestNewRandomRoom(t *testing.T) {
 		BeNumerically("<=", 5),
 	))
 }
+func TestUsePOINull(t *testing.T) {
+	room := room.NewRandomRoom()
+	poi := room.UsePOI(-5, -5)
+	if poi != nil {
+		t.Errorf("Use POI should return nil if values for X or Y is negative, value: %v", poi)
+	}
+}
+func TestGetLoot(t *testing.T) {
+	poi := room.NewLoot()
+	loot := poi.(*room.Loot)
+	items := loot.GetItems()
+	if len(items) != 2 {
+		t.Error("Loot should return 2 items")
+	}
+
+}
+func TestGetLocation(t *testing.T) {
+	loc := room.NewLocation(5, 5)
+	x, y := loc.Get()
+	if x != 5 || y != 5 {
+		t.Error("New location doesn't return expected values")
+	}
+}
 
 // TEST: See that room can handle a lot of POIs
 func TestStressRoom(t *testing.T) {
