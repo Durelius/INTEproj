@@ -14,7 +14,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-func testCLI(t *testing.T) {
+func testCLI() {
 	gamestate := gamestate.GameState{}
 
 	cli := cli.New(&gamestate)
@@ -35,4 +35,9 @@ func runGameToMapState() gamestate.GameState {
 	r := room.NewCustomRoom(pois, 10, 10, 1, 1)
 	gs := gamestate.New(p, r)
 	return *gs
+}
+
+func TestCreateBothStates(t *testing.T) {
+	runGameToMapState().Player.GetID()
+	testCLI()
 }
