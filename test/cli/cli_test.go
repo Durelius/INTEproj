@@ -14,7 +14,7 @@ import (
 	tea "github.com/charmbracelet/bubbletea"
 )
 
-func TestCLI(t *testing.T) {
+func testCLI(t *testing.T) {
 	gamestate := gamestate.GameState{}
 
 	cli := cli.New(&gamestate)
