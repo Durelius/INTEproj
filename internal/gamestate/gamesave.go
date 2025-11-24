@@ -46,11 +46,11 @@ func convertRoomToSave(room *room.Room) *roomSave {
 	save.Width = room.GetWidth()
 	save.Level = room.GetLevel()
 	nextRoom := room.GetNextRoom()
-	if nextRoom != nil && nextRoom.GetLevel() > 0 {
+	if nextRoom != nil && nextRoom.GetLevel() > 0 && room.GetID() != nextRoom.GetID() {
 		save.Next = convertRoomToSave(nextRoom)
 	}
 	prevRoom := room.GetPrevRoom()
-	if prevRoom != nil && prevRoom.GetLevel() > 0 {
+	if prevRoom != nil && prevRoom.GetLevel() > 0 && room.GetID() != prevRoom.GetID() {
 		save.Prev = convertRoomToSave(prevRoom)
 	}
 	save.PlayerLocation = convertLocationToSave(room.GetPlayerLocation())
@@ -72,8 +72,6 @@ func convertSaveToRoom(save *roomSave) *room.Room {
 			poi = room.NewExit()
 		case "LOOT":
 			poi = room.NewLoot()
-		default:
-			return nil
 		}
 		poiMap[convertSaveToLocation(*v.Location)] = poi
 
@@ -83,8 +81,9 @@ func convertSaveToRoom(save *roomSave) *room.Room {
 		room.SetNext(convertSaveToRoom(save.Next))
 	}
 	if save.Prev != nil {
-		room.SetNext(convertSaveToRoom(save.Prev))
+		room.SetPrev(convertSaveToRoom(save.Prev))
 	}
+
 	return room
 }
 func convertLocationToSave(l room.Location) *locationSave {
@@ -166,7 +165,8 @@ func convertSaveToPlayer(save *playerSave) *player.Player {
 		Weapon:    item.GetItemByName(save.GearNames.WeaponItemName),
 		Feet:      item.GetItemByName(save.GearNames.FeetItemName),
 	}
-	p := player.Load(save.Name, save.Class.ClassName, itemlist, gear, save.ID, save.MaxWeight, save.MaxHealth, save.CurrentHealth, save.Level, save.Experience, save.Class.BaseDmg, save.Class.Energy)
+	p := player.Load(save.Name, save.Class.ClassName, itemlist, gear, save.ID, save.MaxWeight,
+		save.MaxHealth, save.CurrentHealth, save.Level, save.Experience, save.Class.BaseDmg, save.Class.Energy)
 	return p
 
 }

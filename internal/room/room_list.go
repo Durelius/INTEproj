@@ -32,8 +32,8 @@ func (rl *RoomList) Add(r *Room) {
 		return
 	}
 	rl.tail.next = r // link old tail forward
-	r.prev = rl.tail // link new room back
-	rl.tail = r      // update tail
+	// r.prev = rl.tail // link new room back
+	rl.tail = r // update tail
 }
 
 func (rl *RoomList) GetHead() *Room {

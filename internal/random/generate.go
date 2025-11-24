@@ -30,6 +30,7 @@ func stringWithCharset(length int, charset string) string {
 	return string(b)
 }
 
+// returns a random string with the length of the const baseIDLength in the random package
 func String() string {
 	return stringWithCharset(baseIDLength, charset)
 }

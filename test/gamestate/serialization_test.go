@@ -6,11 +6,15 @@ import (
 	"testing"
 
 	"github.com/Durelius/INTEproj/internal/gamestate"
+	"github.com/Durelius/INTEproj/internal/item"
+	"github.com/Durelius/INTEproj/internal/player"
+	"github.com/Durelius/INTEproj/internal/player/class"
+	"github.com/Durelius/INTEproj/internal/room"
 	"github.com/joho/godotenv"
 )
 
 func TestConvertGameStateToSave(t *testing.T) {
-	gs := gamestate.NewDefault()
+	gs := gamestate.New(player.New("testPlayer", class.MAGE_STR), room.NewRandomRoom())
 	save := gs.ConvertToSaveType()
 	if save == nil {
 		t.Error("Save struct is nil")
@@ -69,7 +73,14 @@ func TestConvertGameStateToSave(t *testing.T) {
 }
 
 func TestConvertGameSaveToJSON(t *testing.T) {
-	gs := gamestate.NewDefault()
+	gs := gamestate.New(player.New("testPlayer", class.MAGE_STR), room.NewRandomRoom())
+	rl := room.NewRoomList(gs.Room)
+	prev := room.NewRandomRoom()
+	next := room.NewRandomRoom()
+	rl.Add(prev)
+	rl.Add(next)
+	gs.Room.SetNext(prev)
+	gs.Room.SetPrev(prev)
 	save := gs.ConvertToSaveType()
 	data, err := save.ConvertToBytes()
 	if err != nil {
@@ -88,7 +99,7 @@ func TestCreateLoadSaveFile(t *testing.T) {
 	if os.Getenv("CREATE_JSON_TEST") != "true" {
 		t.Skip()
 	}
-	gs := gamestate.NewDefault()
+	gs := gamestate.New(player.New("testPlayer", class.MAGE_STR), room.NewRandomRoom())
 	if err := gs.SaveToFile(); err != nil {
 		t.Errorf("Error saving file: %v", err)
 		return
@@ -108,10 +119,41 @@ func TestCreateLoadSaveFile(t *testing.T) {
 }
 
 func TestRoundTripGameStateSave(t *testing.T) {
-	gs := gamestate.NewDefault()
+	gs := gamestate.New(player.New("testPlayer", class.MAGE_STR), room.NewRandomRoom())
+	rl := room.NewRoomList(gs.Room)
+	prev := room.NewRandomRoom()
+	next := room.NewRandomRoom()
+	rl.Add(prev)
+	rl.Add(next)
+	gs.Room.SetNext(prev)
+	gs.Room.SetPrev(prev)
+	p1 := gs.Player
+	itemForInv := item.GetRandomItem()
+	p1.PickupItem(itemForInv)
+
+	head := item.GetItemByName("Leather Cap")
+	p1.PickupItem(head)
+	p1.EquipItem(head)
+
+	weapon := item.GetItemByName("The Worldbreaker")
+	p1.PickupItem(weapon)
+	p1.EquipItem(weapon)
+
+	upperBody := item.GetItemByName("Padded Vest")
+	p1.PickupItem(upperBody)
+	p1.EquipItem(upperBody)
+
+	lowerBody := item.GetItemByName("Leather Breeches")
+	p1.PickupItem(lowerBody)
+	p1.EquipItem(lowerBody)
+
+	foot := item.GetItemByName("Ironstride Boots")
+	p1.PickupItem(foot)
+	p1.EquipItem(foot)
+
 	save := gs.ConvertToSaveType()
 	gs2 := save.ConvertSaveToGameState()
-	p1 := gs.Player
+
 	p2 := gs2.Player
 	// player tests
 	if gs2.RoomList.GetLevelCounter() == 0 {

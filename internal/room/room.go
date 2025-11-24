@@ -5,6 +5,7 @@ import (
 
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/item"
+	"github.com/Durelius/INTEproj/internal/random"
 )
 
 const (
@@ -21,6 +22,7 @@ const (
 var roomEntryLocation = NewLocation(0, 0)
 
 type Room struct {
+	id             string
 	level          int
 	entry          Location
 	height         int
@@ -33,6 +35,7 @@ type Room struct {
 
 func NewRandomRoom() *Room {
 	room := &Room{
+		id:             random.String(),
 		entry:          roomEntryLocation,
 		height:         roomHeight,
 		width:          roomWidth,
@@ -151,6 +154,9 @@ func (r *Room) GetPrevRoom() *Room {
 		return nil
 	}
 	return r.prev
+}
+func (r *Room) GetID() string {
+	return r.id
 }
 
 func (r *Room) HasEnemies() bool {

@@ -11,7 +11,6 @@ import (
 	"github.com/Durelius/INTEproj/internal/battle"
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/player"
-	class "github.com/Durelius/INTEproj/internal/player/class"
 	"github.com/Durelius/INTEproj/internal/random"
 	"github.com/Durelius/INTEproj/internal/room"
 )
@@ -32,12 +31,12 @@ func New(p *player.Player, r *room.Room) *GameState {
 		Battle:   nil,
 		RoomList: room.NewRoomList(r),
 	}
-	TimerSave(&gs)
+	timerSave(&gs)
 	return &gs
 }
 
 // save every 5 seconds
-func TimerSave(gs *GameState) {
+func timerSave(gs *GameState) {
 	go func() {
 		for {
 			time.Sleep(5 * time.Second)
@@ -60,22 +59,6 @@ func (gs *GameState) InitiateBattle(e enemy.Enemy) {
 func (gs *GameState) UpdateRoom() {
 	gs.Room = room.NewRandomRoom()
 	gs.RoomList.Add(gs.Room)
-}
-
-// Currently this method serves to bypass the limitations of Golang not allowing optional arguments.
-// This helps us get a base Game going, where player is hard coded to Josh.
-func NewDefault() *GameState {
-	p := player.New("Josh", class.ROGUE_STR)
-	r := room.NewRandomRoom()
-	rl := room.NewRoomList(r)
-	gs := GameState{
-		Player:   p,
-		Room:     r,
-		Battle:   nil,
-		RoomList: rl,
-	}
-	go TimerSave(&gs)
-	return &gs
 }
 
 func (gs *GameState) GetFileName() string {
