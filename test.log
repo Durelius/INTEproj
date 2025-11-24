@@ -1,0 +1,119 @@
+	github.com/Durelius/INTEproj/cmd/app		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/assets/ascii		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/battle		coverage: 0.0% of statements
+?   	github.com/Durelius/INTEproj/internal/character	[no test files]
+	github.com/Durelius/INTEproj/internal/cli		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/enemy		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/gamestate		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/item		coverage: 0.0% of statements
+?   	github.com/Durelius/INTEproj/internal/npc	[no test files]
+	github.com/Durelius/INTEproj/internal/player		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/player/class		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/player/gear		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/player/inventory		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/random		coverage: 0.0% of statements
+	github.com/Durelius/INTEproj/internal/room		coverage: 0.0% of statements
+=== RUN   TestMoveLeft
+--- PASS: TestMoveLeft (0.00s)
+=== RUN   TestMoveRight
+--- PASS: TestMoveRight (0.00s)
+=== RUN   TestMoveUp
+--- PASS: TestMoveUp (0.00s)
+=== RUN   TestMoveDown
+--- PASS: TestMoveDown (0.00s)
+PASS
+coverage: 29.1% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+ok  	github.com/Durelius/INTEproj/test/Cli	0.139s	coverage: 29.1% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+=== RUN   TestGetItemsByName
+--- PASS: TestGetItemsByName (0.00s)
+=== RUN   TestCreateEmptyItem
+--- PASS: TestCreateEmptyItem (0.00s)
+=== RUN   TestCreateNilItem
+--- PASS: TestCreateNilItem (0.00s)
+=== RUN   TestRandomItemsRate
+--- PASS: TestRandomItemsRate (0.00s)
+=== RUN   TestCreateOutOfBoundsIota
+--- PASS: TestCreateOutOfBoundsIota (0.00s)
+=== RUN   TestGetRandomItemByRarity
+--- PASS: TestGetRandomItemByRarity (0.00s)
+=== RUN   TestGetRandomItem
+--- PASS: TestGetRandomItem (0.00s)
+PASS
+coverage: 3.4% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+ok  	github.com/Durelius/INTEproj/test/Item	(cached)	coverage: 3.4% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+=== RUN   TestPlayerWin
+--- PASS: TestPlayerWin (0.00s)
+=== RUN   TestPlayerLoss
+--- PASS: TestPlayerLoss (0.00s)
+PASS
+coverage: 8.4% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+ok  	github.com/Durelius/INTEproj/test/battle	(cached)	coverage: 8.4% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+=== RUN   TestConvertGameStateToSave
+--- PASS: TestConvertGameStateToSave (0.00s)
+=== RUN   TestConvertGameSaveToJSON
+--- PASS: TestConvertGameSaveToJSON (0.00s)
+=== RUN   TestCreateLoadSaveFile
+    serialization_test.go:100: 
+--- SKIP: TestCreateLoadSaveFile (0.00s)
+=== RUN   TestRoundTripGameStateSave
+--- PASS: TestRoundTripGameStateSave (0.00s)
+PASS
+coverage: 32.9% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+ok  	github.com/Durelius/INTEproj/test/gamestate	(cached)	coverage: 32.9% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+=== RUN   TestNewEmptyInventory
+--- PASS: TestNewEmptyInventory (0.00s)
+=== RUN   TestInventoryWithItems
+--- PASS: TestInventoryWithItems (0.00s)
+PASS
+coverage: 1.7% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+ok  	github.com/Durelius/INTEproj/test/inventory	(cached)	coverage: 1.7% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+=== RUN   TestIncreaseXpAndLevelUp
+--- PASS: TestIncreaseXpAndLevelUp (0.00s)
+=== RUN   TestLevelUpMultipleTimesOnOneXpDrop
+--- PASS: TestLevelUpMultipleTimesOnOneXpDrop (0.00s)
+=== RUN   TestPickupAndDropItem
+--- PASS: TestPickupAndDropItem (0.00s)
+=== RUN   TestEquipItems
+--- PASS: TestEquipItems (0.00s)
+=== RUN   TestClasses
+--- PASS: TestClasses (0.00s)
+PASS
+coverage: 17.6% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+ok  	github.com/Durelius/INTEproj/test/player	(cached)	coverage: 17.6% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+=== RUN   TestNewRoomList
+--- PASS: TestNewRoomList (0.00s)
+=== RUN   TestNewRandomRoom
+--- PASS: TestNewRandomRoom (0.00s)
+=== RUN   TestUsePOINull
+--- PASS: TestUsePOINull (0.00s)
+=== RUN   TestGetLoot
+--- PASS: TestGetLoot (0.00s)
+=== RUN   TestGetLocation
+--- PASS: TestGetLocation (0.00s)
+=== RUN   TestStressRoom
+--- PASS: TestStressRoom (0.00s)
+=== RUN   TestRoomDimensions
+--- PASS: TestRoomDimensions (0.00s)
+=== RUN   TestPlayerStartsAtEntry
+--- PASS: TestPlayerStartsAtEntry (0.00s)
+=== RUN   TestSetPlayerLocation
+--- PASS: TestSetPlayerLocation (0.00s)
+=== RUN   TestHasEnemiesIsTrue
+--- PASS: TestHasEnemiesIsTrue (0.00s)
+=== RUN   TestHasEnemiesIsFalse
+--- PASS: TestHasEnemiesIsFalse (0.00s)
+=== RUN   TestGetNextRoomNil
+--- PASS: TestGetNextRoomNil (0.00s)
+=== RUN   TestGetPrevRoomNil
+--- PASS: TestGetPrevRoomNil (0.00s)
+=== RUN   TestUsePOI
+--- PASS: TestUsePOI (0.00s)
+=== RUN   TestExitRemainsAfterUse
+--- PASS: TestExitRemainsAfterUse (0.00s)
+=== RUN   TestExitLockedWithEnemies
+--- PASS: TestExitLockedWithEnemies (0.00s)
+=== RUN   TestExitUnlocksWithoutEnemies
+--- PASS: TestExitUnlocksWithoutEnemies (0.00s)
+PASS
+coverage: 14.2% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room
+ok  	github.com/Durelius/INTEproj/test/room	(cached)	coverage: 14.2% of statements in github.com/Durelius/INTEproj/cmd/app, github.com/Durelius/INTEproj/internal/assets/ascii, github.com/Durelius/INTEproj/internal/battle, github.com/Durelius/INTEproj/internal/character, github.com/Durelius/INTEproj/internal/cli, github.com/Durelius/INTEproj/internal/enemy, github.com/Durelius/INTEproj/internal/gamestate, github.com/Durelius/INTEproj/internal/item, github.com/Durelius/INTEproj/internal/npc, github.com/Durelius/INTEproj/internal/player, github.com/Durelius/INTEproj/internal/player/class, github.com/Durelius/INTEproj/internal/player/gear, github.com/Durelius/INTEproj/internal/player/inventory, github.com/Durelius/INTEproj/internal/random, github.com/Durelius/INTEproj/internal/room, github.com/Durelius/INTEproj/test/Cli, github.com/Durelius/INTEproj/test/Item, github.com/Durelius/INTEproj/test/battle, github.com/Durelius/INTEproj/test/gamestate, github.com/Durelius/INTEproj/test/inventory, github.com/Durelius/INTEproj/test/player, github.com/Durelius/INTEproj/test/room

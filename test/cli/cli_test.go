@@ -1,38 +1,76 @@
-package cli_test
+package cli
 
 import (
 	"testing"
 
-	"github.com/Durelius/INTEproj/internal/enemy"
-	"github.com/Durelius/INTEproj/internal/gamestate"
-	"github.com/Durelius/INTEproj/internal/player"
-	"github.com/Durelius/INTEproj/internal/player/class"
-	"github.com/Durelius/INTEproj/internal/room"
+	tea "github.com/charmbracelet/bubbletea"
 )
 
-// func testCLI() {
-// 	gamestate := gamestate.GameState{}
+func TestMoveLeft(t *testing.T) {
+	gs := RunGameToInitialState()
+	model := CreateCharacterInMainState(t, gs)
+	startLoc := gs.Room.GetPlayerLocation()
+	startX, _ := startLoc.Get()
 
-// 	cli := cli.New(&gamestate)
+	expectedX := startX - 1
 
-// 	p := tea.NewProgram(cli)
-// 	if _, err := p.Run(); err != nil {
-// 		fmt.Println("Error running TUI:", err)
-// 		os.Exit(1)
-// 	}
-// }
+	msg := tea.KeyMsg{Type: tea.KeyLeft}
+	model.Update(msg)
+	var endLocation = gs.Room.GetPlayerLocation()
+	endX, _ := endLocation.Get()
 
-func runGameToMapState() gamestate.GameState {
-	p := player.New("test", class.MAGE_STR)
-	pois := make(map[room.Location]room.PointOfInterest)
-	pois[room.NewLocation(5, 0)] = room.NewLoot()
-	pois[room.NewLocation(0, 5)] = enemy.NewGoblin()
-
-	r := room.NewCustomRoom(pois, 10, 10, 1, 1)
-	gs := gamestate.New(p, r)
-	return *gs
+	if expectedX == endX {
+		t.Errorf("The player did not move to the left, expected Location: %d. Was %d ", expectedX, endX)
+	}
 }
+func TestMoveRight(t *testing.T) {
+	gs := RunGameToInitialState()
+	model := CreateCharacterInMainState(t, gs)
+	startLoc := gs.Room.GetPlayerLocation()
+	startX, _ := startLoc.Get()
 
-func TestCreateBothStates(t *testing.T) {
-	runGameToMapState().Player.GetID()
+	expectedX := startX + 1
+
+	msg := tea.KeyMsg{Type: tea.KeyRight}
+	model.Update(msg)
+	var endLocation = gs.Room.GetPlayerLocation()
+	endX, _ := endLocation.Get()
+
+	if expectedX == endX {
+		t.Errorf("The player did not move to the Right, expected Location: %d. Was %d ", expectedX, endX)
+	}
+}
+func TestMoveUp(t *testing.T) {
+	gs := RunGameToInitialState()
+	model := CreateCharacterInMainState(t, gs)
+	startLoc := gs.Room.GetPlayerLocation()
+	_, startY := startLoc.Get()
+
+	expectedY := startY - 1
+
+	msg := tea.KeyMsg{Type: tea.KeyUp}
+	model.Update(msg)
+	var endLocation = gs.Room.GetPlayerLocation()
+	_, endY := endLocation.Get()
+
+	if expectedY == endY {
+		t.Errorf("The player did not move to the left, expected Location: %d. Was %d ", expectedY, endY)
+	}
+}
+func TestMoveDown(t *testing.T) {
+	gs := RunGameToInitialState()
+	model := CreateCharacterInMainState(t, gs)
+	startLoc := gs.Room.GetPlayerLocation()
+	_, startY := startLoc.Get()
+
+	expectedY := startY + 1
+
+	msg := tea.KeyMsg{Type: tea.KeyDown}
+	model.Update(msg)
+	var endLocation = gs.Room.GetPlayerLocation()
+	_, endY := endLocation.Get()
+
+	if expectedY == endY {
+		t.Errorf("The player did not move to the left, expected Location: %d. Was %d ", expectedY, endY)
+	}
 }
