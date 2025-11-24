@@ -1,30 +1,26 @@
 package cli_test
 
 import (
-	"fmt"
-	"os"
 	"testing"
 
-	"github.com/Durelius/INTEproj/internal/cli"
 	"github.com/Durelius/INTEproj/internal/enemy"
 	"github.com/Durelius/INTEproj/internal/gamestate"
 	"github.com/Durelius/INTEproj/internal/player"
 	"github.com/Durelius/INTEproj/internal/player/class"
 	"github.com/Durelius/INTEproj/internal/room"
-	tea "github.com/charmbracelet/bubbletea"
 )
 
-func testCLI() {
-	gamestate := gamestate.GameState{}
+// func testCLI() {
+// 	gamestate := gamestate.GameState{}
 
-	cli := cli.New(&gamestate)
+// 	cli := cli.New(&gamestate)
 
-	p := tea.NewProgram(cli)
-	if _, err := p.Run(); err != nil {
-		fmt.Println("Error running TUI:", err)
-		os.Exit(1)
-	}
-}
+// 	p := tea.NewProgram(cli)
+// 	if _, err := p.Run(); err != nil {
+// 		fmt.Println("Error running TUI:", err)
+// 		os.Exit(1)
+// 	}
+// }
 
 func runGameToMapState() gamestate.GameState {
 	p := player.New("test", class.MAGE_STR)
@@ -39,5 +35,4 @@ func runGameToMapState() gamestate.GameState {
 
 func TestCreateBothStates(t *testing.T) {
 	runGameToMapState().Player.GetID()
-	testCLI()
 }
