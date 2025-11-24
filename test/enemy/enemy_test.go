@@ -23,13 +23,12 @@ func TestSpawningEnemies(t *testing.T) {
 	}
 
 	for _, e := range enemies {
-		e.GetType()
-		e.GetEnemyType()
-		e.GetCurrentHealth()
-		e.GetMaxHealth()
-		e.GetDamage()
-		e.GetXPDrop()
-
+		g.Expect(e.GetType()).NotTo(BeNil())
+		g.Expect(e.GetEnemyType()).NotTo(BeNil())
+		g.Expect(e.GetCurrentHealth()).NotTo(BeNil())
+		g.Expect(e.GetMaxHealth()).NotTo(BeNil())
+		g.Expect(e.GetDamage()).NotTo(BeNil())
+		g.Expect(e.GetXPDrop()).NotTo(BeNil())
 		g.Expect(e.DropLoot()).NotTo(BeNil())
 
 		e.IsDead()
