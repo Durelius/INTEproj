@@ -67,6 +67,37 @@ func TestNewRandomRoom(t *testing.T) {
 	))
 }
 
+// TEST: See that room can handle a lot of POIs
+func TestStressRoom(t *testing.T) {
+	g := NewWithT(t)
+	room := room.NewRandomRoom(10, 10, 500, 500)
+
+	var exit int
+	var loot int
+	var enemy int
+
+	for _, poi := range room.GetPOI() {
+		switch poi.GetType() {
+		case "EXIT":
+			exit++
+		case "LOOT":
+			loot++
+		case "ENEMY":
+			enemy++
+		}
+	}
+
+	g.Expect(exit).To(Equal(1))
+	g.Expect(enemy).To(SatisfyAll(
+		BeNumerically(">", 0),
+		BeNumerically("<=", 500),
+	))
+	g.Expect(loot).To(SatisfyAll(
+		BeNumerically(">", 0),
+		BeNumerically("<=", 500),
+	))
+}
+
 func TestRoomDimensions(t *testing.T) {
 	g := NewWithT(t)
 	room := room.NewRandomRoom()
@@ -105,6 +136,25 @@ func TestHasEnemiesIsFalse(t *testing.T) {
 	}
 
 	g.Expect(room.HasEnemies()).To(BeFalse())
+}
+
+// level is added in roomlist add so if you don't add it to roomlist it will be 0 and return nil
+func TestGetNextRoomNil(t *testing.T) {
+	room := room.NewRandomRoom()
+	next := room.GetNextRoom()
+	if next != nil {
+		t.Error("next is supposed to be nil here")
+	}
+
+}
+
+// level is added in roomlist add so if you don't ddd it to roomlist it will be 0 and return nil
+func TestGetPrevRoomNil(t *testing.T) {
+	room := room.NewRandomRoom()
+	prev := room.GetPrevRoom()
+	if prev != nil {
+		t.Error("prev is supposed to be nil here")
+	}
 }
 
 func TestUsePOI(t *testing.T) {

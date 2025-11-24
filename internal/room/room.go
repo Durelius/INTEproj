@@ -33,28 +33,38 @@ type Room struct {
 	next           *Room
 }
 
-func NewRandomRoom() *Room {
+func NewRandomRoom(amount ...int) *Room {
+	itemAmount := standardItemAmount
+	enemyAmount := standardEnemyAmount
+	thisRoomHeight := roomHeight
+	thisRoomWidth := roomWidth
+	if len(amount) == 4 {
+		thisRoomHeight = amount[0]
+		thisRoomWidth = amount[1]
+		itemAmount = amount[2]
+		enemyAmount = amount[3]
+	}
 	room := &Room{
 		id:             random.String(),
 		entry:          roomEntryLocation,
-		height:         roomHeight,
-		width:          roomWidth,
+		height:         thisRoomHeight,
+		width:          thisRoomWidth,
 		playerLocation: roomEntryLocation,
 		poi:            make(map[Location]PointOfInterest),
 		next:           nil,
 		prev:           nil,
 	}
 
-	itemAmount := rand.Intn(standardItemAmount) + 1
-	enemyAmount := rand.Intn(standardEnemyAmount) + 1
+	randomizedItemAmount := rand.Intn(itemAmount) + 1
+	randomizedEnemyMAount := rand.Intn(enemyAmount) + 1
 
 	pointsOfInterest := []PointOfInterest{}
 
-	for range itemAmount {
+	for range randomizedItemAmount {
 		pointsOfInterest = append(pointsOfInterest, NewLoot())
 	}
 
-	for range enemyAmount {
+	for range randomizedEnemyMAount {
 		pointsOfInterest = append(pointsOfInterest, enemy.NewRandomEnemy())
 	}
 
@@ -85,7 +95,7 @@ func (r *Room) assignLocationsToRoom(
 			if _, exist := r.poi[location]; !exist {
 				r.poi[location] = point
 				break
-			} else if counter > 100 {
+			} else if counter > 10 {
 				break
 			}
 		}
