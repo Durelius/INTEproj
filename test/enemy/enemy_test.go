@@ -4,7 +4,6 @@ import (
 	"testing"
 
 	"github.com/Durelius/INTEproj/internal/enemy"
-	"github.com/Durelius/INTEproj/internal/item"
 	. "github.com/onsi/gomega"
 )
 
@@ -31,9 +30,7 @@ func TestSpawningEnemies(t *testing.T) {
 		e.GetDamage()
 		e.GetXPDrop()
 
-		i := e.DropLoot()
-		_, ok := i.(item.Item)
-		g.Expect(ok).To(BeTrue())
+		g.Expect(e.DropLoot()).NotTo(BeNil())
 
 		e.IsDead()
 		g.Expect(e.IsDead()).To(BeFalse())
