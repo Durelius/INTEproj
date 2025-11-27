@@ -3,11 +3,10 @@ package item
 import "fmt"
 
 type Weapon struct {
-	damage   int
-	weight   int
-	name     string
-	itemType ItemType
-	rarity   Rarity
+	damage int
+	weight int
+	name   string
+	rarity Rarity
 }
 
 func (w *Weapon) GetDamage() int {

@@ -11,8 +11,6 @@ import (
 
 // -------------------------------------------- Variables (ish) ------------------------------------------------------
 
-type ItemType string
-
 type Item interface {
 	GetWeight() int
 	ToString() string

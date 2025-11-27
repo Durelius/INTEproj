@@ -3,12 +3,11 @@ package item
 import "fmt"
 
 type Wearable struct {
-	defense  int
-	slot     WearPosition
-	weight   int
-	name     string
-	itemType ItemType
-	rarity   Rarity
+	defense int
+	slot    WearPosition
+	weight  int
+	name    string
+	rarity  Rarity
 }
 
 func (w *Wearable) GetDefense() int {
