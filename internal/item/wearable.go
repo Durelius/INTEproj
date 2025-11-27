@@ -18,9 +18,7 @@ func (w *Wearable) GetDefense() int {
 func (w *Wearable) GetWeight() int {
 	return w.weight
 }
-func (w *Wearable) GetType() ItemType {
-	return w.itemType
-}
+
 func (w *Wearable) GetRarity() Rarity {
 	return w.rarity
 }

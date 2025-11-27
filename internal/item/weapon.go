@@ -16,9 +16,7 @@ func (w *Weapon) GetDamage() int {
 func (w *Weapon) GetWeight() int {
 	return w.weight
 }
-func (w *Weapon) GetType() ItemType {
-	return w.itemType
-}
+
 func (w *Weapon) GetRarity() Rarity {
 	return w.rarity
 }

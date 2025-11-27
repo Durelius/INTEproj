@@ -15,7 +15,6 @@ type ItemType string
 
 type Item interface {
 	GetWeight() int
-	GetType() ItemType
 	ToString() string
 	GetName() string
 	GetRarity() Rarity
