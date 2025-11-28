@@ -13,20 +13,17 @@ import (
 )
 
 func setupTestCLI() *CLI {
-	// Initialize a dummy player
+	// Skapa testspelare
 	p := player.New("TestHero", class.MAGE_STR)
 
-	// Initialize a dummy room (10x10)
 	pois := make(map[room.Location]room.PointOfInterest)
 	pois[room.NewLocation(5, 3)] = room.NewLoot()
 	pois[room.NewLocation(7, 5)] = enemy.NewGoblin()
 
 	r := room.NewCustomRoom(pois, 10, 10, 1, 1)
 	r.SetPlayerLocation(5, 5)
-	// Initialize GameState
 	gs := gamestate.New(p, r)
 
-	// Return the CLI
 	return New(gs)
 }
 
@@ -97,10 +94,10 @@ func TestWalkingUp(t *testing.T) {
 	}
 }
 
-//Loot tests
-
+// Loot tests
+// emulating the movement of player playing the game
 func TestFlow_Loot_PickupAny(t *testing.T) {
-	cli := setupTestCLI() // Ensure this setup places a Loot box at (5,4)
+	cli := setupTestCLI()
 	cli.view = &mainState{}
 
 	initialCount := len(cli.game.Player.GetItems())
@@ -128,8 +125,6 @@ func TestInventory_CursorBounds(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		cli.view.update(cli, tea.KeyMsg{Type: tea.KeyDown})
 	}
-
-	// Max index for equipment is 4 (5 items: 0,1,2,3,4).
 	if cli.cursor > 4 {
 		t.Errorf("Cursor went out of bounds: %d", cli.cursor)
 	}
@@ -223,6 +218,5 @@ func TestFlow_Battle_EncounterToFight(t *testing.T) {
 
 	cli.view.update(cli, tea.KeyMsg{Type: tea.KeyRunes, Runes: []rune("a")})
 
-	// Assert we are still in battleState (either fighting, victory, or defeat)
 	assertState(t, cli, "battleState")
 }
