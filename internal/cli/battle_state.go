@@ -21,8 +21,12 @@ const (
 	encounter battleStage = iota
 	fight
 	defeat
-	victory	
+	victory
 )
+
+func (bs *battleState) getState() State {
+	return Battle
+}
 
 func (bs *battleState) view(cli *CLI) (out string) {
 	switch bs.stage {
@@ -30,7 +34,7 @@ func (bs *battleState) view(cli *CLI) (out string) {
 		out = bs.viewEncounter(cli)
 	case fight:
 		out = bs.viewFight(cli)
-	case victory: 
+	case victory:
 		out = bs.viewVictory(cli)
 	case defeat:
 		out = bs.viewDefeat(cli)
@@ -43,7 +47,7 @@ func (bs *battleState) update(cli *CLI, msg tea.KeyMsg) {
 	case encounter:
 		bs.updateEncounter(cli, msg)
 	case fight:
-		bs.updateFight(cli, msg) 
+		bs.updateFight(cli, msg)
 	case victory:
 		bs.updateVictory(cli, msg)
 	case defeat:
@@ -80,7 +84,6 @@ func (bs *battleState) viewFight(cli *CLI) string {
 
 func (bs *battleState) updateFight(cli *CLI, msg tea.KeyMsg) {
 	b := cli.game.Battle
-	
 
 	switch msg.String() {
 
@@ -115,7 +118,7 @@ func (bs *battleState) viewDefeat(cli *CLI) string {
 
 func (bs *battleState) updateDefeat(cli *CLI, msg tea.KeyMsg) {
 
-	switch msg.String() {	 // Exit program on any key press
+	switch msg.String() { // Exit program on any key press
 	default:
 		os.Exit(0)
 	}

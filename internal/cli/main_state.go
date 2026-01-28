@@ -10,6 +10,10 @@ import (
 
 type mainState struct{}
 
+func (ms *mainState) getState() State {
+	return Map
+}
+
 func (ms *mainState) view(cli *CLI) (out string) {
 	out = cli.getHeaderInfo()
 
