@@ -9,6 +9,10 @@ import (
 
 type inventoryState struct{}
 
+func (is *inventoryState) getState() State {
+	return Inventory
+}
+
 func (is *inventoryState) view(cli *CLI) (out string) {
 	p := cli.game.Player
 
@@ -61,20 +65,20 @@ func (is *inventoryState) view(cli *CLI) (out string) {
 
 func (is *inventoryState) update(cli *CLI, msg tea.KeyMsg) {
 	items := cli.game.Player.GetItems()
-	equippedItemSlots := 5	// Although they may be empty, there will always be 5 rows, one per equippable item slot
+	equippedItemSlots := 5 // Although they may be empty, there will always be 5 rows, one per equippable item slot
 
 	switch msg.String() {
 	case "b":
 		cli.msg = ""
 		cli.view = &mainState{}
-		cli.cursor = 0		// When exiting inventory, reset cursor position
+		cli.cursor = 0 // When exiting inventory, reset cursor position
 		return
 	case "up":
 		if cli.cursor > 0 {
 			cli.cursor--
 		}
 	case "down":
-		if cli.cursor < len(items)-1 + equippedItemSlots {
+		if cli.cursor < len(items)-1+equippedItemSlots {
 			cli.cursor++
 		}
 	case "x":
@@ -87,13 +91,13 @@ func (is *inventoryState) update(cli *CLI, msg tea.KeyMsg) {
 		}
 		if CursorIsInEquipped(cli) {
 			p := cli.game.Player
-			
+
 			adjustedCursorIndex := cli.cursor - len(items)
 			didUnequipItem := false
 			switch adjustedCursorIndex {
 			case 0:
 				didUnequipItem = p.UnequipHead()
-			case 1: 
+			case 1:
 				didUnequipItem = p.UnequipUpperBody()
 			case 2:
 				didUnequipItem = p.UnequipLowerBody()
@@ -103,13 +107,11 @@ func (is *inventoryState) update(cli *CLI, msg tea.KeyMsg) {
 				didUnequipItem = p.UnequipWeapon()
 			}
 			if didUnequipItem {
-				cli.cursor ++ 	// This is a bit of a work around to the problem where the cursor moves when unequipping an itemm, because of the way that index is counted. 
+				cli.cursor++ // This is a bit of a work around to the problem where the cursor moves when unequipping an itemm, because of the way that index is counted.
 			}
 		}
 	}
 }
-
-
 
 func CursorIsInIventory(cli *CLI) bool {
 	return cli.cursor < len(cli.game.Player.GetItems())

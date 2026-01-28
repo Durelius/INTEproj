@@ -19,6 +19,10 @@ const (
 	list
 )
 
+func (ls *lootState) getState() State {
+	return Loot
+}
+
 func (ls *lootState) update(cli *CLI, msg tea.KeyMsg) {
 	switch ls.stage {
 	case chest:
@@ -54,9 +58,9 @@ func (is *lootState) updateList(cli *CLI, msg tea.KeyMsg) {
 	case "enter":
 		item := loot.GetItems()[cli.cursor]
 		if err := cli.game.Player.PickupItem(item); err != nil {
-           cli.msg = err.Error()
-           return
-        }
+			cli.msg = err.Error()
+			return
+		}
 		cli.msg = "You picked up " + item.GetName()
 		cli.cursor = 0
 		cli.view = &mainState{}
@@ -86,7 +90,7 @@ func (ls *lootState) viewList(cli *CLI) (out string) {
 	loot := cli.currentPOI.(*room.Loot)
 	out = "Select item with up and down arrows, press enter to confirm:\n\n"
 	for i, item := range loot.GetItems() {
-	cursor := "  [ ]" // no cursor
+		cursor := "  [ ]" // no cursor
 		if i == cli.cursor {
 			cursor = "> [x]" // cursor
 		}

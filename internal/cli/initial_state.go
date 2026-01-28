@@ -29,6 +29,19 @@ const (
 	NEW_STR = "New"
 )
 
+func (is *initialState) getState() State {
+	if is.stage == initial {
+		return StartMenu
+	}
+	if is.stage == new {
+		return NameMenu
+	}
+	if is.stage == chooseClass {
+		return ClassMenu
+	}
+	panic("Reached illegal line in initialStage.getState")
+}
+
 func (is *initialState) menuItemsDisplay(cli *CLI) []string {
 	menuItems := []string{NEW_STR}
 	savefiles, err := cli.game.GetSaveFiles()
@@ -163,6 +176,13 @@ func (is *initialState) updateNew(cli *CLI, msg tea.KeyMsg) {
 	if nameLen > 0 {
 		nameLen -= 1
 	}
+
+	if msg.Type == tea.KeyCtrlC {
+		is.newPlayerName = ""
+		is.stage = initial
+		return
+	}
+
 	switch msg.String() {
 	case "backspace":
 		is.newPlayerName = is.newPlayerName[:nameLen]
@@ -178,6 +198,13 @@ func (is *initialState) updateNew(cli *CLI, msg tea.KeyMsg) {
 }
 
 func (is *initialState) updateChooseClass(cli *CLI, msg tea.KeyMsg) {
+
+	if msg.Type == tea.KeyCtrlC {
+		is.newPlayerName = ""
+		is.stage = new
+		return
+	}
+
 	switch msg.String() {
 	case "up":
 		if cli.cursor > 0 {

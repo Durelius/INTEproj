@@ -21,9 +21,22 @@ type CLI struct {
 	view         cliState
 }
 
+type State int
+
+const (
+	StartMenu State = iota
+	NameMenu
+	ClassMenu
+	Map
+	Inventory
+	Battle
+	Loot
+)
+
 type cliState interface {
 	view(*CLI) string
 	update(*CLI, tea.KeyMsg)
+	getState() State
 }
 
 func New(game *gs.GameState) *CLI {
@@ -32,6 +45,11 @@ func New(game *gs.GameState) *CLI {
 
 func (cli *CLI) Init() tea.Cmd {
 	return nil
+}
+
+// Just used in testing
+func (cli *CLI) GetState() State {
+	return cli.view.getState()
 }
 
 func (cli *CLI) generateMapView() string {
@@ -77,7 +95,7 @@ func (cli *CLI) View() (out string) {
 func (cli *CLI) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 	switch msg := msg.(type) {
 	case tea.KeyMsg:
-		if msg.String() == "ctrl+c" || msg.String() == "q" {
+		if msg.String() == "ctrl+q" || msg.String() == "q" {
 			return cli, tea.Quit
 		}
 
